@@ -28,7 +28,7 @@
         <Style TargetType="{x:Type Control}" x:Key="BorderForButton">
             <Style.Resources>
                 <Style TargetType="Border">
-                    <Setter Property="Margin" Value="2 1 3 1"/>
+                    <Setter Property="Margin" Value="2 0 3 0"/>
                     <Setter Property="Padding" Value="4 0 4 0"/>
                     <Setter Property="CornerRadius" Value="2"/>
                 </Style>
@@ -69,76 +69,80 @@
         </Grid>
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <Grid VerticalAlignment="Top">
-                <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour" Width="Auto" Height="Auto"/>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
-                    <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
-                    <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
-                    <Rectangle Grid.Column="3" Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" VerticalAlignment="Top">
+                    <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour" Width="Auto" Height="Auto"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
+                        <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
+                        <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
+                        <Rectangle Grid.Column="3" Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
+                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Left"/>
+                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+                    <ListBox Margin="10"  Style="{StaticResource RoundCorner}">
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 1</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 2</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 3</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 4</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 5</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 6</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 7</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 8</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 9</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 10</ListBoxItem>
+                    </ListBox>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="1">
-                <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
-                <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
-                <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Left"/>
-                <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
-                <ListBox Margin="10"  Style="{StaticResource RoundCorner}">
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 1</ListBoxItem>
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 2</ListBoxItem>
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 3</ListBoxItem>
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 4</ListBoxItem>
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 5</ListBoxItem>
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 6</ListBoxItem>
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 7</ListBoxItem>
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 8</ListBoxItem>
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 9</ListBoxItem>
-                    <ListBoxItem Style="{StaticResource BorderForListBox}">Item 10</ListBoxItem>
-                </ListBox>
-            </Grid>
-            <Grid Grid.Column="1" Grid.Row="0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Style="{StaticResource BorderForButton}" Grid.Column="0" Content="General" Height="Auto" Width="Auto"/>
-                    <Button Style="{StaticResource BorderForButton}" Grid.Column="1" Content="Route" Height="Auto" Width="Auto"/>
-                    <Button Style="{StaticResource BorderForButton}" Grid.Column="2" Content="Misc" Height="Auto" Width="Auto"/>
-                </Grid>
-            </Grid>
-            <Grid Grid.Column="1" Grid.Row="1">
+            <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Style="{StaticResource BorderForButton}" Grid.Column="0" Content="General" Height="30" Width="Auto"/>
+                    <Button Style="{StaticResource BorderForButton}" Grid.Column="1" Content="Route" Height="Auto" Width="Auto"/>
+                    <Button Style="{StaticResource BorderForButton}" Grid.Column="2" Content="Misc" Height="Auto" Width="Auto"/>
+                </Grid>
                 <Grid Grid.Row="1">
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
+                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
                     <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -162,17 +166,21 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="14*"/>
+                            <ColumnDefinition Width="12*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
+                        
                         <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
                         <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
                         <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="3">
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
+                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
                     <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
                     <Grid>
                         <Grid.RowDefinitions>
