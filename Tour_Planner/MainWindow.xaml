@@ -5,8 +5,199 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tour_Planner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Tour_Planner" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
-    </Grid>
+    <Window.Resources>
+        <Style TargetType="{x:Type FrameworkElement}" x:Key="RoundCorner">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7" />
+                    <Setter Property="Margin" Value="2 1 3 1"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style TargetType="{x:Type FrameworkElement}" x:Key="TextSize">
+            <Setter Property="TextElement.FontSize" Value="15"/>
+        </Style>
+        <Style TargetType="{x:Type Control}" x:Key="BorderForListBox" BasedOn="{StaticResource TextSize}">
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0 0 0 0.1"/>
+            <Setter Property="Padding" Value="10 5 0 5"/>
+        </Style>
+        <Style TargetType="{x:Type Control}" x:Key="BorderForButton">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="Margin" Value="2 0 3 0"/>
+                    <Setter Property="Padding" Value="4 0 4 0"/>
+                    <Setter Property="CornerRadius" Value="2"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="File" Width="Auto" Height="35"/>
+            <Button Content="Edit" Width="Auto" Height="35" Grid.Column="1"/>
+            <Button Content="Options" Width="Auto" Height="35" Grid.Column="2"/>
+            <Button Content="Extra" Width="Auto" Height="35" Grid.Column="3"/>
+            <Button Content="Tool" Width="Auto" Height="35" Grid.Column="4"/>
+            <Button Content="Help" Width="Auto" Height="35" Grid.Column="5"/>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <TextBox Padding="5 7 5 7" Style="{StaticResource TextSize}" Width="Auto" Height="Auto" Text="Search"/>
+            </Grid>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" VerticalAlignment="Top">
+                    <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour" Width="Auto" Height="Auto"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
+                        <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
+                        <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
+                        <Rectangle Grid.Column="3" Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
+                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Left"/>
+                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+                    <ListBox Margin="10"  Style="{StaticResource RoundCorner}">
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 1</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 2</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 3</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 4</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 5</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 6</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 7</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 8</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 9</ListBoxItem>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 10</ListBoxItem>
+                    </ListBox>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Style="{StaticResource BorderForButton}" Grid.Column="0" Content="General" Height="30" Width="Auto"/>
+                    <Button Style="{StaticResource BorderForButton}" Grid.Column="1" Content="Route" Height="Auto" Width="Auto"/>
+                    <Button Style="{StaticResource BorderForButton}" Grid.Column="2" Content="Misc" Height="Auto" Width="Auto"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
+                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+                    <Image Margin="0" Source="Assets/Images/Tour.png" />
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
+                        <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
+                        <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
+                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
+                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Date" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Duration" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="2" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="3" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="4" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Distance" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="1" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="2" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="3" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                        <Label Grid.Row="4" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </Window>
