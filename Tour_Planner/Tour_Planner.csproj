@@ -9,7 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Assets\Icon\Tour_Planner_Icon.ico" />
+    <None Remove="Assets\Images\Tour.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Icon\Tour_Planner_Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Images\Tour.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

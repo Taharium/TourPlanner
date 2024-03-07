@@ -5,56 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tour_Planner"
         mc:Ignorable="d"
-        Title="Tour_Planner" Height="450" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        Title="Tour_Planner" Height="450" Width="800">
 
     <Window.Resources>
-        <Style TargetType="{x:Type FrameworkElement}" x:Key="RoundCorner">
-            <Style.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="7" />
-                    <Setter Property="Margin" Value="2 1 3 1"/>
-                </Style>
-            </Style.Resources>
-        </Style>
-        <Style TargetType="{x:Type FrameworkElement}" x:Key="TextSize">
-            <Setter Property="TextElement.FontSize" Value="15"/>
-        </Style>
-        <Style TargetType="{x:Type Control}" x:Key="BorderForListBox" BasedOn="{StaticResource TextSize}">
-            <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="BorderThickness" Value="0 0 0 0.1"/>
-            <Setter Property="Padding" Value="10 5 0 5"/>
-        </Style>
-        <Style TargetType="{x:Type Control}" x:Key="BorderForButton">
-            <Style.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="Margin" Value="2 0 3 0"/>
-                    <Setter Property="Padding" Value="4 0 4 0"/>
-                    <Setter Property="CornerRadius" Value="2"/>
-                </Style>
-            </Style.Resources>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/Style/MainWindowStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
     </Window.Resources>
-
+    
     <DockPanel>
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Content="File" Width="Auto" Height="35"/>
-            <Button Content="Edit" Width="Auto" Height="35" Grid.Column="1"/>
-            <Button Content="Options" Width="Auto" Height="35" Grid.Column="2"/>
-            <Button Content="Extra" Width="Auto" Height="35" Grid.Column="3"/>
-            <Button Content="Tool" Width="Auto" Height="35" Grid.Column="4"/>
-            <Button Content="Help" Width="Auto" Height="35" Grid.Column="5"/>
+            <Menu Width="Auto"  MinHeight="35" >
+                <MenuItem Header="_File" Width="Auto" MinHeight="35" Style="{StaticResource Triggers}">
+                    <MenuItem Header="Exit" Width="Auto" MinHeight="35"/>
+                </MenuItem>
+                <MenuItem Header="_Edit" Width="Auto" Height="Auto" >
+                    <MenuItem Header="Undo" Width="Auto" MinHeight="35"/>
+                    <MenuItem Header="Redo" Width="Auto" MinHeight="35"/>
+                    <MenuItem Header="Cut" Width="Auto" MinHeight="35"/>
+                    <MenuItem Header="Copy" Width="Auto" MinHeight="35"/>
+                    <MenuItem Header="Paste" Width="Auto" MinHeight="35"/>
+                </MenuItem>
+                <MenuItem Header="_Options" Width="Auto" MinHeight="35"/>
+                <MenuItem Header="_Settings" Width="Auto" MinHeight="35">
+                    <MenuItem Header="LightMode" Width="Auto" MinHeight="35" />
+                    <MenuItem Header="DarkMode" Width="Auto" MinHeight="35" />
+                </MenuItem>
+                <MenuItem Header="_Tool" Width="Auto" MinHeight="35" />
+                <MenuItem Header="_Help" Width="Auto" MinHeight="35" Grid.Column="5">
+                    <MenuItem Header="About" Width="Auto" MinHeight="35"/>
+                </MenuItem>
+            </Menu>
         </Grid>
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
@@ -64,7 +51,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid>
-                <TextBox Padding="5 7 5 7" Style="{StaticResource TextSize}" Width="Auto" Height="Auto" Text="Search"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="549*"/>
+                    <ColumnDefinition Width="251*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Padding="5 7 5 7" Style="{StaticResource TextSize}" Width="Auto" Height="Auto" Text="Search" TextChanged="TextBox_TextChanged_1" Grid.ColumnSpan="2"/>
             </Grid>
         </Grid>
         <Grid DockPanel.Dock="Top">
@@ -73,6 +64,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
@@ -96,14 +88,12 @@
                         <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
                         <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
                         <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
-                        <Rectangle Grid.Column="3" Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+                        <!--<Rectangle Grid.Column="3" Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>-->
+                        <!--<Border Grid.Column="3" BorderBrush="DarkGray" BorderThickness="0 0 1 0" />-->
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1">
-                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
-                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
-                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Left"/>
-                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+                    <Border BorderBrush="DarkGray" BorderThickness="1"/>
                     <ListBox Margin="10"  Style="{StaticResource RoundCorner}">
                         <ListBoxItem Style="{StaticResource BorderForListBox}">Item 1</ListBoxItem>
                         <ListBoxItem Style="{StaticResource BorderForListBox}">Item 2</ListBoxItem>
@@ -118,10 +108,12 @@
                     </ListBox>
                 </Grid>
             </Grid>
-            <Grid Grid.Column="1">
+            <GridSplitter Grid.RowSpan="2" Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -140,12 +132,13 @@
                     <Button Style="{StaticResource BorderForButton}" Grid.Column="2" Content="Misc" Height="Auto" Width="Auto"/>
                 </Grid>
                 <Grid Grid.Row="1">
-                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
-                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
-                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
-                    <Image Margin="0" Source="Assets/Images/Tour.png" />
+                    <!--<Image Source="{StaticResource TourPlaceholder}"/>-->
+                    <Border BorderBrush="DarkGray" BorderThickness="0 1 1 0" />
                 </Grid>
-                <Grid Grid.Row="2">
+                <Border Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0 0 0 1">
+                    <GridSplitter Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                </Border>
+                <Grid Grid.Row="3">
                     <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -157,16 +150,14 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
                         <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
                         <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="3">
-                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Top" />
-                    <Rectangle Fill="DarkGray" Height="1" VerticalAlignment="Bottom" />
-                    <Rectangle Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>
+                <Grid Grid.Row="4">
+                    <Border BorderBrush="DarkGray" BorderThickness="0 1 1 1" />
                     <Grid Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
