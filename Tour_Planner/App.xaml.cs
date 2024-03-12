@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Tour_Planner.ViewModels;
 
 namespace Tour_Planner {
     /// <summary>
@@ -6,9 +7,16 @@ namespace Tour_Planner {
     /// </summary>
     public partial class App : Application {
         private void App_OnStartup(object sender, StartupEventArgs e) {
-            MainWindow mainWindow = new MainWindow();
-            TourViewModel tourViewModel = new TourViewModel();
-            mainWindow.DataContext = tourViewModel;
+            TourListVM tourListVM = new TourListVM();
+            SearchbarVM searchbarVM = new SearchbarVM();
+            MainWindowVM mainWindowVM = new MainWindowVM(tourListVM, searchbarVM);
+
+            MainWindow mainWindow = new() {
+                DataContext = mainWindowVM,
+                TourList = { DataContext = tourListVM },
+                Searchbar = { DataContext = searchbarVM }
+            };
+
             mainWindow.Show();
         }
     }

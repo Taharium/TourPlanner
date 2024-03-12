@@ -4,59 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tour_Planner"
+        xmlns:views="clr-namespace:Tour_Planner.Views"
         mc:Ignorable="d"
         Title="Tour_Planner" Height="450" Width="800">
 
+    
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Assets/Style/MainWindowStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-        
     </Window.Resources>
     
     <DockPanel>
         <Grid DockPanel.Dock="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Menu Width="Auto"  MinHeight="35" >
-                <MenuItem Header="_File" Width="Auto" MinHeight="35" Style="{StaticResource Triggers}">
-                    <MenuItem Header="Exit" Width="Auto" MinHeight="35"/>
-                </MenuItem>
-                <MenuItem Header="_Edit" Width="Auto" Height="Auto" >
-                    <MenuItem Header="Undo" Width="Auto" MinHeight="35"/>
-                    <MenuItem Header="Redo" Width="Auto" MinHeight="35"/>
-                    <MenuItem Header="Cut" Width="Auto" MinHeight="35"/>
-                    <MenuItem Header="Copy" Width="Auto" MinHeight="35"/>
-                    <MenuItem Header="Paste" Width="Auto" MinHeight="35"/>
-                </MenuItem>
-                <MenuItem Header="_Options" Width="Auto" MinHeight="35"/>
-                <MenuItem Header="_Settings" Width="Auto" MinHeight="35">
-                    <MenuItem Header="LightMode" Width="Auto" MinHeight="35" />
-                    <MenuItem Header="DarkMode" Width="Auto" MinHeight="35" />
-                </MenuItem>
-                <MenuItem Header="_Tool" Width="Auto" MinHeight="35" />
-                <MenuItem Header="_Help" Width="Auto" MinHeight="35" Grid.Column="5">
-                    <MenuItem Header="About" Width="Auto" MinHeight="35"/>
-                </MenuItem>
-            </Menu>
+            <views:MenuView/>
         </Grid>
         <Grid DockPanel.Dock="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="549*"/>
-                    <ColumnDefinition Width="251*"/>
-                </Grid.ColumnDefinitions>
-                <TextBox Padding="5 7 5 7" Style="{StaticResource TextSize}" Width="Auto" Height="Auto" Text="Search" TextChanged="TextBox_TextChanged_1" Grid.ColumnSpan="2"/>
-            </Grid>
+            <views:SearchbarView x:Name="Searchbar"/>
         </Grid>
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
@@ -68,125 +34,23 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0" VerticalAlignment="Top">
-                    <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour" Width="Auto" Height="Auto"/>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="5*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
-                        <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
-                        <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
-                        <!--<Rectangle Grid.Column="3" Fill="DarkGray" Width="1" HorizontalAlignment="Right"/>-->
-                        <!--<Border Grid.Column="3" BorderBrush="DarkGray" BorderThickness="0 0 1 0" />-->
-                    </Grid>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <Border BorderBrush="DarkGray" BorderThickness="1"/>
-                    <ListBox Margin="10"  Style="{StaticResource RoundCorner}">
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 1</ListBoxItem>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 2</ListBoxItem>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 3</ListBoxItem>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 4</ListBoxItem>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 5</ListBoxItem>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 6</ListBoxItem>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 7</ListBoxItem>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 8</ListBoxItem>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 9</ListBoxItem>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}">Item 10</ListBoxItem>
-                    </ListBox>
-                </Grid>
+                <views:TourView x:Name="TourList"/>
             </Grid>
             <GridSplitter Grid.RowSpan="2" Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="5"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Style="{StaticResource BorderForButton}" Grid.Column="0" Content="General" Height="30" Width="Auto"/>
-                    <Button Style="{StaticResource BorderForButton}" Grid.Column="1" Content="Route" Height="Auto" Width="Auto"/>
-                    <Button Style="{StaticResource BorderForButton}" Grid.Column="2" Content="Misc" Height="Auto" Width="Auto"/>
+                    <views:TabControlView/>
                 </Grid>
-                <Grid Grid.Row="1">
-                    <!--<Image Source="{StaticResource TourPlaceholder}"/>-->
-                    <Border BorderBrush="DarkGray" BorderThickness="0 1 1 0" />
-                </Grid>
-                <Border Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0 0 0 1">
+                <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0 1">
                     <GridSplitter Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                 </Border>
-                <Grid Grid.Row="3">
-                    <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
-                        <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
-                        <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
-                    </Grid>
-                </Grid>
-                <Grid Grid.Row="4">
-                    <Border BorderBrush="DarkGray" BorderThickness="0 1 1 1" />
-                    <Grid Margin="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Date" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Duration" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="2" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="3" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="4" Grid.Column="1" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Distance" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="1" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="2" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="3" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                        <Label Grid.Row="4" Grid.Column="2" Style="{StaticResource TextSize}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
-                    </Grid>
+                <Grid Grid.Row="2">
+                    <views:TourLogView/>
                 </Grid>
             </Grid>
         </Grid>

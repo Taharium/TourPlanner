@@ -9,12 +9,6 @@ namespace Tour_Planner {
             InitializeComponent();
         }
 
-        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
 
-        }
-
-        private void TextBox_TextChanged_1(object sender, System.Windows.Controls.TextChangedEventArgs e) {
-
-        }
     }
 }
