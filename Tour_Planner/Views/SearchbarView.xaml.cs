@@ -8,5 +8,19 @@ namespace Tour_Planner.Views {
         public SearchbarView() {
             InitializeComponent();
         }
+
+        private string text = "Search...";
+
+        private void TextBox_GotFocus(object sender, System.Windows.RoutedEventArgs e) {
+            TextBox textBox = (TextBox)sender;
+            textBox.Text = "";
+        }
+
+        private void TextBox_LostFocus(object sender, System.Windows.RoutedEventArgs e) {
+            TextBox textBox = (TextBox)sender;
+            if (textBox.Text == "") {
+                textBox.Text = text;
+            }
+        }
     }
 }

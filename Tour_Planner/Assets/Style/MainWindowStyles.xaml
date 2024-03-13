@@ -7,13 +7,15 @@
             </Style>
         </Style.Resources>
     </Style>
-    <Style x:Key="TextSize" TargetType="{x:Type FrameworkElement}">
+    <Style x:Key="TextSize" TargetType="{x:Type Control}">
         <Setter Property="TextElement.FontSize" Value="15"/>
+        <Setter Property="Padding" Value="7 7 0 7"/>
     </Style>
     <Style x:Key="BorderForListBox" TargetType="{x:Type Control}" BasedOn="{StaticResource TextSize}">
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="0 0 0 0.1"/>
         <Setter Property="Padding" Value="10 5 0 5"/>
+        <Setter Property="Margin" Value="0"/>
     </Style>
     <Style x:Key="BorderForButton" TargetType="{x:Type Control}" >
         <Style.Resources>

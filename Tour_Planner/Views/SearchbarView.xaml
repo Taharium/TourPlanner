@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tour_Planner.Views"
+             xmlns:localBehavior="clr-namespace:Tour_Planner.Behavior"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -22,8 +23,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Padding="5 7 5 7"  Width="Auto" Height="Auto" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextSize}"/>
-            <Button Padding="10 0 10 0" Background="DarkGray" Content="Search" Grid.Column="1" Command="{Binding SearchCommand}" />
+            <TextBox 
+                localBehavior:SearchbarBehavior.GotFocusCommand="{Binding SearchbarGotFocusCommand}" 
+                localBehavior:SearchbarBehavior.LostFocusCommand="{Binding SearchbarLostFocusCommand}" 
+                Grid.Column="0" Padding="5 7 5 7"  Width="Auto" Height="Auto" 
+                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextSize}"/>
+            <Button Padding="10 0 10 0" Content="Search" Grid.Column="1" Command="{Binding SearchCommand}" />
         </Grid>
     </Border>
     

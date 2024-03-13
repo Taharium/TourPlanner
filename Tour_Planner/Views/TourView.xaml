@@ -41,7 +41,19 @@
         </Grid>
         <Grid Grid.Row="1">
             <Border BorderBrush="DarkGray" BorderThickness="1" />
-            <ListBox Margin="10" Style="{StaticResource RoundCorner}" ItemsSource="{Binding TourList}" DisplayMemberPath="Name">
+            <ListBox Margin="10" Padding="0" HorizontalContentAlignment="Stretch" Style="{StaticResource RoundCorner}" ItemsSource="{Binding TourListCollectionView}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}" Content="{Binding Name}" >
+                            <ListBoxItem.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Edit" />
+                                    <MenuItem Header="Delete" />
+                                </ContextMenu>
+                            </ListBoxItem.ContextMenu>
+                        </ListBoxItem>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
     </Grid>
