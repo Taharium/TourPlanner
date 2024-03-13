@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Tour_Planner.ViewModels;
+using Tour_Planner.WindowsWPF;
 
 namespace Tour_Planner {
     /// <summary>
@@ -9,6 +10,7 @@ namespace Tour_Planner {
         private void App_OnStartup(object sender, StartupEventArgs e) {
             TourListVM tourListVM = new TourListVM();
             SearchbarVM searchbarVM = new SearchbarVM();
+            AddTourWindowVM addTourWindowVM = new AddTourWindowVM();
             MainWindowVM mainWindowVM = new MainWindowVM(tourListVM, searchbarVM);
 
             MainWindow mainWindow = new() {

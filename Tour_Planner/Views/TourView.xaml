@@ -34,17 +34,27 @@
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource RoundCorner}" Grid.Column="1" Content="+" Height="Auto" Width="Auto" />
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding AddTourCommand}" Grid.Column="1" Content="+" Height="Auto" Width="Auto" />
                 <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto" />
                 <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto" />
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
             <Border BorderBrush="DarkGray" BorderThickness="1" />
-            <ListBox Margin="10" Padding="0" HorizontalContentAlignment="Stretch" Style="{StaticResource RoundCorner}" ItemsSource="{Binding TourListCollectionView}">
+            <ListBox x:Name="TourListBox" Margin="10" Padding="0" HorizontalContentAlignment="Stretch" Style="{StaticResource RoundCorner}" ItemsSource="{Binding TourListCollectionView}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <ListBoxItem Style="{StaticResource BorderForListBox}" Content="{Binding Name}" >
+                        <ListBoxItem Style="{StaticResource BorderForListBox}" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Name}" />
+                                <Button Grid.Column="1" Content="E"/>
+                                <Button Grid.Column="2" Content="X" />
+                            </Grid>
                             <ListBoxItem.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Edit" />

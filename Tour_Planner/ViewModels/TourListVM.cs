@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Data;
 using Tour_Planner.Models;
+using Tour_Planner.WindowsWPF;
 
 namespace Tour_Planner.ViewModels {
     public class TourListVM : ViewModelBase {
@@ -13,10 +15,6 @@ namespace Tour_Planner.ViewModels {
             ];
 
         private string _searchedTour = "";
-        public string SearchedTourText {
-            get { return _searchedTour; }
-            set { _searchedTour = value; }
-        }
 
         public void SearchedTour(string searchedTour) {
             _searchedTour = searchedTour;
@@ -29,7 +27,7 @@ namespace Tour_Planner.ViewModels {
                 return true;
 
             var tour = (Tour)item;
-            return tour.Name.IndexOf(_searchedTour, StringComparison.OrdinalIgnoreCase) >= 0;
+            return tour.Name.Contains(_searchedTour, StringComparison.OrdinalIgnoreCase);
         }
 
         private ListCollectionView? _tourListCollectionView;
@@ -52,9 +50,8 @@ namespace Tour_Planner.ViewModels {
             DeleteTourCommand = new RelayCommand((_) => DeleteTour());
             EditTourCommand = new RelayCommand((_) => EditTour());
         }
-
         private void EditTour() {
-            throw new NotImplementedException();
+            Debug.WriteLine("Hello");
         }
 
         private void DeleteTour() {
@@ -62,7 +59,10 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void AddTour() {
-            throw new NotImplementedException();
+            AddTourWindow addTourWindow = new() {
+                DataContext = new AddTourWindowVM()
+            };
+            addTourWindow.Show();
         }
     }
 }
