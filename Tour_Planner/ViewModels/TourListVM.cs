@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Data;
 using Tour_Planner.Models;
 using Tour_Planner.WindowsWPF;
@@ -46,19 +45,21 @@ namespace Tour_Planner.ViewModels {
         public RelayCommand EditTourCommand { get; }
 
         public TourListVM() {
-            AddTourCommand = new RelayCommand((_) => AddTour());
-            DeleteTourCommand = new RelayCommand((_) => DeleteTour());
-            EditTourCommand = new RelayCommand((_) => EditTour());
-        }
-        private void EditTour() {
-            Debug.WriteLine("Hello");
+            AddTourCommand = new RelayCommand((_) => OpenAddTour());
+            DeleteTourCommand = new RelayCommand(DeleteTour);
+            EditTourCommand = new RelayCommand(EditTour);
         }
 
-        private void DeleteTour() {
-            throw new NotImplementedException();
+        private void EditTour(object? a) {
+
         }
 
-        private void AddTour() {
+        private void DeleteTour(object? a) {
+            if (a is Tour tour)
+                TourList.Remove(tour);
+        }
+
+        private void OpenAddTour() {
             AddTourWindow addTourWindow = new() {
                 DataContext = new AddTourWindowVM()
             };

@@ -2,8 +2,8 @@
 
 namespace Tour_Planner.Views;
 
-public partial class TourView : UserControl {
-    public TourView() {
+public partial class TourListView : UserControl {
+    public TourListView() {
         InitializeComponent();
     }
 }

@@ -34,7 +34,7 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <views:TourView x:Name="TourList"/>
+                <views:TourListView x:Name="TourList"/>
             </Grid>
             <GridSplitter Grid.RowSpan="2" Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
             <Grid Grid.Column="2">

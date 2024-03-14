@@ -12,7 +12,9 @@
     <Grid>
         <TabControl>
             <TabItem Header="General"></TabItem>
-            <TabItem Header="Route"></TabItem>
+            <TabItem Header="Route">
+                <Image Source="..\Assets\Images\Tour.png" />
+            </TabItem>
             <TabItem Header="Irgendwas"></TabItem>
         </TabControl>
     </Grid>
