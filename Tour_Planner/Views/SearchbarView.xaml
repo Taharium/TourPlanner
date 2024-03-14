@@ -17,7 +17,7 @@
     </UserControl.Resources>
     
    
-    <Border  BorderBrush="DarkGray" BorderThickness="0 0 0 0">
+    <Border  BorderBrush="DarkGray" BorderThickness="1">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -26,9 +26,11 @@
             <TextBox 
                 localBehavior:SearchbarBehavior.GotFocusCommand="{Binding SearchbarGotFocusCommand}" 
                 localBehavior:SearchbarBehavior.LostFocusCommand="{Binding SearchbarLostFocusCommand}" 
-                Grid.Column="0" Padding="5 7 5 7"  Width="Auto" Height="Auto" 
+                Grid.Column="0" Padding="5 7 5 7"  Width="Auto" Height="Auto" BorderThickness="0" BorderBrush="DarkGray"
                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextSize}"/>
-            <Button Padding="10 0 10 0" Content="Search" Grid.Column="1" Command="{Binding SearchCommand}" />
+            <Button BorderThickness="0" Padding="10 0 10 0" Background="White" Grid.Column="1" Command="{Binding SearchCommand}" >
+                <Image Source="..\Assets\Images\search_image.png" Height="35" Width="Auto" />
+            </Button>
         </Grid>
     </Border>
     

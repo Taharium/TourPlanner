@@ -52,10 +52,12 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding Name}" />
-                                <Button Grid.Column="1" Height="Auto" Width="Auto" Command="{Binding DataContext.EditTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}">
+                                <Button Background="White" Grid.Column="1" Height="Auto" Width="Auto" Command="{Binding DataContext.EditTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}">
                                     <Image Source="..\Assets\Images\search_image.png" Height="Auto" Width="Auto" />
                                 </Button>
-                                <Button Grid.Column="2" Content="X" Command="{Binding DataContext.DeleteTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}" />
+                                <Button Grid.Column="2" Command="{Binding DataContext.DeleteTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}" >
+                                    <Image Source="..\Assets\Images\search_image.png" Height="Auto" Width="Auto" />
+                                </Button>
                             </Grid>
                         </ListBoxItem>
                     </DataTemplate>

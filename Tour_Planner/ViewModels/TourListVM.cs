@@ -51,7 +51,11 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void EditTour(object? a) {
-
+            if (a is Tour tour) {
+                EditTourWindow editTourWindow = new();
+                editTourWindow.DataContext = new EditTourWindowVM(ref tour, editTourWindow);
+                editTourWindow.Show();
+            }
         }
 
         private void DeleteTour(object? a) {
@@ -60,9 +64,8 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void OpenAddTour() {
-            AddTourWindow addTourWindow = new() {
-                DataContext = new AddTourWindowVM()
-            };
+            AddTourWindow addTourWindow = new();
+            addTourWindow.DataContext = new AddTourWindowVM(addTourWindow);
             addTourWindow.Show();
         }
     }

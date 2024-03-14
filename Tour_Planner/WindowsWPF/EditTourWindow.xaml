@@ -1,16 +1,15 @@
-﻿<Window x:Class="Tour_Planner.WindowsWPF.AddTourWindow"
+﻿<Window x:Class="Tour_Planner.WindowsWPF.EditTourWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
-        xmlns:views="clr-namespace:Tour_Planner.Views"
         mc:Ignorable="d"
-        Title="AddTourWindow" Height="Auto" Width="400" Padding="20 10 20 0">
+        Title="EditTourWindow" Height="Auto" Width="400" Padding="20 10 20 0">
     
     <DockPanel>
         <Grid DockPanel.Dock="Top">
-            <TextBlock Text="Add Tour" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+            <TextBlock Text="Edit Tour" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
         </Grid>
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
@@ -42,7 +41,7 @@
                 <TextBox x:Name="TransportType" Text="{Binding Tour.TransportType, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Margin="5 0 5 5"/>
             </DockPanel>
             <DockPanel Grid.Row="5">
-                <Button DockPanel.Dock="Top" Command="{Binding FinishAddCommand}" Content="Add Tour" Grid.Row="5" Margin="5 5 5 0"/>
+                <Button DockPanel.Dock="Top" Command="{Binding FinishEditCommand}" Content="Edit Tour" Grid.Row="5" Margin="5 5 5 0"/>
                 <TextBlock x:Name="ErrorText" Text="{Binding ErrorMessage}" Foreground="Red" Grid.Row="5" Margin="5 5 5 0"/>
             </DockPanel>
         </Grid>

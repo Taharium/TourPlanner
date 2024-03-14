@@ -38,8 +38,10 @@ namespace Tour_Planner.ViewModels {
             SearchText = "";
         }
 
-        void SearchFunction() {
-            SearchTextChanged?.Invoke(this, SearchText);
+        private void SearchFunction() {
+            if (_searchText != "Search...") {
+                SearchTextChanged?.Invoke(this, SearchText);
+            }
         }
     }
 }

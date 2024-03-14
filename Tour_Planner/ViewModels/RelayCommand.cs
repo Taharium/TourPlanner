@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Tour_Planner {
+namespace Tour_Planner.ViewModels {
     public class RelayCommand : ICommand {
 
         private readonly Action<object?> _execute;

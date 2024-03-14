@@ -1,5 +1,8 @@
-﻿namespace Tour_Planner.Models {
+﻿using System;
+
+namespace Tour_Planner.Models {
     public class Tour {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
         public string StartLocation { get; set; } = "";

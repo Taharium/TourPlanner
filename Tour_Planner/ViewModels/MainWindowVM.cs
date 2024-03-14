@@ -6,6 +6,7 @@
             _tourListVM = tourListVM;
             _searchbarVM = searchbarVM;
 
+
             _searchbarVM.SearchTextChanged += (s, e) => _tourListVM.SearchedTour(e);
         }
     }
