@@ -27,7 +27,7 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        public event EventHandler<Tour>? AddTour;
+        public event EventHandler<Tour>? AddTourEvent;
         public RelayCommand FinishAddCommand { get; }
 
 
@@ -47,8 +47,8 @@ namespace Tour_Planner.ViewModels {
         private void AddFunction() {
             if (IsTourValid()) {
                 ErrorMessage = "";
-                AddTour?.Invoke(this, _tour);
-                MessageBox.Show("Tour added successfully!", "AddTour", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+                AddTourEvent?.Invoke(this, _tour);
+                MessageBox.Show("Tour added successfully!", "AddTour", MessageBoxButton.OK, MessageBoxImage.Information);
                 _window.Close();
             }
             else {

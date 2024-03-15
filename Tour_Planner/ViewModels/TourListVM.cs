@@ -84,22 +84,26 @@ namespace Tour_Planner.ViewModels {
         public TourListVM() {
             AddTourCommand = new RelayCommand((_) => OpenAddTour());
             DeleteTourCommand = new RelayCommand(DeleteTour);
-            EditTourCommand = new RelayCommand(EditTour);
+            EditTourCommand = new RelayCommand(OpenEditTour);
         }
 
-        private void EditTour(object? a) {
+        private void OpenEditTour(object? a) {
             if (a is Tour tour) {
                 EditTourWindow editTourWindow = new();
-                editTourWindow.DataContext = new EditTourWindowVM(ref tour, editTourWindow);
+                EditTourWindowVM editTourWindowVM = new(ref tour, editTourWindow);
+                editTourWindow.DataContext = editTourWindowVM;
+                //editTourWindowVM.EditTourEvent += (s, e) => EditTour(e);
                 editTourWindow.Show();
-                SelectedTour = tour;
             }
         }
 
+        private void EditTour(Tour tour) {
+            int index = TourList.IndexOf(tour);
+            TourList[index] = tour;
+            SelectedTour = tour;
+        }
+
         private void DeleteTour(object? a) {
-            /*ConfirmationWindow confirmationWindow = new("Are you sure you want to delete this tour?", "Delete Tour");
-            confirmationWindow.DataContext = confirmationWindow;
-            bool result = confirmationWindow.ShowDialog() ?? false;*/
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this tour?", "Delete Tour", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
             if (a is Tour tour && result == MessageBoxResult.Yes)
                 TourList.Remove(tour);
@@ -107,11 +111,13 @@ namespace Tour_Planner.ViewModels {
 
         private void OpenAddTour() {
             AddTourWindow addTourWindow = new();
-            addTourWindow.DataContext = new AddTourWindowVM(addTourWindow);
+            AddTourWindowVM addTourWindowVM = new AddTourWindowVM(addTourWindow);
+            addTourWindow.DataContext = addTourWindowVM;
+            addTourWindowVM.AddTourEvent += (s, e) => AddTour(e);
             addTourWindow.Show();
         }
 
-        public void AddTour(Tour tour) {
+        private void AddTour(Tour tour) {
             TourList.Add(tour);
             SelectedTour = tour;
         }

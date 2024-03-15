@@ -11,11 +11,13 @@
     
     <Grid>
         <TabControl>
-            <TabItem Header="General"></TabItem>
+            <TabItem Header="General">
+                
+            </TabItem>
             <TabItem Header="Route">
                 <Image Source="..\Assets\Images\Tour.png" />
             </TabItem>
-            <TabItem Header="Irgendwas"></TabItem>
+            <TabItem Header="Misc"></TabItem>
         </TabControl>
     </Grid>
 </UserControl>

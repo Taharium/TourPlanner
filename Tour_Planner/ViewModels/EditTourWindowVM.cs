@@ -4,10 +4,11 @@ using Tour_Planner.Models;
 namespace Tour_Planner.ViewModels {
     public class EditTourWindowVM : ViewModelBase {
 
-        private Tour _tour;
-        private Tour _tourTemp;
         private readonly Window _window;
         private string _errorMessage;
+        private Tour _tourTemp;
+        private Tour _tour;
+
         public string ErrorMessage {
             get => _errorMessage;
             set {
@@ -28,17 +29,13 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
+        //public event EventHandler<Tour>? EditTourEvent;
+
         public RelayCommand FinishEditCommand { get; }
 
         public EditTourWindowVM(ref Tour tour, Window window) {
             _tour = tour;
-            _tourTemp = new Tour {
-                Name = tour.Name,
-                Description = tour.Description,
-                StartLocation = tour.StartLocation,
-                EndLocation = tour.EndLocation,
-                TransportType = tour.TransportType
-            };
+            _tourTemp = new Tour(tour);
             _errorMessage = "";
             _window = window;
             FinishEditCommand = new RelayCommand((_) => FinishEditFunction());
@@ -50,7 +47,8 @@ namespace Tour_Planner.ViewModels {
                    !string.IsNullOrWhiteSpace(_tourTemp.TransportType);
         }
 
-        private void UpdateTour() {                 //TODO: if someone changes without wanting 
+
+        private void UpdateTour() {
             _tour.Name = _tourTemp.Name;
             _tour.Description = _tourTemp.Description;
             _tour.StartLocation = _tourTemp.StartLocation;
@@ -58,16 +56,20 @@ namespace Tour_Planner.ViewModels {
             _tour.TransportType = _tourTemp.TransportType;
         }
 
+
         private void FinishEditFunction() {
+
             if (IsTourValid()) {
                 ErrorMessage = "";
                 UpdateTour();
-                MessageBox.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+                //EditTourEvent?.Invoke(this, _tour);
+                MessageBox.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OK, MessageBoxImage.Information);
                 _window.Close();
             }
             else {
                 ErrorMessage = "Please fill in all fields!";
             }
+
         }
     }
 }
