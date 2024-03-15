@@ -50,14 +50,19 @@ namespace Tour_Planner.ViewModels {
                    !string.IsNullOrWhiteSpace(_tourTemp.TransportType);
         }
 
+        private void UpdateTour() {                 //TODO: if someone changes without wanting 
+            _tour.Name = _tourTemp.Name;
+            _tour.Description = _tourTemp.Description;
+            _tour.StartLocation = _tourTemp.StartLocation;
+            _tour.EndLocation = _tourTemp.EndLocation;
+            _tour.TransportType = _tourTemp.TransportType;
+        }
+
         private void FinishEditFunction() {
             if (IsTourValid()) {
                 ErrorMessage = "";
-                _tour.Name = _tourTemp.Name;
-                _tour.Description = _tourTemp.Description;
-                _tour.StartLocation = _tourTemp.StartLocation;
-                _tour.EndLocation = _tourTemp.EndLocation;
-                _tour.TransportType = _tourTemp.TransportType;
+                UpdateTour();
+                MessageBox.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OKCancel, MessageBoxImage.Information);
                 _window.Close();
             }
             else {

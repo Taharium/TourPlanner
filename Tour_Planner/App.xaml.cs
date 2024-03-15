@@ -15,10 +15,14 @@ namespace Tour_Planner {
             MainWindow mainWindow = new() {
                 DataContext = mainWindowVM,
                 TourList = { DataContext = tourListVM },
-                Searchbar = { DataContext = searchbarVM }
+                Searchbar = { DataContext = searchbarVM },
             };
 
             mainWindow.Show();
+        }
+
+        private void App_OnExit(object sender, ExitEventArgs e) {
+            // Clean up code
         }
     }
 }

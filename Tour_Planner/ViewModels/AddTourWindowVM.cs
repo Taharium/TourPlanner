@@ -48,7 +48,7 @@ namespace Tour_Planner.ViewModels {
             if (IsTourValid()) {
                 ErrorMessage = "";
                 AddTour?.Invoke(this, _tour);
-                MessageBox.Show("Tour added successfully!");
+                MessageBox.Show("Tour added successfully!", "AddTour", MessageBoxButton.OKCancel, MessageBoxImage.Information);
                 _window.Close();
             }
             else {
