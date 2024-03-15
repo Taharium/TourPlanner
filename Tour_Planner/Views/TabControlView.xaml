@@ -10,9 +10,8 @@
     
     
     <Grid>
-        <TabControl>
+        <TabControl SelectedIndex="{Binding SelectedTab}">
             <TabItem Header="General">
-                
             </TabItem>
             <TabItem Header="Route">
                 <Image Source="..\Assets\Images\Tour.png" />

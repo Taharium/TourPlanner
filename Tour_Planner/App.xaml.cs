@@ -10,12 +10,16 @@ namespace Tour_Planner {
         private void App_OnStartup(object sender, StartupEventArgs e) {
             TourListVM tourListVM = new TourListVM();
             SearchbarVM searchbarVM = new SearchbarVM();
-            MainWindowVM mainWindowVM = new MainWindowVM(tourListVM, searchbarVM);
+            TabControlVM tabControlVM = new TabControlVM();
+            TourLogsVM tourLogsVM = new TourLogsVM();
+            MainWindowVM mainWindowVM = new MainWindowVM(tourListVM, searchbarVM, tabControlVM, tourLogsVM);
 
             MainWindow mainWindow = new() {
                 DataContext = mainWindowVM,
                 TourList = { DataContext = tourListVM },
                 Searchbar = { DataContext = searchbarVM },
+                TabControl = { DataContext = tabControlVM },
+                TourLogs = { DataContext = tourLogsVM }
             };
 
             mainWindow.Show();

@@ -44,17 +44,13 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="28*"/>
-                        <ColumnDefinition Width="237*"/>
-                    </Grid.ColumnDefinitions>
-                    <views:TabControlView Grid.ColumnSpan="2"/>
+                    <views:TabControlView x:Name="TabControl" />
                 </Grid>
                 <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0 1">
                     <GridSplitter Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                 </Border>
                 <Grid Grid.Row="2">
-                    <views:TourLogView/>
+                    <views:TourLogsView x:Name="TourLogs"/>
                 </Grid>
             </Grid>
         </Grid>
