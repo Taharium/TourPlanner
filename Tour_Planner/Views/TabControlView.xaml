@@ -6,17 +6,51 @@
              xmlns:local="clr-namespace:Tour_Planner.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    
-    
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="..\Assets\Style\MainWindowStyles.xaml" />
+    </UserControl.Resources>
+
+
     <Grid>
         <TabControl SelectedIndex="{Binding SelectedTab}">
             <TabItem Header="General">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Name:" Style="{StaticResource TextSize}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Tour.Name}" Style="{StaticResource TextBlockFontInWindow}" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="Description:" Style="{StaticResource TextSize}" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Tour.Description}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Start Location:" Style="{StaticResource TextSize}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Tour.StartLocation}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <Label Grid.Row="3" Grid.Column="0" Content="End Location:" Style="{StaticResource TextSize}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Tour.EndLocation}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <Label Grid.Row="0" Grid.Column="2" Content="Transport Type:" Style="{StaticResource TextSize}" />
+                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Tour.TransportType}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <Label Grid.Row="1" Grid.Column="2" Content="Distance:" Style="{StaticResource TextSize}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Tour.Distance}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <Label Grid.Row="2" Grid.Column="2" Content="Estimated Time:" Style="{StaticResource TextSize}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Tour.EstimatedTime}" Style="{StaticResource TextBlockFontInWindow}"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Route">
-                <Image Source="..\Assets\Images\Tour.png" />
+                <Image Source="{Binding Tour.RouteInformationImage}" />
             </TabItem>
-            <TabItem Header="Misc"></TabItem>
+            <TabItem Header="Misc">
+                
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

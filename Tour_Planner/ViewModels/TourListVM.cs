@@ -13,28 +13,32 @@ namespace Tour_Planner.ViewModels {
                 Description = "Yess we can",
                 StartLocation = "Washington",
                 EndLocation = "San Francisco",
-                TransportType = "Plane"
+                TransportType = "Plane",
+                RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
                 Name = "We can",
                 Description = "We can do it",
                 StartLocation = "New York",
                 EndLocation = "LA",
-                TransportType = "Plane"
+                TransportType = "Plane",
+                RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
                 Name = "Yooo",
                 Description = "Yooo",
                 StartLocation = "Berlin",
                 EndLocation = "Munich",
-                TransportType = "Car"
+                TransportType = "Car",
+                RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
                 Name = "Austria",
-                Description = "Austria is a country in Central Europe",
+                Description = "Austria is a country",
                 StartLocation = "Vienna",
                 EndLocation = "Salzburg",
-                TransportType = "Car"
+                TransportType = "Car",
+                RouteInformationImage = @"..\Assets\Images\Tour.png"
             }
         ];
 
@@ -47,23 +51,9 @@ namespace Tour_Planner.ViewModels {
                 if (_selectedTour != value) {
                     _selectedTour = value;
                     RaisePropertyChanged(nameof(SelectedTour));
+                    EditTourEvent?.Invoke(this, _selectedTour);
                 }
             }
-        }
-
-
-        public void SearchedTour(string searchedTour) {
-            _searchedTour = searchedTour;
-            _tourListCollectionView ??= new ListCollectionView(TourList);
-            _tourListCollectionView.Filter = FilterTour;
-        }
-
-        private bool FilterTour(object item) {
-            if (string.IsNullOrEmpty(_searchedTour))
-                return true;
-
-            var tour = (Tour)item;
-            return tour.Name.Contains(_searchedTour, StringComparison.OrdinalIgnoreCase);
         }
 
         private ListCollectionView? _tourListCollectionView;
@@ -77,6 +67,8 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
+        public event EventHandler<Tour>? EditTourEvent;
+
         public RelayCommand AddTourCommand { get; }
         public RelayCommand DeleteTourCommand { get; }
         public RelayCommand EditTourCommand { get; }
@@ -85,6 +77,20 @@ namespace Tour_Planner.ViewModels {
             AddTourCommand = new RelayCommand((_) => OpenAddTour());
             DeleteTourCommand = new RelayCommand(DeleteTour);
             EditTourCommand = new RelayCommand(OpenEditTour);
+        }
+
+        public void SearchedTour(string searchedTour) {
+            _searchedTour = searchedTour;
+            _tourListCollectionView ??= new ListCollectionView(TourList);
+            _tourListCollectionView.Filter = FilterTour;
+        }
+
+        private bool FilterTour(object item) {
+            if (string.IsNullOrEmpty(_searchedTour))
+                return true;
+
+            var tour = (Tour)item;
+            return tour.Name.Contains(_searchedTour, StringComparison.OrdinalIgnoreCase);
         }
 
         private void OpenEditTour(object? a) {
@@ -105,8 +111,9 @@ namespace Tour_Planner.ViewModels {
 
         private void DeleteTour(object? a) {
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this tour?", "Delete Tour", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
-            if (a is Tour tour && result == MessageBoxResult.Yes)
+            if (a is Tour tour && result == MessageBoxResult.Yes) {
                 TourList.Remove(tour);
+            }
         }
 
         private void OpenAddTour() {

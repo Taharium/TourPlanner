@@ -35,7 +35,8 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void SearchbarGotFocus() {
-            SearchText = "";
+            if (SearchText == "Search..." || SearchText == "")
+                SearchText = "";
         }
 
         private void SearchFunction() {

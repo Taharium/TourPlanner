@@ -46,4 +46,9 @@
         <Setter Property="Padding" Value="3 3 0 3"/>
         <Setter Property="Margin" Value="5 0 5 5"/>
     </Style>
+    <Style x:Key="TextBlockFontInWindow" TargetType="{x:Type TextBlock}" >
+        <Setter Property="TextElement.FontSize" Value="15"/>
+        <Setter Property="Margin" Value="5 0 0 0"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
 </ResourceDictionary>

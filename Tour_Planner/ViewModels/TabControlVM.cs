@@ -1,14 +1,30 @@
-﻿namespace Tour_Planner.ViewModels {
+﻿using Tour_Planner.Models;
 
-    public enum TabControl {
+namespace Tour_Planner.ViewModels {
+
+    public enum TabControlEnum {
         General,
         Route,
         Misc
     }
 
     public class TabControlVM : ViewModelBase {
-        private TabControl _selectedTab;
-        public TabControl SelectedTab {
+        private int _selectedTab;
+        private Tour _tour;
+
+        public Tour Tour {
+            get => _tour;
+            set {
+                if (_tour != value) {
+                    _tour = value;
+                    RaisePropertyChanged(nameof(Tour));
+                }
+            }
+        }
+
+
+
+        public int SelectedTab {
             get => _selectedTab;
             set {
                 if (_selectedTab != value) {
@@ -19,7 +35,16 @@
         }
 
         public TabControlVM() {
-            _selectedTab = TabControl.General;
+            _tour = new Tour();
+            _selectedTab = (int)TabControlEnum.General;
         }
+
+        public void SetTour(Tour tour) {
+            SelectedTab = (int)TabControlEnum.General;
+            Tour = tour;
+        }
+
+
+
     }
 }
