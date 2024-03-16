@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
         xmlns:views="clr-namespace:Tour_Planner.Views"
         mc:Ignorable="d"
-        Title="AddTourWindow" Height="450" Width="400" Padding="50 10 50 20">
+        Title="AddTourWindow" Height="470" Width="400" Padding="50 10 50 20">
 
     <Window.Resources>
         <ResourceDictionary Source="..\Assets\Style\MainWindowStyles.xaml"/>
