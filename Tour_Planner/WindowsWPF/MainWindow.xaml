@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
         xmlns:views="clr-namespace:Tour_Planner.Views"
         mc:Ignorable="d"
-        Title="Tour_Planner" Height="650" Width="1000">
+        Title="Tour_Planner" Height="650" Width="900">
 
 
     <Window.Resources>
