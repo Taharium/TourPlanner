@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="Tour_Planner.Views.TourListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Tour_Planner.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Assets/Style/MainWindowStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" VerticalAlignment="Top">
+            <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour" Width="Auto"
+                   Height="Auto" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding AddTourCommand}" Grid.Column="1" Content="+" Height="Auto" Width="Auto" />
+                <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto" />
+                <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto" />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Border BorderBrush="DarkGray" BorderThickness="1" />
+            <ListBox x:Name="TourListBox" Margin="10" Padding="0" HorizontalContentAlignment="Stretch" Style="{StaticResource RoundCorner}" 
+                     ItemsSource="{Binding TourListCollectionView}"
+                     SelectedItem="{Binding SelectedTour, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ListBoxItem Style="{StaticResource BorderForListBox}" Padding="1" IsHitTestVisible="False">
+                                <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="{Binding Name}" />
+                            </ListBoxItem>
+                            <Button Background="White" Grid.Column="1" Height="Auto" Width="Auto" Command="{Binding DataContext.EditTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}">
+                                <Image Source="..\Assets\Images\search_image.png" MaxHeight="25" Width="Auto" />
+                            </Button>
+                            <Button Background="White" Grid.Column="2" Command="{Binding DataContext.DeleteTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}" >
+                                <Image Source="..\Assets\Images\search_image.png" MaxHeight="25" Width="Auto" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</UserControl>

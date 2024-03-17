@@ -1,0 +1,54 @@
+﻿<Window x:Class="Tour_Planner.WindowsWPF.AddTourWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
+        xmlns:views="clr-namespace:Tour_Planner.Views"
+        mc:Ignorable="d"
+        Title="AddTourWindow" Height="470" Width="400" Padding="50 10 50 20">
+
+    <Window.Resources>
+        <ResourceDictionary Source="..\Assets\Style\MainWindowStyles.xaml"/>
+    </Window.Resources>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <TextBlock Text="Add Tour" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0">
+                <Label DockPanel.Dock="Top" Content="Tour Name:" Grid.Row="0" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="TourName" Text="{Binding Tour.Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}"/>
+            </DockPanel>
+            <DockPanel Grid.Row="1">
+                <Label DockPanel.Dock="Top" Content="Description:" Grid.Row="1" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="Description" Text="{Binding Tour.Description, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Style="{StaticResource TextBoxFontInWindow}"/>
+            </DockPanel>
+            <DockPanel Grid.Row="2">
+                <Label DockPanel.Dock="Top" Content="Start Location:" Grid.Row="1" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="StartLocation" Text="{Binding Tour.StartLocation, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Style="{StaticResource TextBoxFontInWindow}"/>
+            </DockPanel>
+            <DockPanel Grid.Row="3">
+                <Label DockPanel.Dock="Top" Content="End Location:" Grid.Row="2" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="EndLocation" Text="{Binding Tour.EndLocation, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Style="{StaticResource TextBoxFontInWindow}"/>
+            </DockPanel>
+            <DockPanel Grid.Row="4">
+                <Label DockPanel.Dock="Top" Content="Transport Type:" Grid.Row="4" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="TransportType" Text="{Binding Tour.TransportType, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Style="{StaticResource TextBoxFontInWindow}"/>
+            </DockPanel>
+            <DockPanel Grid.Row="5">
+                <Button DockPanel.Dock="Top" Command="{Binding FinishAddCommand}" Content="Add Tour" Grid.Row="5" Style="{StaticResource TextBoxFontInWindow}" Margin="5 5 5 0"/>
+                <TextBlock x:Name="ErrorText" Text="{Binding ErrorMessage}" Foreground="Red" Grid.Row="5" Margin="5 5 5 0"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>

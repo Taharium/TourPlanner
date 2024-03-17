@@ -1,0 +1,58 @@
+﻿<Window x:Class="Tour_Planner.WindowsWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
+        xmlns:views="clr-namespace:Tour_Planner.Views"
+        mc:Ignorable="d"
+        Title="Tour_Planner" Height="650" Width="1000">
+
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Assets/Style/MainWindowStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <views:MenuView/>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <views:SearchbarView x:Name="Searchbar"/>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <views:TourListView x:Name="TourList"/>
+            </Grid>
+            <GridSplitter Grid.RowSpan="2" Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <views:TabControlView x:Name="TabControl" />
+                </Grid>
+                <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0 1">
+                    <GridSplitter Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                </Border>
+                <Grid Grid.Row="2">
+                    <views:TourLogsView x:Name="TourLogs"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>

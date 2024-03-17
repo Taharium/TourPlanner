@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\Storage\" />
+    <Folder Include="Ne\" />
   </ItemGroup>
 
 </Project>
