@@ -3,6 +3,9 @@ using System.Collections.ObjectModel;
 using Tour_Planner.Models;
 using Tour_Planner.Enums;
 using Tour_Planner.WindowsWPF;
+using System.Windows;
+using System.Diagnostics;
+using System.Windows.Data;
 
 namespace Tour_Planner.ViewModels {
     public class TourLogsVM : ViewModelBase {
@@ -25,9 +28,36 @@ namespace Tour_Planner.ViewModels {
             },
             ];
 
+        private TourLogs _selectedtourlog = new();
+        public TourLogs SelectedTourLog {
+            get => _selectedtourlog;
+            set {
+                if (_selectedtourlog != value) {
+                    _selectedtourlog = value;
+                    RaisePropertyChanged(nameof(SelectedTourLog));
+                    EditTourLogEvent?.Invoke(this, _selectedtourlog);
+                }
+            }
+        }
+
+
         public RelayCommand AddTourLogCommand { get; }
         public RelayCommand DeleteTourLogCommand { get; }
         public RelayCommand EditTourLogCommand { get; }
+
+
+        private ListCollectionView? _tourlogscollectionview;
+
+        public ListCollectionView TourLogsCollectionView {
+            get {
+                _tourlogscollectionview ??= new(TourLogsList);
+                _tourlogscollectionview.Refresh();
+                _tourlogscollectionview.MoveCurrentTo(null);
+                return _tourlogscollectionview;
+            }
+        }
+
+        public EventHandler<TourLogs>? EditTourLogEvent;
 
         public TourLogsVM() {
             AddTourLogCommand = new RelayCommand((_) => OpenAddTourLog());
@@ -43,8 +73,11 @@ namespace Tour_Planner.ViewModels {
             throw new NotImplementedException();
         }
 
-        public void DeleteTourLog(object? obj) {
-            throw new NotImplementedException();
+        public void DeleteTourLog(object? a) {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this tour log?", "Delete Tour Log", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
+            if (a is TourLogs tourlog && result == MessageBoxResult.Yes) {
+                TourLogsList.Remove(tourlog);
+            }
         }
 
     }

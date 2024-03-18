@@ -31,13 +31,15 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Style="{StaticResource RoundCorner}" Command="{Binding AddTourLogCommand}" Grid.Column="1" Content="+" Height="Auto" Width="Auto"/>
-                <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto"/>
+                <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="-" Height="Auto" Width="Auto" 
+                        Command="{Binding DataContext.DeleteTourLogCommand, ElementName=TourLogsListView}" CommandParameter="{Binding SelectedItem, ElementName=TourLogsListView}"/>
                 <Button Style="{StaticResource RoundCorner}" Grid.Column="3" Content="..." Height="Auto" Width="Auto"/>
             </Grid>
         </Grid>
         <Grid DockPanel.Dock="Top">
             <Border BorderBrush="DarkGray" BorderThickness="0 1 1 1" />
-            <ListView SelectionMode="Single" Name="Tourlogs" ItemsSource="{Binding TourLogsList}">
+            <ListView x:Name="TourLogsListView" SelectionMode="Single" ItemsSource="{Binding TourLogsCollectionView}"
+                      SelectedItem="{Binding SelectedTourLog, Mode=TwoWay}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateTime}" Width="100"/>
