@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
+        xmlns:local="clr-namespace:Tour_Planner.WindowsWPF" 
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="AddTourLogWindow" Height="520" Width="400" Padding="50 10 50 20">
+        Title="AddTourLogWindow" Height="540" Width="350" Padding="50 10 50 20">
 
     <Window.Resources>
         <ResourceDictionary Source="..\Assets\Style\MainWindowStyles.xaml"/>
@@ -26,8 +27,23 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
-                <Label DockPanel.Dock="Top" Content="Date:" Grid.Row="0" Style="{StaticResource TextSize}"/>
-                <DatePicker x:Name="Date" SelectedDate="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
+                <Label DockPanel.Dock="Top" Content="Date and Time:" Grid.Row="0" Style="{StaticResource TextSize}"/>
+                <xctk:DateTimePicker x:Name="Time" HorizontalAlignment="Stretch" Value="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
+                <!--<Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                <Grid Grid.Column="0">
+                    <Label DockPanel.Dock="Top" Content="Date:" Grid.Row="0" Style="{StaticResource TextSize}"/>
+                    <DatePicker x:Name="Date" SelectedDate="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Label DockPanel.Dock="Top" Content="Date:" Grid.Row="0" Style="{StaticResource TextSize}"/>
+                    <xctk:DateTimePicker x:Name="Time" Value="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
+                    <xctk:TimePicker Value="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
+                </Grid> -->
                 <!--<TextBox Text="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}"/>-->
             </DockPanel> 
             <DockPanel Grid.Row="1">
@@ -36,9 +52,7 @@
             </DockPanel>
             <DockPanel Grid.Row="2">
                 <Label DockPanel.Dock="Top" Content="Difficulty:" Style="{StaticResource TextSize}"/>
-                <ComboBox Margin="5 0" Padding="7" x:Name="Difficulty" ItemsSource="{Binding DifficultyOptions}" SelectedItem="{Binding TourLogs.Difficulty, UpdateSourceTrigger=PropertyChanged}">
-                    
-                </ComboBox>
+                <ComboBox Margin="5 0" Padding="7" x:Name="Difficulty" ItemsSource="{Binding DifficultyOptions}" SelectedItem="{Binding TourLogs.Difficulty, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
             <DockPanel Grid.Row="3">
                 <Label DockPanel.Dock="Top" Content="Total Distance (in m):" Style="{StaticResource TextSize}"/>

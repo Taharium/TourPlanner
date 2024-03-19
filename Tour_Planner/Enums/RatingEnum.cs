@@ -1,10 +1,10 @@
 ﻿namespace Tour_Planner.Enums {
 
     public enum Rating {
-        VeryGood,
+        Excellent,
         Good,
         Average,
         Bad,
-        VeryBad,
+        Awful,
     }
 }

@@ -30,6 +30,7 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
+
         public RelayCommand AddTourLogCommand { get; }
         public RelayCommand DeleteTourLogCommand { get; }
         public RelayCommand EditTourLogCommand { get; }
@@ -68,7 +69,14 @@ namespace Tour_Planner.ViewModels {
         }
 
         public void EditTourLog(object? obj) {
-            throw new NotImplementedException();
+            if (_selectedtourlog == null) {
+                return;
+            }
+            EditTourLogWindow editTourLogWindow = new();
+            EditTourLogWindowVM editTourLogWindowVM = new EditTourLogWindowVM(ref _selectedtourlog, editTourLogWindow);
+            editTourLogWindow.DataContext = editTourLogWindowVM;
+            //editTourLogWindowVM.EditTourLogEvent += (s, e) => EditTourLog(e);
+            editTourLogWindow.Show();
         }
 
         public bool CanExcuteDeleteEditTourLog(object? parameter) {

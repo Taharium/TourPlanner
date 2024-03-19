@@ -11,9 +11,11 @@
   <ItemGroup>
     <None Remove="Assets\Images\search_image.png" />
     <None Remove="Assets\Images\Tour.png" />
+    <None Remove="WindowsWPF\AddTourLogWindow.xaml~RF22748ab7.TMP" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
   </ItemGroup>
 

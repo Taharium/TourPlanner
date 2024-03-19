@@ -7,7 +7,7 @@ namespace Tour_Planner.Models {
         private DateTime? dateTime;
         private string totalTime = "";
         private string distance = "";
-        private Rating rating = Rating.VeryGood;
+        private Rating rating = Rating.Excellent;
         private string comment = "";
         private Difficulty difficulty = Difficulty.Easy;
 
@@ -70,5 +70,18 @@ namespace Tour_Planner.Models {
                 }
             }
         }
+
+        public TourLogs() { }
+
+        public TourLogs(TourLogs tourLog) {
+            DateTime = tourLog.DateTime;
+            TotalTime = tourLog.TotalTime;
+            Distance = tourLog.Distance;
+            Rating = tourLog.Rating;
+            Comment = tourLog.Comment;
+            Difficulty = tourLog.Difficulty;
+        }
+
+
     }
 }
