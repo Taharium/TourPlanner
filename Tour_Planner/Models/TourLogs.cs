@@ -1,15 +1,16 @@
 ﻿using System;
-using Tour_Planner.ViewModels;
 using Tour_Planner.Enums;
+using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Models {
     public class TourLogs : ViewModelBase {
         private DateTime dateTime = DateTime.Now;
         private string totalTime = "";
         private string distance = "";
-        private Rating rating;
+        private Rating rating = Rating.None;
         private string comment = "";
-        private Difficulty difficulty;
+        private Difficulty difficulty = Difficulty.None;
+
         public DateTime DateTime {
             get => dateTime;
             set {

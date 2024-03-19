@@ -8,7 +8,7 @@ namespace Tour_Planner.Models {
         private string startLocation = "";
         private string endLocation = "";
         private string transportType = "";
-        private string routeInformationImage = "";
+        private string routeInformationImage = @"..\Assets\Images\Tour.png";
         private string distance = "";
         private string estimatedTime = "";
 

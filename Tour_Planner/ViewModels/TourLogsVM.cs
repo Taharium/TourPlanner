@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using Tour_Planner.Models;
-using Tour_Planner.Enums;
-using Tour_Planner.WindowsWPF;
 using System.Windows;
-using System.Diagnostics;
 using System.Windows.Data;
+using Tour_Planner.Enums;
+using Tour_Planner.Models;
+using Tour_Planner.WindowsWPF;
 
 namespace Tour_Planner.ViewModels {
     public class TourLogsVM : ViewModelBase {
@@ -26,16 +25,16 @@ namespace Tour_Planner.ViewModels {
                 Comment = "Never again",
                 Difficulty = Difficulty.Hard
             },
-            ];
+        ];
 
-        private TourLogs _selectedtourlog = new();
-        public TourLogs SelectedTourLog {
+        private TourLogs? _selectedtourlog;
+        public TourLogs? SelectedTourLog {
             get => _selectedtourlog;
             set {
                 if (_selectedtourlog != value) {
                     _selectedtourlog = value;
                     RaisePropertyChanged(nameof(SelectedTourLog));
-                    EditTourLogEvent?.Invoke(this, _selectedtourlog);
+                    //EditTourLogEvent?.Invoke(this, _selectedtourlog);
                 }
             }
         }
@@ -61,16 +60,32 @@ namespace Tour_Planner.ViewModels {
 
         public TourLogsVM() {
             AddTourLogCommand = new RelayCommand((_) => OpenAddTourLog());
-            DeleteTourLogCommand = new RelayCommand(DeleteTourLog);
-            EditTourLogCommand = new RelayCommand(EditTourLog);
+            DeleteTourLogCommand = new RelayCommand(DeleteTourLog, CanDeleteTourLog);
+            EditTourLogCommand = new RelayCommand(EditTourLog, CanEditTourLog);
         }
         public void OpenAddTourLog() {
-            AddTourLogWindow addTourLogWindow = new AddTourLogWindow();
+            AddTourLogWindow addTourLogWindow = new();
+            AddTourLogWindowVM addTourLogWindowVM = new AddTourLogWindowVM(addTourLogWindow);
+            addTourLogWindow.DataContext = addTourLogWindowVM;
+            addTourLogWindowVM.AddTourLogEvent += (s, e) => AddTourLog(e);
             addTourLogWindow.Show();
+        }
+
+        private void AddTourLog(TourLogs tourLogs) {
+            TourLogsList.Add(tourLogs);
+            SelectedTourLog = tourLogs;
         }
 
         public void EditTourLog(object? obj) {
             throw new NotImplementedException();
+        }
+
+        public bool CanDeleteTourLog(object? parameter) {
+            return SelectedTourLog != null;
+        }
+
+        public bool CanEditTourLog(object? parameter) {
+            return SelectedTourLog != null;
         }
 
         public void DeleteTourLog(object? a) {

@@ -31,6 +31,7 @@ namespace Tour_Planner.ViewModels {
 
         public TabControlVM() {
             _tour = new Tour();
+
             _selectedTab = (int)TabControlEnum.General;
         }
 
