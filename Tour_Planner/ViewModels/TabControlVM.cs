@@ -1,12 +1,7 @@
-﻿using Tour_Planner.Models;
+﻿using Tour_Planner.Enums;
+using Tour_Planner.Models;
 
 namespace Tour_Planner.ViewModels {
-
-    public enum TabControlEnum {
-        General,
-        Route,
-        Misc
-    }
 
     public class TabControlVM : ViewModelBase {
         private int _selectedTab;
