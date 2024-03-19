@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Data;
+using Tour_Planner.Enums;
 using Tour_Planner.Models;
 using Tour_Planner.WindowsWPF;
 
@@ -13,7 +14,7 @@ namespace Tour_Planner.ViewModels {
                 Description = "Yess we can",
                 StartLocation = "Washington",
                 EndLocation = "San Francisco",
-                TransportType = "Plane",
+                TransportType = TransportType.Plane,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
@@ -21,7 +22,7 @@ namespace Tour_Planner.ViewModels {
                 Description = "We can do it",
                 StartLocation = "New York",
                 EndLocation = "LA",
-                TransportType = "Plane",
+                TransportType = TransportType.Plane,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
@@ -29,7 +30,7 @@ namespace Tour_Planner.ViewModels {
                 Description = "Yooo",
                 StartLocation = "Berlin",
                 EndLocation = "Munich",
-                TransportType = "Car",
+                TransportType = TransportType.Car,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
@@ -37,15 +38,15 @@ namespace Tour_Planner.ViewModels {
                 Description = "Austria is a country",
                 StartLocation = "Vienna",
                 EndLocation = "Salzburg",
-                TransportType = "Car",
+                TransportType = TransportType.Car,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             }
         ];
 
         private string _searchedTour = "";
-        private Tour _selectedTour = new();
+        private Tour? _selectedTour;
 
-        public Tour SelectedTour {
+        public Tour? SelectedTour {
             get => _selectedTour;
             set {
                 if (_selectedTour != value) {
@@ -68,8 +69,8 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        public event EventHandler<Tour>? EditTourEvent;
-        public event EventHandler<Tour>? SelectedTourEvent;
+        public event EventHandler<Tour?>? EditTourEvent;
+        public event EventHandler<Tour?>? SelectedTourEvent;
 
         public RelayCommand AddTourCommand { get; }
         public RelayCommand DeleteTourCommand { get; }

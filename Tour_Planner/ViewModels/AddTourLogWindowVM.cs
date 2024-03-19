@@ -83,13 +83,17 @@ namespace Tour_Planner.ViewModels {
             }
 
             ErrorMessage = "";
-            _tourLog.DateTime = DateTime.Now;
             AddTourLogEvent?.Invoke(this, _tourLog);
             MessageBox.Show("Tour Log added successfully!", "AddTourLog", MessageBoxButton.OK, MessageBoxImage.Information);
             _window.Close();
         }
 
         private bool IsTourLogValid() {
+
+            if (_tourLog.DateTime > DateTime.Now || !_tourLog.DateTime.HasValue) {
+                ErrorMessage = "Please enter a valid Date";
+                return false;
+            }
 
             if (_tourLog.TotalTime == "") {
                 ErrorMessage = "Please enter a Time";

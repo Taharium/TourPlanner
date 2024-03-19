@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using Tour_Planner.Models;
 using Tour_Planner.WindowsWPF;
@@ -24,6 +25,7 @@ namespace Tour_Planner.ViewModels {
                 if (_selectedTour != value) {
                     _selectedTour = value;
                     RaisePropertyChanged(nameof(SelectedTour));
+                    AddTourLogCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -47,11 +49,12 @@ namespace Tour_Planner.ViewModels {
         public EventHandler<TourLogs>? EditTourLogEvent;
 
         public TourLogsVM() {
-            AddTourLogCommand = new RelayCommand((_) => OpenAddTourLog());
-            DeleteTourLogCommand = new RelayCommand(DeleteTourLog, CanDeleteTourLog);
-            EditTourLogCommand = new RelayCommand(EditTourLog, CanEditTourLog);
+            AddTourLogCommand = new RelayCommand(OpenAddTourLog, CanExcuteAddTourLog);
+            DeleteTourLogCommand = new RelayCommand(DeleteTourLog, CanExcuteDeleteEditTourLog);
+            EditTourLogCommand = new RelayCommand(EditTourLog, CanExcuteDeleteEditTourLog);
         }
-        public void OpenAddTourLog() {
+
+        public void OpenAddTourLog(object? a) {
             AddTourLogWindow addTourLogWindow = new();
             AddTourLogWindowVM addTourLogWindowVM = new AddTourLogWindowVM(addTourLogWindow);
             addTourLogWindow.DataContext = addTourLogWindowVM;
@@ -68,12 +71,13 @@ namespace Tour_Planner.ViewModels {
             throw new NotImplementedException();
         }
 
-        public bool CanDeleteTourLog(object? parameter) {
+        public bool CanExcuteDeleteEditTourLog(object? parameter) {
             return SelectedTourLog != null;
         }
 
-        public bool CanEditTourLog(object? parameter) {
-            return SelectedTourLog != null;
+        public bool CanExcuteAddTourLog(object? parameter) {
+            Debug.WriteLine(SelectedTour);
+            return SelectedTour != null;
         }
 
         public void DeleteTourLog(object? a) {
@@ -83,8 +87,9 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        public void SetTour(Tour tour) {
-            SelectedTour = tour;
+        public void SetTour(Tour? tour) {
+            if (tour != null)
+                SelectedTour = tour;
         }
     }
 }

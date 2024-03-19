@@ -5,9 +5,9 @@ namespace Tour_Planner.ViewModels {
 
     public class TabControlVM : ViewModelBase {
         private int _selectedTab;
-        private Tour _tour;
+        private Tour? _tour;
 
-        public Tour Tour {
+        public Tour? Tour {
             get => _tour;
             set {
                 if (_tour != value) {
@@ -34,12 +34,11 @@ namespace Tour_Planner.ViewModels {
             _selectedTab = (int)TabControlEnum.General;
         }
 
-        public void SetTour(Tour tour) {
-            SelectedTab = (int)TabControlEnum.General;
-            Tour = tour;
+        public void SetTour(Tour? tour) {
+            if (tour != null) {
+                SelectedTab = (int)TabControlEnum.General;
+                Tour = tour;
+            }
         }
-
-
-
     }
 }

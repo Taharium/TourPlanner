@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
         mc:Ignorable="d"
-        Title="AddTourLogWindow" Height="460" Width="400" Padding="50 10 50 20">
+        Title="AddTourLogWindow" Height="520" Width="400" Padding="50 10 50 20">
 
     <Window.Resources>
         <ResourceDictionary Source="..\Assets\Style\MainWindowStyles.xaml"/>
@@ -25,34 +25,34 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <!--<DockPanel Grid.Row="0">
+            <DockPanel Grid.Row="0">
                 <Label DockPanel.Dock="Top" Content="Date:" Grid.Row="0" Style="{StaticResource TextSize}"/>
                 <DatePicker x:Name="Date" SelectedDate="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
-                <TextBox x:Name="Date" Text="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}"/>
-            </DockPanel> -->
-            <DockPanel Grid.Row="0">
+                <!--<TextBox Text="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}"/>-->
+            </DockPanel> 
+            <DockPanel Grid.Row="1">
                 <Label DockPanel.Dock="Top" Content="Comment:" Style="{StaticResource TextSize}"/>
                 <TextBox x:Name="Comment" Text="{Binding TourLogs.Comment, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxFontInWindow}"/>
             </DockPanel>
-            <DockPanel Grid.Row="1">
+            <DockPanel Grid.Row="2">
                 <Label DockPanel.Dock="Top" Content="Difficulty:" Style="{StaticResource TextSize}"/>
                 <ComboBox Margin="5 0" Padding="7" x:Name="Difficulty" ItemsSource="{Binding DifficultyOptions}" SelectedItem="{Binding TourLogs.Difficulty, UpdateSourceTrigger=PropertyChanged}">
                     
                 </ComboBox>
             </DockPanel>
-            <DockPanel Grid.Row="2">
+            <DockPanel Grid.Row="3">
                 <Label DockPanel.Dock="Top" Content="Total Distance (in m):" Style="{StaticResource TextSize}"/>
                 <TextBox x:Name="Distance" Text="{Binding TourLogs.Distance, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxFontInWindow}"/>
             </DockPanel>
-            <DockPanel Grid.Row="3">
+            <DockPanel Grid.Row="4">
                 <Label DockPanel.Dock="Top" Content="Total Time (in h):" Style="{StaticResource TextSize}"/>
                 <TextBox x:Name="TotalTime" Text="{Binding TourLogs.TotalTime, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxFontInWindow}"/>
             </DockPanel>
-            <DockPanel Grid.Row="4" Margin="0 0 0 10">
+            <DockPanel Grid.Row="5" Margin="0 0 0 10">
                 <Label DockPanel.Dock="Top" Content="Rating:" Style="{StaticResource TextSize}"/>
                 <ComboBox Margin="5 0" Padding="7" x:Name="Rating" ItemsSource="{Binding RatingOptions}" SelectedItem="{Binding TourLogs.Rating, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-            <DockPanel Grid.Row="5">
+            <DockPanel Grid.Row="6">
                 <Button DockPanel.Dock="Top" Command="{Binding FinishAddTourLogCommand}" Content="Add Tour Log" Style="{StaticResource TextBoxFontInWindow}" Margin="5 5 5 0"/>
                 <TextBlock x:Name="ErrorText" Text="{Binding ErrorMessage}" Foreground="Red" Grid.Row="6" Margin="5 5 5 0"/>
             </DockPanel>

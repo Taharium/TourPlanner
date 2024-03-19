@@ -29,7 +29,7 @@ namespace Tour_Planner.Models {
         private string description = "";
         private string startLocation = "";
         private string endLocation = "";
-        private string transportType = "";
+        private TransportType transportType = TransportType.Car;
         private string routeInformationImage = @"..\Assets\Images\Tour.png";
         private string distance = "";
         private string estimatedTime = "";
@@ -75,7 +75,7 @@ namespace Tour_Planner.Models {
             }
         }
 
-        public string TransportType {
+        public TransportType TransportType {
             get => transportType;
             set {
                 if (transportType != value) {

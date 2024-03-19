@@ -43,8 +43,7 @@ namespace Tour_Planner.ViewModels {
 
         private bool IsTourValid() {
             return !string.IsNullOrWhiteSpace(_tourTemp.Name) && !string.IsNullOrWhiteSpace(_tourTemp.Description) &&
-                   !string.IsNullOrWhiteSpace(_tourTemp.StartLocation) && !string.IsNullOrWhiteSpace(_tourTemp.EndLocation) &&
-                   !string.IsNullOrWhiteSpace(_tourTemp.TransportType);
+                   !string.IsNullOrWhiteSpace(_tourTemp.StartLocation) && !string.IsNullOrWhiteSpace(_tourTemp.EndLocation);
         }
 
 

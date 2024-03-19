@@ -4,14 +4,14 @@ using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Models {
     public class TourLogs : ViewModelBase {
-        private DateTime dateTime = DateTime.Now;
+        private DateTime? dateTime;
         private string totalTime = "";
         private string distance = "";
         private Rating rating = Rating.VeryGood;
         private string comment = "";
         private Difficulty difficulty = Difficulty.Easy;
 
-        public DateTime DateTime {
+        public DateTime? DateTime {
             get => dateTime;
             set {
                 if (dateTime != value) {
