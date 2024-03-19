@@ -7,9 +7,9 @@ namespace Tour_Planner.Models {
         private DateTime dateTime = DateTime.Now;
         private string totalTime = "";
         private string distance = "";
-        private Rating rating = Rating.None;
+        private Rating rating = Rating.VeryGood;
         private string comment = "";
-        private Difficulty difficulty = Difficulty.None;
+        private Difficulty difficulty = Difficulty.Easy;
 
         public DateTime DateTime {
             get => dateTime;

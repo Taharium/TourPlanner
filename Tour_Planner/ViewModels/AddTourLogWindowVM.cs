@@ -11,6 +11,7 @@ namespace Tour_Planner.ViewModels {
         private readonly Window _window;
         private TourLogs _tourLog;
         private Rating _selectedRating;
+        private Difficulty _selectedDifficulty;
 
 
         public TourLogs TourLogs {
@@ -53,6 +54,22 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
+        public Difficulty SelectedDifficulty {
+            get { return _selectedDifficulty; }
+            set {
+                if (_selectedDifficulty != value) {
+                    _selectedDifficulty = value;
+                    RaisePropertyChanged(nameof(SelectedDifficulty));
+                }
+            }
+        }
+
+        public IEnumerable<Difficulty> DifficultyOptions {
+            get {
+                return Enum.GetValues(typeof(Difficulty)).Cast<Difficulty>();
+            }
+        }
+
         public AddTourLogWindowVM(Window window) {
             _errorMessage = "";
             _window = window;
@@ -73,16 +90,6 @@ namespace Tour_Planner.ViewModels {
         }
 
         private bool IsTourLogValid() {
-
-            if (_tourLog.Rating == Rating.None) {
-                ErrorMessage = "Please select a Rating!";
-                return false;
-            }
-
-            if (_tourLog.Difficulty == Difficulty.None) {
-                ErrorMessage = "Please select a Difficulty!";
-                return false;
-            }
 
             if (_tourLog.TotalTime == "") {
                 ErrorMessage = "Please enter a Time";

@@ -25,28 +25,28 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
-                <Label DockPanel.Dock="Top" Content="Tour Name:" Style="{StaticResource TextSize}" Grid.Row="0"/>
-                    <TextBox x:Name="TourName" Text="{Binding Tour.Name}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}"/>
+                <Label DockPanel.Dock="Top" Content="Tour Name:" Style="{StaticResource TextSize}"/>
+                    <TextBox x:Name="TourName" Text="{Binding Tour.Name}" Style="{StaticResource TextBoxFontInWindow}"/>
             </DockPanel>
             <DockPanel Grid.Row="1">
-                <Label DockPanel.Dock="Top" Content="Description:" Grid.Row="1" Style="{StaticResource TextSize}"/>
-                <TextBox x:Name="Description" Text="{Binding Tour.Description}" Style="{StaticResource TextBoxFontInWindow}" Grid.Row="3"/>
+                <Label DockPanel.Dock="Top" Content="Description:" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="Description" Text="{Binding Tour.Description}" Style="{StaticResource TextBoxFontInWindow}"/>
             </DockPanel>
             <DockPanel Grid.Row="2">
-                <Label DockPanel.Dock="Top" Content="Start Location:" Grid.Row="1" Style="{StaticResource TextSize}"/>
-                <TextBox x:Name="StartLocation" Text="{Binding Tour.StartLocation}" Style="{StaticResource TextBoxFontInWindow}" Grid.Row="1"/>
+                <Label DockPanel.Dock="Top" Content="Start Location:" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="StartLocation" Text="{Binding Tour.StartLocation}" Style="{StaticResource TextBoxFontInWindow}"/>
             </DockPanel>
             <DockPanel Grid.Row="3">
-                <Label DockPanel.Dock="Top" Content="End Location:" Grid.Row="2" Style="{StaticResource TextSize}"/>
-                <TextBox x:Name="EndLocation" Text="{Binding Tour.EndLocation}" Style="{StaticResource TextBoxFontInWindow}" Grid.Row="2"/>
+                <Label DockPanel.Dock="Top" Content="End Location:" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="EndLocation" Text="{Binding Tour.EndLocation}" Style="{StaticResource TextBoxFontInWindow}" />
             </DockPanel>
             <DockPanel Grid.Row="4">
-                <Label DockPanel.Dock="Top" Content="Transport Type:" Grid.Row="4" Style="{StaticResource TextSize}"/>
-                <TextBox x:Name="TransportType" Text="{Binding Tour.TransportType}" Style="{StaticResource TextBoxFontInWindow}" Grid.Row="4"/>
+                <Label DockPanel.Dock="Top" Content="Transport Type:" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="TransportType" Text="{Binding Tour.TransportType}" Style="{StaticResource TextBoxFontInWindow}" />
             </DockPanel>
             <DockPanel Grid.Row="5">
-                <Button DockPanel.Dock="Top" Command="{Binding FinishEditCommand}" Style="{StaticResource TextBoxFontInWindow}" Content="Edit Tour" Grid.Row="5" Margin="5 5 5 0"/>
-                <TextBlock x:Name="ErrorText" Text="{Binding ErrorMessage}" Foreground="Red" Grid.Row="5" Margin="5 5 5 0"/>
+                <Button DockPanel.Dock="Top" Command="{Binding FinishEditCommand}" Style="{StaticResource TextBoxFontInWindow}" Content="Edit Tour" Margin="5 5 5 0"/>
+                <TextBlock x:Name="ErrorText" Text="{Binding ErrorMessage}" Foreground="Red" Margin="5 5 5 0"/>
             </DockPanel>
         </Grid>
     </DockPanel>

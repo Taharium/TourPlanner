@@ -11,7 +11,8 @@
             _tourLogsVM = tourLogsVM;
 
             _searchbarVM.SearchTextChanged += (s, e) => _tourListVM.SearchedTour(e);
-            _tourListVM.EditTourEvent += (s, e) => _tabControlVM.SetTour(e);
+            _tourListVM.SelectedTourEvent += (s, e) => _tabControlVM.SetTour(e);
+            _tourListVM.SelectedTourEvent += (s, e) => _tourLogsVM.SetTour(e);
         }
     }
 }

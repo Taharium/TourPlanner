@@ -52,6 +52,7 @@ namespace Tour_Planner.ViewModels {
                     _selectedTour = value;
                     RaisePropertyChanged(nameof(SelectedTour));
                     EditTourEvent?.Invoke(this, _selectedTour);
+                    SelectedTourEvent?.Invoke(this, _selectedTour);
                 }
             }
         }
@@ -68,6 +69,7 @@ namespace Tour_Planner.ViewModels {
         }
 
         public event EventHandler<Tour>? EditTourEvent;
+        public event EventHandler<Tour>? SelectedTourEvent;
 
         public RelayCommand AddTourCommand { get; }
         public RelayCommand DeleteTourCommand { get; }

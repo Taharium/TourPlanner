@@ -1,8 +1,30 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using Tour_Planner.Enums;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Models {
     public class Tour : ViewModelBase {
+
+        public ObservableCollection<TourLogs> TourLogsList { get; set; } = [
+            new TourLogs() {
+                DateTime = new DateTime(2024, 3, 16),
+                TotalTime = "2",
+                Distance = "100",
+                Rating = Rating.VeryGood,
+                Comment = "Good",
+                Difficulty = Difficulty.Easy
+            },
+            new TourLogs() {
+                DateTime = new DateTime(2024, 3, 13),
+                TotalTime = "5",
+                Distance = "10000",
+                Rating = Rating.VeryBad,
+                Comment = "Never again",
+                Difficulty = Difficulty.Hard
+            },
+        ];
+
         private string name = "";
         private string description = "";
         private string startLocation = "";
