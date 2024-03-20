@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Tour_Planner.WindowsWPF" 
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="AddTourLogWindow" Height="540" Width="350" Padding="50 10 50 20">
+        Title="AddTourLogWindow" Height="540" Width="400" Padding="50 10 50 20">
 
     <Window.Resources>
         <ResourceDictionary Source="..\Assets\Style\MainWindowStyles.xaml"/>
@@ -28,7 +28,7 @@
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
                 <Label DockPanel.Dock="Top" Content="Date and Time:" Grid.Row="0" Style="{StaticResource TextSize}"/>
-                <xctk:DateTimePicker x:Name="Time" HorizontalAlignment="Stretch" Value="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
+                <xctk:DateTimePicker TextAlignment="Left" x:Name="Time" HorizontalAlignment="Stretch" Value="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
                 <!--<Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

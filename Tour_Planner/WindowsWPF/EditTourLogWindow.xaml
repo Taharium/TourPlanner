@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tour_Planner.WindowsWPF" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="EditTourLogWindow" Height="540" Width="350" Padding="50 10 50 20"> <!-- height 510 -->
+        Title="EditTourLogWindow" Height="540" Width="400" Padding="50 10 50 20"> <!-- height 510 -->
 
     <Window.Resources>
         <ResourceDictionary Source="..\Assets\Style\MainWindowStyles.xaml"/>
@@ -27,7 +27,7 @@
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
                 <Label DockPanel.Dock="Top" Content="Date and Time:" Grid.Row="0" Style="{StaticResource TextSize}"/>
-                <xctk:DateTimePicker x:Name="Time" HorizontalAlignment="Stretch" Value="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
+                <xctk:DateTimePicker TextAlignment="Left" x:Name="Time" HorizontalAlignment="Stretch" Value="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
                 <!--<Label DockPanel.Dock="Top" Content="Date:" Grid.Row="0" Style="{StaticResource TextSize}"/>
                 <DatePicker x:Name="Date" SelectedDate="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />-->
                 <!--<TextBox x:Name="Date" Text="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}"/> -->
