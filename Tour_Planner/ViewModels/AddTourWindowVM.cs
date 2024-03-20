@@ -64,7 +64,7 @@ namespace Tour_Planner.ViewModels {
                    !string.IsNullOrWhiteSpace(_tour.StartLocation) && !string.IsNullOrWhiteSpace(_tour.EndLocation);
         }
 
-        private void AddFunction() {        //could be used using constructor and ref Tour tour
+        public void AddFunction() {        //could be used using constructor and ref Tour tour
             if (IsTourValid()) {
                 ErrorMessage = "";
                 AddTourEvent?.Invoke(this, _tour);

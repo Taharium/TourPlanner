@@ -28,7 +28,7 @@
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
                 <Label DockPanel.Dock="Top" Content="Date and Time:" Grid.Row="0" Style="{StaticResource TextSize}"/>
-                <xctk:DateTimePicker x:Name="Time" HorizontalAlignment="Stretch" Value="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
+                <xctk:DateTimePicker x:Name="Time" HorizontalAlignment="Stretch" Value="{Binding DateTimeString, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
                 <!--<Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

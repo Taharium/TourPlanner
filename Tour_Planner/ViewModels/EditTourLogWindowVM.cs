@@ -27,6 +27,8 @@ namespace Tour_Planner.ViewModels {
         public event EventHandler<TourLogs>? EditTourLogEvent;
         public RelayCommand FinishEditTourLogCommand { get; }
 
+
+
         private string _errorMessage;
         public string ErrorMessage {
             get => _errorMessage;
@@ -87,6 +89,7 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void EditTourLogsFunction() {
+
             if (!IsTourLogValid()) {
                 return;
             }
@@ -97,10 +100,10 @@ namespace Tour_Planner.ViewModels {
             _window.Close();
         }
 
-        private bool IsTourLogValid() {
+        public bool IsTourLogValid() {
 
             if (_tempTourLog.DateTime > DateTime.Now || !_tempTourLog.DateTime.HasValue) {
-                ErrorMessage = "Please enter a valid Date";
+                ErrorMessage = "Please enter a valid Date and Time";
                 return false;
             }
 

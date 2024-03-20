@@ -13,7 +13,6 @@ namespace Tour_Planner.ViewModels {
         private Rating _selectedRating;
         private Difficulty _selectedDifficulty;
 
-
         public TourLogs TourLogs {
             get => _tourLog;
             set {

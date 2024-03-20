@@ -56,7 +56,7 @@ namespace Tour_Planner.ViewModels {
         }
 
 
-        private void FinishEditFunction() {
+        public void FinishEditFunction() {
 
             if (IsTourValid()) {
                 ErrorMessage = "";
