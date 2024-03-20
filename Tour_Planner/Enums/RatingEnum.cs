@@ -5,6 +5,6 @@
         Good,
         Average,
         Bad,
-        Awful,
+        Terrible,
     }
 }

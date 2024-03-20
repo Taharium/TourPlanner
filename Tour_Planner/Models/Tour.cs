@@ -19,7 +19,7 @@ namespace Tour_Planner.Models {
                 DateTime = new DateTime(2024, 3, 13),
                 TotalTime = "5",
                 Distance = "10000",
-                Rating = Rating.Awful,
+                Rating = Rating.Terrible,
                 Comment = "Never again",
                 Difficulty = Difficulty.Hard
             },
