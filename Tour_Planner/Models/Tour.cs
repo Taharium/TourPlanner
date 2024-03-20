@@ -30,7 +30,7 @@ namespace Tour_Planner.Models {
         private string startLocation = "";
         private string endLocation = "";
         private TransportType transportType = TransportType.Car;
-        private string routeInformationImage = @"..\Assets\Images\Tour.png";
+        private string routeInformationImage = "";
         private string distance = "";
         private string estimatedTime = "";
 

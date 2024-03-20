@@ -46,7 +46,21 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Route">
-                <Image x:Name="RouteImage" Source="{Binding Tour.RouteInformationImage}" />
+                <Image x:Name="RouteImage">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Source" Value="{Binding Tour.RouteInformationImage}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Tour.RouteInformationImage}" Value="">
+                                    <Setter Property="Source" Value="../Assets/Images/default_Tour.png" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Tour.RouteInformationImage}" Value="{x:Null}">
+                                    <Setter Property="Source" Value="../Assets/Images/default_Tour.png" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
             </TabItem>
             <TabItem Header="Misc">
                 

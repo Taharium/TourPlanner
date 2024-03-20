@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Images\default_Tour.png" />
+    <None Remove="Assets\Images\delete_Icon.png" />
+    <None Remove="Assets\Images\edit_Icon.png" />
     <None Remove="Assets\Images\search_image.png" />
     <None Remove="Assets\Images\Tour.png" />
     <None Remove="WindowsWPF\AddTourLogWindow.xaml~RF22748ab7.TMP" />
@@ -22,6 +25,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\Icon\Tour_Planner_Icon.ico" />
+    <Resource Include="Assets\Images\default_Tour.png" />
+    <Resource Include="Assets\Images\delete_Icon.png" />
+    <Resource Include="Assets\Images\edit_Icon.png" />
     <Resource Include="Assets\Images\search_image.png" />
   </ItemGroup>
 
