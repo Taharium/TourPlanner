@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Tour_Planner.Views.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Tour_Planner.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    
+        <Grid>
+            <Menu Width="Auto" MinHeight="35">
+                <MenuItem Header="_File" Width="Auto" MinHeight="35">
+                    <MenuItem Header="Exit" Width="Auto" MinHeight="35" />
+                </MenuItem>
+                <MenuItem Header="_Edit" Width="Auto" Height="Auto">
+                    <MenuItem Header="Undo" Width="Auto" MinHeight="35" />
+                    <MenuItem Header="Redo" Width="Auto" MinHeight="35" />
+                    <MenuItem Header="Cut" Width="Auto" MinHeight="35" />
+                    <MenuItem Header="Copy" Width="Auto" MinHeight="35" />
+                    <MenuItem Header="Paste" Width="Auto" MinHeight="35" />
+                </MenuItem>
+                <MenuItem Header="_Options" Width="Auto" MinHeight="35" />
+                <MenuItem Header="_Settings" Width="Auto" MinHeight="35">
+                    <MenuItem Header="LightMode" Width="Auto" MinHeight="35" />
+                    <MenuItem Header="DarkMode" Width="Auto" MinHeight="35" />
+                </MenuItem>
+                <MenuItem Header="_Tool" Width="Auto" MinHeight="35" />
+                <MenuItem Header="_Help" Width="Auto" MinHeight="35">
+                    <MenuItem Header="About" Width="Auto" MinHeight="35" />
+                </MenuItem>
+            </Menu>
+    </Grid>
+
+</UserControl>

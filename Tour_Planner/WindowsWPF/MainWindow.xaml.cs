@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Tour_Planner {
+namespace Tour_Planner.WindowsWPF {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>

@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Tour_Planner.Views.TourLogsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tour_Planner.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="600">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Assets/Style/MainWindowStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Label Style="{StaticResource TextSize}" VerticalAlignment="Center" Content="Tour Log" Width="Auto" Height="Auto"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding AddTourLogCommand}" Grid.Column="1" Content="Add" Height="Auto" Width="Auto"/>
+                <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="Del" Height="Auto" Width="Auto" 
+                        Command="{Binding DataContext.DeleteTourLogCommand, ElementName=TourLogsListView}" CommandParameter="{Binding SelectedItem, ElementName=TourLogsListView}"/>
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding DataContext.EditTourLogCommand, ElementName=TourLogsListView}"
+                        CommandParameter="{Binding SelectedItem, ElementName=TourLogsListView}" Grid.Column="3" Content="Edit" Height="Auto" Width="Auto"/>
+            </Grid>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Border BorderBrush="DarkGray" BorderThickness="0 1 1 1" />
+            <ListView HorizontalContentAlignment="Stretch" x:Name="TourLogsListView" SelectionMode="Single" ItemsSource="{Binding SelectedTour.TourLogsList, Mode=TwoWay}"
+                      SelectedItem="{Binding SelectedTourLog, Mode=TwoWay}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Date">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Comment" DisplayMemberBinding="{Binding Comment, Mode=TwoWay}"/>
+                        <GridViewColumn Header="Difficulty" DisplayMemberBinding="{Binding Difficulty, Mode=TwoWay}"/>
+                        <GridViewColumn Header="Total Distance" DisplayMemberBinding="{Binding Distance, Mode=TwoWay}"/>
+                        <GridViewColumn Header="Total Time" DisplayMemberBinding="{Binding TotalTime, Mode=TwoWay}"/>
+                        <GridViewColumn Header="Rating" DisplayMemberBinding="{Binding Rating, Mode=TwoWay}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </DockPanel>
+</UserControl>
