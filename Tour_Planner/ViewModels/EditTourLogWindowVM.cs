@@ -12,7 +12,6 @@ namespace Tour_Planner.ViewModels {
         private TourLogs _tourLog;
         private Rating _selectedRating;
         private Difficulty _selectedDifficulty;
-        private bool _validDate;
 
 
         public TourLogs TourLogs {
@@ -33,13 +32,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_tempTourLog.DateTime.ToString() != value) {
                     if (DateTime.TryParse(value, out DateTime parsedDate)) {
-                        ErrorMessage = "";
                         _tempTourLog.DateTime = parsedDate;
-                        _validDate = true;
-                    }
-                    else {
-                        _validDate = false;
-                        ErrorMessage = "Please enter a valid Date and Time";
                     }
                     OnPropertyChanged(nameof(DateTimeProp));
                 }
@@ -119,13 +112,8 @@ namespace Tour_Planner.ViewModels {
 
         public bool IsTourLogValid() {
 
-            if (!_validDate && _tempTourLog.DateTime > DateTime.Now) {
-                ErrorMessage = "Please enter a valid Date and Time";
-                return false;
-            }
-
-            if (_tempTourLog.TotalTime == "") {
-                ErrorMessage = "Please enter a Time";
+            if (_tempTourLog.DateTime > DateTime.Now) {
+                ErrorMessage = "Please enter a valid Date and Time in the past";
                 return false;
             }
 
@@ -134,19 +122,24 @@ namespace Tour_Planner.ViewModels {
                 return false;
             }
 
-            if (int.TryParse(_tempTourLog.TotalTime, out int parsedTime)) {
-                _tempTourLog.TotalTime = parsedTime.ToString();
-            }
-            else {
-                ErrorMessage = "Please enter a valid number for Time";
-                return false;
-            }
-
             if (int.TryParse(_tempTourLog.Distance, out int parsedDistance)) {
                 _tempTourLog.Distance = parsedDistance.ToString();
             }
             else {
                 ErrorMessage = "Please enter a valid number for Distance";
+                return false;
+            }
+
+            if (_tempTourLog.TotalTime == "") {
+                ErrorMessage = "Please enter a Time";
+                return false;
+            }
+
+            if (int.TryParse(_tempTourLog.TotalTime, out int parsedTime)) {
+                _tempTourLog.TotalTime = parsedTime.ToString();
+            }
+            else {
+                ErrorMessage = "Please enter a valid number for Time";
                 return false;
             }
 
