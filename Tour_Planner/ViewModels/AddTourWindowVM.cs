@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Tour_Planner.Enums;
-using Tour_Planner.Models;
 
 namespace Tour_Planner.ViewModels {
     public class AddTourWindowVM : ViewModelBase {

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Tour_Planner.Enums;
-using Tour_Planner.Models;
 
 namespace Tour_Planner.ViewModels {
     public class EditTourLogWindowVM : ViewModelBase {
@@ -12,6 +12,7 @@ namespace Tour_Planner.ViewModels {
         private TourLogs _tourLog;
         private Rating _selectedRating;
         private Difficulty _selectedDifficulty;
+        private bool _validDate;
 
 
         public TourLogs TourLogs {
@@ -27,7 +28,23 @@ namespace Tour_Planner.ViewModels {
         public event EventHandler<TourLogs>? EditTourLogEvent;
         public RelayCommand FinishEditTourLogCommand { get; }
 
-
+        public string DateTimeProp {
+            get => _tempTourLog.DateTime.ToString();
+            set {
+                if (_tempTourLog.DateTime.ToString() != value) {
+                    if (DateTime.TryParse(value, out DateTime parsedDate)) {
+                        ErrorMessage = "";
+                        _tempTourLog.DateTime = parsedDate;
+                        _validDate = true;
+                    }
+                    else {
+                        _validDate = false;
+                        ErrorMessage = "Please enter a valid Date and Time";
+                    }
+                    RaisePropertyChanged(nameof(DateTimeProp));
+                }
+            }
+        }
 
         private string _errorMessage;
         public string ErrorMessage {
@@ -71,7 +88,8 @@ namespace Tour_Planner.ViewModels {
                 return Enum.GetValues(typeof(Difficulty)).Cast<Difficulty>();
             }
         }
-        public EditTourLogWindowVM(ref TourLogs tourLogs, Window window) {
+
+        public EditTourLogWindowVM(TourLogs tourLogs, Window window) {
             _errorMessage = "";
             _window = window;
             _tourLog = tourLogs;
@@ -89,20 +107,19 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void EditTourLogsFunction() {
-
             if (!IsTourLogValid()) {
                 return;
             }
             ErrorMessage = "";
             UpdateTourLog();
-            //EditTourLogEvent?.Invoke(this, _tourLog);
+            EditTourLogEvent?.Invoke(this, _tourLog);
             MessageBox.Show("Tour Log edited successfully!", "EditTourLog", MessageBoxButton.OK, MessageBoxImage.Information);
             _window.Close();
         }
 
         public bool IsTourLogValid() {
 
-            if (_tempTourLog.DateTime > DateTime.Now || !_tempTourLog.DateTime.HasValue) {
+            if (!_validDate && _tempTourLog.DateTime > DateTime.Now) {
                 ErrorMessage = "Please enter a valid Date and Time";
                 return false;
             }

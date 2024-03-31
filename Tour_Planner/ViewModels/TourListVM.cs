@@ -1,47 +1,16 @@
-﻿using System;
+﻿using BusinessLayer;
+using Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Data;
-using Tour_Planner.Enums;
-using Tour_Planner.Models;
 using Tour_Planner.WindowsWPF;
 
 namespace Tour_Planner.ViewModels {
     public class TourListVM : ViewModelBase {
-        public ObservableCollection<Tour> TourList { get; set; } = [
-            new Tour() {
-                Name = "Yess",
-                Description = "Yess we can",
-                StartLocation = "Washington",
-                EndLocation = "San Francisco",
-                TransportType = TransportType.Plane,
-                RouteInformationImage = @"..\Assets\Images\Tour.png"
-            },
-            new Tour() {
-                Name = "We can",
-                Description = "We can do it",
-                StartLocation = "New York",
-                EndLocation = "LA",
-                TransportType = TransportType.Plane,
-                RouteInformationImage = @"..\Assets\Images\Tour.png"
-            },
-            new Tour() {
-                Name = "Yooo",
-                Description = "Yooo",
-                StartLocation = "Berlin",
-                EndLocation = "Munich",
-                TransportType = TransportType.Car,
-                RouteInformationImage = @"..\Assets\Images\Tour.png"
-            },
-            new Tour() {
-                Name = "Austria",
-                Description = "Austria is a country",
-                StartLocation = "Vienna",
-                EndLocation = "Salzburg",
-                TransportType = TransportType.Car,
-                RouteInformationImage = @"..\Assets\Images\Tour.png"
-            }
-        ];
+        public ObservableCollection<Tour> TourList { get; } = new();
+
+        private IBusinessLogic _businessLogic = BusinessLogic.Instance;
 
         private string _searchedTour = "";
         private Tour? _selectedTour;
@@ -52,24 +21,13 @@ namespace Tour_Planner.ViewModels {
                 if (_selectedTour != value) {
                     _selectedTour = value;
                     RaisePropertyChanged(nameof(SelectedTour));
-                    EditTourEvent?.Invoke(this, _selectedTour);
-                    SelectedTourEvent?.Invoke(this, _selectedTour);
+                    SelectedTourEvent?.Invoke(this, SelectedTour);
                 }
             }
         }
 
-        private ListCollectionView? _tourListCollectionView;
+        public ListCollectionView TourListCollectionView { get; private set; }
 
-        public ListCollectionView TourListCollectionView {
-            get {
-                _tourListCollectionView ??= new(TourList);
-                _tourListCollectionView.Refresh();
-                _tourListCollectionView.MoveCurrentTo(null);
-                return _tourListCollectionView;
-            }
-        }
-
-        public event EventHandler<Tour?>? EditTourEvent;
         public event EventHandler<Tour?>? SelectedTourEvent;
 
         public RelayCommand AddTourCommand { get; }
@@ -77,6 +35,8 @@ namespace Tour_Planner.ViewModels {
         public RelayCommand EditTourCommand { get; }
 
         public TourListVM() {
+            TourList = new(_businessLogic.GetTours());
+            TourListCollectionView = new(TourList);
             AddTourCommand = new RelayCommand((_) => OpenAddTour());
             DeleteTourCommand = new RelayCommand(DeleteTour);
             EditTourCommand = new RelayCommand(OpenEditTour);
@@ -84,14 +44,13 @@ namespace Tour_Planner.ViewModels {
 
         public void SearchedTour(string searchedTour) {
             _searchedTour = searchedTour;
-            _tourListCollectionView ??= new ListCollectionView(TourList);
-            _tourListCollectionView.Filter = FilterTour;
+            TourListCollectionView ??= new ListCollectionView(TourList);
+            TourListCollectionView.Filter = FilterTour;
         }
 
         private bool FilterTour(object item) {
             if (string.IsNullOrEmpty(_searchedTour))
                 return true;
-
             var tour = (Tour)item;
             return tour.Name.Contains(_searchedTour, StringComparison.OrdinalIgnoreCase);
         }
@@ -99,23 +58,36 @@ namespace Tour_Planner.ViewModels {
         private void OpenEditTour(object? a) {
             if (a is Tour tour) {
                 EditTourWindow editTourWindow = new();
-                EditTourWindowVM editTourWindowVM = new(ref tour, editTourWindow);
+                EditTourWindowVM editTourWindowVM = new(tour, editTourWindow);
+                editTourWindowVM.EditTourEvent += (s, e) => UpdateTour(e);
                 editTourWindow.DataContext = editTourWindowVM;
-                //editTourWindowVM.EditTourEvent += (s, e) => EditTour(e);
                 editTourWindow.Show();
             }
         }
 
-        private void EditTour(Tour tour) {
+        public void UpdateTourLog(Tour tour) {
+            _businessLogic.UpdateTour(tour);       //check first if update is successful then update in list
             int index = TourList.IndexOf(tour);
-            TourList[index] = tour;
+            TourList[index] = new(tour);
             SelectedTour = tour;
+            SelectedTour.TourLogsList = new(tour.TourLogsList);
+            TourListCollectionView.Refresh();
+        }
+
+        private void UpdateTour(Tour tour) {
+            _businessLogic.UpdateTour(tour);       //check first if update is successful then update in list
+            int index = TourList.IndexOf(tour);
+            TourList[index] = new(tour);
+            SelectedTour = tour;
+            TourListCollectionView.Refresh();
         }
 
         private void DeleteTour(object? a) {
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this tour?", "Delete Tour", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
             if (a is Tour tour && result == MessageBoxResult.Yes) {
+                _businessLogic.DeleteTour(tour);        //check first if delete is successful then remove from list
                 TourList.Remove(tour);
+                TourListCollectionView.Refresh();
             }
         }
 
@@ -128,8 +100,10 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void AddTour(Tour tour) {
+            _businessLogic.AddTour(tour);      //check first if add is successful then add in list
             TourList.Add(tour);
             SelectedTour = tour;
+            TourListCollectionView.Refresh();
         }
     }
 }

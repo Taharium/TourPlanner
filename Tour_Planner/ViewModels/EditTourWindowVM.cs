@@ -1,12 +1,16 @@
-﻿using System.Windows;
-using Tour_Planner.Models;
+﻿using Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using Tour_Planner.Enums;
 
 namespace Tour_Planner.ViewModels {
     public class EditTourWindowVM : ViewModelBase {
 
         private readonly Window _window;
         private string _errorMessage;
-        private Tour _tourTemp;
+        private Tour _tempTour;
         private Tour _tour;
 
         public string ErrorMessage {
@@ -20,49 +24,54 @@ namespace Tour_Planner.ViewModels {
         }
 
         public Tour Tour {
-            get => _tourTemp;
+            get => _tempTour;
             set {
-                if (_tourTemp != value) {
-                    _tourTemp = value;
+                if (_tempTour != value) {
+                    _tempTour = value;
                     RaisePropertyChanged(nameof(Tour));
                 }
             }
         }
 
-        //public event EventHandler<Tour>? EditTourEvent;
+        public IEnumerable<TransportType> TransportTypes {
+            get {
+                return Enum.GetValues(typeof(TransportType)).Cast<TransportType>();
+            }
+        }
+
+        public event EventHandler<Tour>? EditTourEvent;
 
         public RelayCommand FinishEditCommand { get; }
 
-        public EditTourWindowVM(ref Tour tour, Window window) {
+        public EditTourWindowVM(Tour tour, Window window) {
             _tour = tour;
-            _tourTemp = new Tour(tour);
+            _tempTour = new Tour(tour);
             _errorMessage = "";
             _window = window;
             FinishEditCommand = new RelayCommand((_) => FinishEditFunction());
         }
 
         private bool IsTourValid() {
-            return !string.IsNullOrWhiteSpace(_tourTemp.Name) && !string.IsNullOrWhiteSpace(_tourTemp.Description) &&
-                   !string.IsNullOrWhiteSpace(_tourTemp.StartLocation) && !string.IsNullOrWhiteSpace(_tourTemp.EndLocation);
+            return !string.IsNullOrWhiteSpace(_tempTour.Name) && !string.IsNullOrWhiteSpace(_tempTour.Description) &&
+                   !string.IsNullOrWhiteSpace(_tempTour.StartLocation) && !string.IsNullOrWhiteSpace(_tempTour.EndLocation);
         }
-
 
         private void UpdateTour() {
-            _tour.Name = _tourTemp.Name;
-            _tour.Description = _tourTemp.Description;
-            _tour.StartLocation = _tourTemp.StartLocation;
-            _tour.EndLocation = _tourTemp.EndLocation;
-            _tour.TransportType = _tourTemp.TransportType;
+            _tour.Name = _tempTour.Name;
+            _tour.Description = _tempTour.Description;
+            _tour.StartLocation = _tempTour.StartLocation;
+            _tour.EndLocation = _tempTour.EndLocation;
+            _tour.Distance = _tempTour.Distance;
+            _tour.TransportType = _tempTour.TransportType;
         }
-
 
         public void FinishEditFunction() {
 
             if (IsTourValid()) {
                 ErrorMessage = "";
                 UpdateTour();
-                //EditTourEvent?.Invoke(this, _tour);
                 MessageBox.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OK, MessageBoxImage.Information);
+                EditTourEvent?.Invoke(this, _tour);
                 _window.Close();
             }
             else {

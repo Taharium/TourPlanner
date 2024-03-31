@@ -1,5 +1,5 @@
-﻿using Tour_Planner.Enums;
-using Tour_Planner.Models;
+﻿using Models;
+using Tour_Planner.Enums;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Test {
@@ -20,7 +20,7 @@ namespace Tour_Planner.Test {
 
             // Act
             viewModel.TourLogs = tourLog;
-            viewModel.FinishAddTourLogCommand.Execute(null);
+            viewModel.AddTourLogFunction();
 
             // Assert
             Assert.That(viewModel.ErrorMessage, Is.EqualTo("Please enter a valid number for Distance"));

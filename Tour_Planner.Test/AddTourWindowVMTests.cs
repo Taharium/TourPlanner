@@ -1,4 +1,4 @@
-﻿using Tour_Planner.Models;
+﻿using Models;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Test {

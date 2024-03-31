@@ -1,5 +1,5 @@
-﻿using Tour_Planner.Enums;
-using Tour_Planner.Models;
+﻿using Models;
+using Tour_Planner.Enums;
 
 namespace Tour_Planner.ViewModels {
 
@@ -7,17 +7,15 @@ namespace Tour_Planner.ViewModels {
         private int _selectedTab;
         private Tour? _tour;
 
-        public Tour? Tour {
+        public Tour? SelectedTour {
             get => _tour;
             set {
                 if (_tour != value) {
                     _tour = value;
-                    RaisePropertyChanged(nameof(Tour));
+                    RaisePropertyChanged(nameof(SelectedTour));
                 }
             }
         }
-
-
 
         public int SelectedTab {
             get => _selectedTab;
@@ -37,7 +35,7 @@ namespace Tour_Planner.ViewModels {
         public void SetTour(Tour? tour) {
             if (tour != null) {
                 SelectedTab = (int)TabControlEnum.General;
-                Tour = tour;
+                SelectedTour = tour;
             }
         }
     }

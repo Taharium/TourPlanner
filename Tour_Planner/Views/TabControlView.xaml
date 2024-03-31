@@ -30,31 +30,31 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="Name:" Style="{StaticResource TextSize}"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Tour.Name}" Style="{StaticResource TextBlockFontInWindow}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedTour.Name, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}" />
                     <Label Grid.Row="1" Grid.Column="0" Content="Description:" Style="{StaticResource TextSize}" />
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Tour.Description}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedTour.Description, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
                     <Label Grid.Row="2" Grid.Column="0" Content="Start Location:" Style="{StaticResource TextSize}"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Tour.StartLocation}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedTour.StartLocation, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
                     <Label Grid.Row="3" Grid.Column="0" Content="End Location:" Style="{StaticResource TextSize}"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Tour.EndLocation}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding SelectedTour.EndLocation, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
                     <Label Grid.Row="0" Grid.Column="2" Content="Transport Type:" Style="{StaticResource TextSize}" />
-                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Tour.TransportType}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding SelectedTour.TransportType, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
                     <Label Grid.Row="1" Grid.Column="2" Content="Distance:" Style="{StaticResource TextSize}"/>
-                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Tour.Distance}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding SelectedTour.Distance, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
                     <Label Grid.Row="2" Grid.Column="2" Content="Estimated Time:" Style="{StaticResource TextSize}"/>
-                    <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Tour.EstimatedTime}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding SelectedTour.EstimatedTime, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Route">
                 <Image x:Name="RouteImage">
                     <Image.Style>
                         <Style TargetType="Image">
-                            <Setter Property="Source" Value="{Binding Tour.RouteInformationImage}" />
+                            <Setter Property="Source" Value="{Binding SelectedTour.RouteInformationImage}" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Tour.RouteInformationImage}" Value="">
+                                <DataTrigger Binding="{Binding SelectedTour.RouteInformationImage}" Value="">
                                     <Setter Property="Source" Value="../Assets/Images/default_Tour.png" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Tour.RouteInformationImage}" Value="{x:Null}">
+                                <DataTrigger Binding="{Binding SelectedTour.RouteInformationImage}" Value="{x:Null}">
                                     <Setter Property="Source" Value="../Assets/Images/default_Tour.png" />
                                 </DataTrigger>
                             </Style.Triggers>

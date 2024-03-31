@@ -1,4 +1,4 @@
-﻿using Tour_Planner.Models;
+﻿using Models;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Test {
@@ -8,7 +8,7 @@ namespace Tour_Planner.Test {
         public void FinishEditFunction_InvalidTour_Error() {
             // Arrange
             Tour tour = new Tour();
-            EditTourWindowVM viewModel = new EditTourWindowVM(ref tour, null);
+            EditTourWindowVM viewModel = new EditTourWindowVM(tour, null);
 
             // Act
             viewModel.FinishEditFunction();

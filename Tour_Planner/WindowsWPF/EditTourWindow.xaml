@@ -42,7 +42,7 @@
             </DockPanel>
             <DockPanel Grid.Row="4">
                 <Label DockPanel.Dock="Top" Content="Transport Type:" Style="{StaticResource TextSize}"/>
-                <TextBox x:Name="TransportType" Text="{Binding Tour.TransportType}" Style="{StaticResource TextBoxFontInWindow}" />
+                <ComboBox Margin="5 0" Padding="7" x:Name="TransportType" ItemsSource="{Binding TransportTypes}" SelectedItem="{Binding Tour.TransportType, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
             <DockPanel Grid.Row="5">
                 <Button DockPanel.Dock="Top" Command="{Binding FinishEditCommand}" Style="{StaticResource TextBoxFontInWindow}" Content="Edit Tour" Margin="5 5 5 0"/>

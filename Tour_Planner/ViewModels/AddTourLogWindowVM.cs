@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Tour_Planner.Enums;
-using Tour_Planner.Models;
 
 namespace Tour_Planner.ViewModels {
     public class AddTourLogWindowVM : ViewModelBase {
@@ -12,6 +12,7 @@ namespace Tour_Planner.ViewModels {
         private TourLogs _tourLog;
         private Rating _selectedRating;
         private Difficulty _selectedDifficulty;
+        private bool _validDate;
 
         public TourLogs TourLogs {
             get => _tourLog;
@@ -69,6 +70,24 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
+        public string DateTimeProp {
+            get => _tourLog.DateTime.ToString();
+            set {
+                if (_tourLog.DateTime.ToString() != value) {
+                    if (DateTime.TryParse(value, out DateTime parsedDate)) {
+                        ErrorMessage = "";
+                        _tourLog.DateTime = parsedDate;
+                        _validDate = true;
+                    }
+                    else {
+                        _validDate = false;
+                        ErrorMessage = "Please enter a valid Date and Time";
+                    }
+                    RaisePropertyChanged(nameof(DateTimeProp));
+                }
+            }
+        }
+
         public AddTourLogWindowVM(Window window) {
             _errorMessage = "";
             _window = window;
@@ -76,7 +95,7 @@ namespace Tour_Planner.ViewModels {
             FinishAddTourLogCommand = new RelayCommand((_) => AddTourLogFunction());
         }
 
-        private void AddTourLogFunction() {
+        public void AddTourLogFunction() {
             if (!IsTourLogValid()) {
                 return;
             }
@@ -89,8 +108,8 @@ namespace Tour_Planner.ViewModels {
 
         private bool IsTourLogValid() {
 
-            if (_tourLog.DateTime > DateTime.Now || !_tourLog.DateTime.HasValue) {
-                ErrorMessage = "Please enter a valid Date";
+            if (!_validDate && _tourLog.DateTime > DateTime.Now) {
+                ErrorMessage = "Please enter a valid Date and Time";
                 return false;
             }
 

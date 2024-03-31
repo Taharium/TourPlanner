@@ -39,16 +39,22 @@
         </Grid>
         <Grid DockPanel.Dock="Top">
             <Border BorderBrush="DarkGray" BorderThickness="0 1 1 1" />
-            <ListView HorizontalContentAlignment="Stretch" x:Name="TourLogsListView" SelectionMode="Single" ItemsSource="{Binding SelectedTour.TourLogsList}"
+            <ListView HorizontalContentAlignment="Stretch" x:Name="TourLogsListView" SelectionMode="Single" ItemsSource="{Binding SelectedTour.TourLogsList, Mode=TwoWay}"
                       SelectedItem="{Binding SelectedTourLog, Mode=TwoWay}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateTime}"/>
-                        <GridViewColumn Header="Comment" DisplayMemberBinding="{Binding Comment}"/>
-                        <GridViewColumn Header="Difficulty" DisplayMemberBinding="{Binding Difficulty}"/>
-                        <GridViewColumn Header="Total Distance" DisplayMemberBinding="{Binding Distance}"/>
-                        <GridViewColumn Header="Total Time" DisplayMemberBinding="{Binding TotalTime}"/>
-                        <GridViewColumn Header="Rating" DisplayMemberBinding="{Binding Rating}"/>
+                        <GridViewColumn Header="Date">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Comment" DisplayMemberBinding="{Binding Comment, Mode=TwoWay}"/>
+                        <GridViewColumn Header="Difficulty" DisplayMemberBinding="{Binding Difficulty, Mode=TwoWay}"/>
+                        <GridViewColumn Header="Total Distance" DisplayMemberBinding="{Binding Distance, Mode=TwoWay}"/>
+                        <GridViewColumn Header="Total Time" DisplayMemberBinding="{Binding TotalTime, Mode=TwoWay}"/>
+                        <GridViewColumn Header="Rating" DisplayMemberBinding="{Binding Rating, Mode=TwoWay}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

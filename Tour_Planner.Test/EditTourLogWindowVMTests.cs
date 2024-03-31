@@ -1,5 +1,5 @@
-﻿using Tour_Planner.Enums;
-using Tour_Planner.Models;
+﻿using Models;
+using Tour_Planner.Enums;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Test {
@@ -23,7 +23,7 @@ namespace Tour_Planner.Test {
                 Difficulty = difficulty
             };
 
-            var viewModel = new EditTourLogWindowVM(ref tourLog, null);
+            var viewModel = new EditTourLogWindowVM(tourLog, null);
 
             // Act
             var result = viewModel.IsTourLogValid();
