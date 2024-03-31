@@ -19,7 +19,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_tourLog != value) {
                     _tourLog = value;
-                    RaisePropertyChanged(nameof(TourLogs));
+                    OnPropertyChanged(nameof(TourLogs));
                 }
             }
         }
@@ -33,7 +33,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_errorMessage != value) {
                     _errorMessage = value;
-                    RaisePropertyChanged(nameof(ErrorMessage));
+                    OnPropertyChanged(nameof(ErrorMessage));
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_selectedRating != value) {
                     _selectedRating = value;
-                    RaisePropertyChanged(nameof(SelectedRating));
+                    OnPropertyChanged(nameof(SelectedRating));
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_selectedDifficulty != value) {
                     _selectedDifficulty = value;
-                    RaisePropertyChanged(nameof(SelectedDifficulty));
+                    OnPropertyChanged(nameof(SelectedDifficulty));
                 }
             }
         }
@@ -83,7 +83,7 @@ namespace Tour_Planner.ViewModels {
                         _validDate = false;
                         ErrorMessage = "Please enter a valid Date and Time";
                     }
-                    RaisePropertyChanged(nameof(DateTimeProp));
+                    OnPropertyChanged(nameof(DateTimeProp));
                 }
             }
         }

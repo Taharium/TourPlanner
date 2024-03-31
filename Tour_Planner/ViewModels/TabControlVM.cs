@@ -12,7 +12,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_tour != value) {
                     _tour = value;
-                    RaisePropertyChanged(nameof(SelectedTour));
+                    OnPropertyChanged(nameof(SelectedTour));
                 }
             }
         }
@@ -22,7 +22,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_selectedTab != value) {
                     _selectedTab = value;
-                    RaisePropertyChanged(nameof(SelectedTab));
+                    OnPropertyChanged(nameof(SelectedTab));
                 }
             }
         }

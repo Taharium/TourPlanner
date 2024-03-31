@@ -20,7 +20,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_selectedTour != value) {
                     _selectedTour = value;
-                    RaisePropertyChanged(nameof(SelectedTour));
+                    OnPropertyChanged(nameof(SelectedTour));
                     SelectedTourEvent?.Invoke(this, SelectedTour);
                 }
             }
@@ -59,22 +59,13 @@ namespace Tour_Planner.ViewModels {
             if (a is Tour tour) {
                 EditTourWindow editTourWindow = new();
                 EditTourWindowVM editTourWindowVM = new(tour, editTourWindow);
-                editTourWindowVM.EditTourEvent += (s, e) => UpdateTour(e);
+                editTourWindowVM.EditTourEvent += (s, e) => EditTour(e);
                 editTourWindow.DataContext = editTourWindowVM;
                 editTourWindow.Show();
             }
         }
 
-        public void UpdateTourLog(Tour tour) {
-            _businessLogic.UpdateTour(tour);       //check first if update is successful then update in list
-            int index = TourList.IndexOf(tour);
-            TourList[index] = new(tour);
-            SelectedTour = tour;
-            SelectedTour.TourLogsList = new(tour.TourLogsList);
-            TourListCollectionView.Refresh();
-        }
-
-        private void UpdateTour(Tour tour) {
+        private void EditTour(Tour tour) {
             _businessLogic.UpdateTour(tour);       //check first if update is successful then update in list
             int index = TourList.IndexOf(tour);
             TourList[index] = new(tour);

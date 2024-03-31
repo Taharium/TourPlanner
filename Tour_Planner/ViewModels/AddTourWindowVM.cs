@@ -16,7 +16,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_errorMessage != value) {
                     _errorMessage = value;
-                    RaisePropertyChanged(nameof(ErrorMessage));
+                    OnPropertyChanged(nameof(ErrorMessage));
                 }
             }
         }
@@ -27,7 +27,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_tour != value) {
                     _tour = value;
-                    RaisePropertyChanged(nameof(Tour));
+                    OnPropertyChanged(nameof(Tour));
                 }
             }
         }
@@ -37,7 +37,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_selectedTransportType != value) {
                     _selectedTransportType = value;
-                    RaisePropertyChanged(nameof(SelectedRating));
+                    OnPropertyChanged(nameof(SelectedRating));
                 }
             }
         }

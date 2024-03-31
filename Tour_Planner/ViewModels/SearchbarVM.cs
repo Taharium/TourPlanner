@@ -9,7 +9,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_searchText != value) {
                     _searchText = value;
-                    RaisePropertyChanged(nameof(SearchText));
+                    OnPropertyChanged(nameof(SearchText));
                     if (_searchText != "Search...")
                         SearchTextChanged?.Invoke(this, SearchText);
                 }

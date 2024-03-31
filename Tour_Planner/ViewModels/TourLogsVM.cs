@@ -18,7 +18,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_selectedtourlog != value) {
                     _selectedtourlog = value;
-                    RaisePropertyChanged(nameof(SelectedTourLog));
+                    OnPropertyChanged(nameof(SelectedTourLog));
                     //TourLogsCollectionView.Refresh();
                 }
             }
@@ -35,7 +35,7 @@ namespace Tour_Planner.ViewModels {
                         TourLogsCollectionView.Refresh();
                     }
                     AddTourLogCommand.RaiseCanExecuteChanged();
-                    RaisePropertyChanged(nameof(SelectedTour));
+                    OnPropertyChanged(nameof(SelectedTour));
                     //TourLogsCollectionView.Refresh();
                 }
             }
@@ -93,10 +93,9 @@ namespace Tour_Planner.ViewModels {
             if (SelectedTour != null) {
                 _businessLogic.UpdateTourLog(SelectedTour, tourLogs);
                 int index = TourLogsObList.IndexOf(tourLogs);
-                TourLogsObList[index] = new(tourLogs);
+                TourLogsObList[index] = tourLogs;
                 SelectedTourLog = tourLogs;
                 TourLogsCollectionView.Refresh();
-                Update?.Invoke(this, SelectedTour);
             }
         }
 
