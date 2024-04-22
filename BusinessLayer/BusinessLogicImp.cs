@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using System.Runtime.InteropServices;
+using DataAccessLayer;
+using Models;
 using Tour_Planner.Enums;
 
 
@@ -40,6 +42,8 @@ namespace BusinessLayer {
         ];
 
         public IEnumerable<Tour> GetTours() {
+            var context = new TourPlannerDbContext();
+            context.EnsureDb(); 
             return TourList;
         }
 
