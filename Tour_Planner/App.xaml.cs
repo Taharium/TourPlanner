@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Tour_Planner.Services;
 using Tour_Planner.ViewModels;
 using Tour_Planner.WindowsWPF;
 
@@ -8,6 +9,7 @@ namespace Tour_Planner {
     /// </summary>
     public partial class App : Application {
         private void App_OnStartup(object sender, StartupEventArgs e) {
+            var ioCContainerConfig = (IoCContainerConfig?)Application.Current.Resources["IoCConfig2"];
             TourListVM tourListVM = new TourListVM();
             SearchbarVM searchbarVM = new SearchbarVM();
             TabControlVM tabControlVM = new TabControlVM();
@@ -16,6 +18,7 @@ namespace Tour_Planner {
 
             MainWindow mainWindow = new() {
                 DataContext = mainWindowVM,
+                //DataContext = ioCContainerConfig.MainWindowVM,
                 TourList = { DataContext = tourListVM },
                 Searchbar = { DataContext = searchbarVM },
                 TabControl = { DataContext = tabControlVM },
