@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Models;
 
 namespace DataAccessLayer;
 
@@ -10,7 +11,10 @@ public class TourPlannerDbContext : DbContext
         .AddJsonFile("appsettings.json")
         .Build();
     
-    public void EnsureDb()
+    public DbSet<Tour> Tours { get; set; }
+    public DbSet<TourLogs> TourLogs { get; set; }
+    
+    /*public void EnsureDb()
     {
         try
         {
@@ -21,7 +25,7 @@ public class TourPlannerDbContext : DbContext
         {
             Console.WriteLine("Error: " + e.Message);
         }
-    }
+    }*/
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

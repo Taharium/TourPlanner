@@ -41,9 +41,8 @@ namespace BusinessLayer {
             }
         ];
 
-        public IEnumerable<Tour> GetTours() {
-            var context = new TourPlannerDbContext();
-            context.EnsureDb(); 
+        public IEnumerable<Tour> GetTours()
+        {
             return TourList;
         }
 

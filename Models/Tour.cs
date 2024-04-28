@@ -3,8 +3,8 @@ using Tour_Planner.Enums;
 
 namespace Models {
     public class Tour {
-        public ObservableCollection<TourLogs> TourLogsList { get; set; } = new();
         public Guid Id { get; set; } = Guid.NewGuid();
+        public ObservableCollection<TourLogs> TourLogsList { get; set; } = new();
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
         public string StartLocation { get; set; } = "";
