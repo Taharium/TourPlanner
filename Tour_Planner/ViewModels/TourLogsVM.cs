@@ -10,7 +10,18 @@ namespace Tour_Planner.ViewModels {
     public class TourLogsVM : ViewModelBase {
 
         private ObservableCollection<TourLogs> TourLogsObList = new();
-        private IBusinessLogic _businessLogic = BusinessLogic.Instance;
+        private IBusinessLogic _businessLogic;
+        
+        public TourLogsVM(IBusinessLogic businessLogic) {
+            _businessLogic = businessLogic;
+            TourLogsCollectionView ??= new(TourLogsObList);
+            TourLogsCollectionView.Refresh();
+            TourLogsCollectionView.MoveCurrentTo(null);
+
+            AddTourLogCommand = new RelayCommand(OpenAddTourLog, CanExcuteAddTourLog);
+            DeleteTourLogCommand = new RelayCommand(DeleteTourLog, CanExcuteDeleteEditTourLog);
+            EditTourLogCommand = new RelayCommand(EditTourLog, CanExcuteDeleteEditTourLog);
+        }
 
         private TourLogs? _selectedtourlog;
         public TourLogs? SelectedTourLog {
@@ -52,15 +63,7 @@ namespace Tour_Planner.ViewModels {
         public EventHandler<TourLogs>? EditTourLogEvent;
         public EventHandler<Tour>? Update;
 
-        public TourLogsVM() {
-            TourLogsCollectionView ??= new(TourLogsObList);
-            TourLogsCollectionView.Refresh();
-            TourLogsCollectionView.MoveCurrentTo(null);
-
-            AddTourLogCommand = new RelayCommand(OpenAddTourLog, CanExcuteAddTourLog);
-            DeleteTourLogCommand = new RelayCommand(DeleteTourLog, CanExcuteDeleteEditTourLog);
-            EditTourLogCommand = new RelayCommand(EditTourLog, CanExcuteDeleteEditTourLog);
-        }
+        
 
         public void OpenAddTourLog(object? a) {
             AddTourLogWindow addTourLogWindow = new();

@@ -10,7 +10,16 @@ namespace Tour_Planner.ViewModels {
     public class TourListVM : ViewModelBase {
         public ObservableCollection<Tour> TourList { get; } = new();
 
-        private IBusinessLogic _businessLogic = BusinessLogic.Instance;
+        private IBusinessLogic _businessLogic;
+
+        public TourListVM(IBusinessLogic businessLogic) {
+            _businessLogic = businessLogic;
+            TourList = new(_businessLogic.GetTours());
+            TourListCollectionView = new(TourList);
+            AddTourCommand = new RelayCommand((_) => OpenAddTour());
+            DeleteTourCommand = new RelayCommand(DeleteTour);
+            EditTourCommand = new RelayCommand(OpenEditTour);
+        }
 
         private string _searchedTour = "";
         private Tour? _selectedTour;
@@ -34,13 +43,7 @@ namespace Tour_Planner.ViewModels {
         public RelayCommand DeleteTourCommand { get; }
         public RelayCommand EditTourCommand { get; }
 
-        public TourListVM() {
-            TourList = new(_businessLogic.GetTours());
-            TourListCollectionView = new(TourList);
-            AddTourCommand = new RelayCommand((_) => OpenAddTour());
-            DeleteTourCommand = new RelayCommand(DeleteTour);
-            EditTourCommand = new RelayCommand(OpenEditTour);
-        }
+        
 
         public void SearchedTour(string searchedTour) {
             _searchedTour = searchedTour;
