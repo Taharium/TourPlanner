@@ -17,7 +17,8 @@ public class IoCContainerConfig {
         services.AddSingleton<SearchbarVM>();
         services.AddSingleton<TabControlVM>();
         services.AddSingleton<TourLogsVM>();
-        services.AddSingleton<IBusinessLogic, BusinessLogicImp>();
+        services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
+        services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
         services.AddSingleton<IPdfReportGeneration, PdfReportGeneration>();
         _serviceProvider = services.BuildServiceProvider();
     }
@@ -27,12 +28,6 @@ public class IoCContainerConfig {
     public SearchbarVM SearchbarVm => _serviceProvider.GetRequiredService<SearchbarVM>();
     public TabControlVM TabControlVm => _serviceProvider.GetRequiredService<TabControlVM>();
     public TourLogsVM TourLogsVm => _serviceProvider.GetRequiredService<TourLogsVM>();
-    public IBusinessLogic BusinessLogic => _serviceProvider.GetRequiredService<IBusinessLogic>();
     
-    /*TourListVM tourListVM = new TourListVM();
-    SearchbarVM searchbarVM = new SearchbarVM();
-    TabControlVM tabControlVM = new TabControlVM();
-    TourLogsVM tourLogsVM = new TourLogsVM();
-    MainWindowVM mainWindowVM = new MainWindowVM(tourListVM, searchbarVM, tabControlVM, tourLogsVM);*/
     
 }

@@ -10,10 +10,10 @@ namespace Tour_Planner.ViewModels {
     public class TourLogsVM : ViewModelBase {
 
         private ObservableCollection<TourLogs> TourLogsObList = new();
-        private IBusinessLogic _businessLogic;
+        private IBusinessLogicTourLogs _businessLogicTourLogs;
         
-        public TourLogsVM(IBusinessLogic businessLogic) {
-            _businessLogic = businessLogic;
+        public TourLogsVM(IBusinessLogicTourLogs businessLogicTourLogs) {
+            _businessLogicTourLogs = businessLogicTourLogs;
             TourLogsCollectionView ??= new(TourLogsObList);
             TourLogsCollectionView.Refresh();
             TourLogsCollectionView.MoveCurrentTo(null);
@@ -75,7 +75,7 @@ namespace Tour_Planner.ViewModels {
 
         private void AddTourLog(TourLogs tourLogs) {
             if (SelectedTour != null) {
-                _businessLogic.AddTourLog(SelectedTour, tourLogs);
+                _businessLogicTourLogs.AddTourLog(SelectedTour, tourLogs);
                 TourLogsObList.Add(tourLogs);
                 SelectedTourLog = tourLogs;
                 TourLogsCollectionView.Refresh();
@@ -94,7 +94,7 @@ namespace Tour_Planner.ViewModels {
 
         private void EditTourLogFunction(TourLogs tourLogs) {
             if (SelectedTour != null) {
-                _businessLogic.UpdateTourLog(SelectedTour, tourLogs);
+                _businessLogicTourLogs.UpdateTourLog(SelectedTour, tourLogs);
                 int index = TourLogsObList.IndexOf(tourLogs);
                 TourLogsObList[index] = tourLogs;
                 SelectedTourLog = tourLogs;
@@ -113,7 +113,7 @@ namespace Tour_Planner.ViewModels {
         public void DeleteTourLog(object? a) {
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this tour log?", "Delete Tour Log", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
             if (a is TourLogs tourlog && result == MessageBoxResult.Yes && SelectedTour != null) {
-                _businessLogic.DeleteTourLog(SelectedTour, tourlog);
+                _businessLogicTourLogs.DeleteTourLog(SelectedTour, tourlog);
                 TourLogsObList.Remove(tourlog);
                 TourLogsCollectionView.Refresh();
             }

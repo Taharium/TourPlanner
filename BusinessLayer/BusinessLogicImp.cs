@@ -3,7 +3,7 @@ using Tour_Planner.Enums;
 
 
 namespace BusinessLayer {
-    public class BusinessLogicImp : IBusinessLogic {
+    public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
         public List<Tour> TourList { get; set; } = [
             new Tour() {
                 Name = "Yess",
