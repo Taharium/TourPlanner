@@ -10,7 +10,16 @@ namespace Tour_Planner.ViewModels {
     public class TourListVM : ViewModelBase {
         public ObservableCollection<Tour> TourList { get; } = new();
 
-        private IBusinessLogic _businessLogic = BusinessLogic.Instance;
+        private IBusinessLogicTours _businessLogicTours;
+
+        public TourListVM(IBusinessLogicTours businessLogicTours) {
+            _businessLogicTours = businessLogicTours;
+            TourList = new(_businessLogicTours.GetTours());
+            TourListCollectionView = new(TourList);
+            AddTourCommand = new RelayCommand((_) => OpenAddTour());
+            DeleteTourCommand = new RelayCommand(DeleteTour);
+            EditTourCommand = new RelayCommand(OpenEditTour);
+        }
 
         private string _searchedTour = "";
         private Tour? _selectedTour;
@@ -34,13 +43,7 @@ namespace Tour_Planner.ViewModels {
         public RelayCommand DeleteTourCommand { get; }
         public RelayCommand EditTourCommand { get; }
 
-        public TourListVM() {
-            TourList = new(_businessLogic.GetTours());
-            TourListCollectionView = new(TourList);
-            AddTourCommand = new RelayCommand((_) => OpenAddTour());
-            DeleteTourCommand = new RelayCommand(DeleteTour);
-            EditTourCommand = new RelayCommand(OpenEditTour);
-        }
+        
 
         public void SearchedTour(string searchedTour) {
             _searchedTour = searchedTour;
@@ -66,7 +69,7 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void EditTour(Tour tour) {
-            _businessLogic.UpdateTour(tour);       //check first if update is successful then update in list
+            _businessLogicTours.UpdateTour(tour);       //check first if update is successful then update in list
             int index = TourList.IndexOf(tour);
             TourList[index] = new(tour);
             SelectedTour = tour;
@@ -76,7 +79,7 @@ namespace Tour_Planner.ViewModels {
         private void DeleteTour(object? a) {
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this tour?", "Delete Tour", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
             if (a is Tour tour && result == MessageBoxResult.Yes) {
-                _businessLogic.DeleteTour(tour);        //check first if delete is successful then remove from list
+                _businessLogicTours.DeleteTour(tour);        //check first if delete is successful then remove from list
                 TourList.Remove(tour);
                 TourListCollectionView.Refresh();
             }
@@ -91,7 +94,7 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void AddTour(Tour tour) {
-            _businessLogic.AddTour(tour);      //check first if add is successful then add in list
+            _businessLogicTours.AddTour(tour);      //check first if add is successful then add in list
             TourList.Add(tour);
             SelectedTour = tour;
             TourListCollectionView.Refresh();

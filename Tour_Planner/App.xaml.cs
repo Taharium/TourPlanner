@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using Tour_Planner.Services;
 using Tour_Planner.ViewModels;
 using Tour_Planner.WindowsWPF;
 
@@ -8,18 +10,14 @@ namespace Tour_Planner {
     /// </summary>
     public partial class App : Application {
         private void App_OnStartup(object sender, StartupEventArgs e) {
-            TourListVM tourListVM = new TourListVM();
-            SearchbarVM searchbarVM = new SearchbarVM();
-            TabControlVM tabControlVM = new TabControlVM();
-            TourLogsVM tourLogsVM = new TourLogsVM();
-            MainWindowVM mainWindowVM = new MainWindowVM(tourListVM, searchbarVM, tabControlVM, tourLogsVM);
-
+            IoCContainerConfig ioCContainerConfig = (IoCContainerConfig?)Current.Resources["IoCConfig2"] ?? throw new NullReferenceException();
+            
             MainWindow mainWindow = new() {
-                DataContext = mainWindowVM,
-                TourList = { DataContext = tourListVM },
-                Searchbar = { DataContext = searchbarVM },
-                TabControl = { DataContext = tabControlVM },
-                TourLogs = { DataContext = tourLogsVM }
+                DataContext = ioCContainerConfig.MainWindowVm,
+                TourList = { DataContext = ioCContainerConfig.TourListVm },
+                Searchbar = { DataContext = ioCContainerConfig.SearchbarVm },
+                TabControl = { DataContext = ioCContainerConfig.TabControlVm},
+                TourLogs = { DataContext = ioCContainerConfig.TourLogsVm }
             };
 
             mainWindow.Show();
