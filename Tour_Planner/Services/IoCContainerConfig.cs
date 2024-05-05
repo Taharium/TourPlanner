@@ -2,7 +2,11 @@
 using BusinessLayer;
 using Microsoft.Extensions.DependencyInjection;
 using Tour_Planner.ReportGeneration;
+using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Services.WindowServices;
+using Tour_Planner.Stores.WindowStores;
 using Tour_Planner.ViewModels;
+using Tour_Planner.WindowsWPF;
 
 namespace Tour_Planner.Services;
 
@@ -20,6 +24,13 @@ public class IoCContainerConfig {
         services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
         services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
         services.AddSingleton<IPdfReportGeneration, PdfReportGeneration>();
+        services.AddSingleton<IMessageBoxService, MessageBoxService>();
+        services.AddSingleton<IWindowStore, WindowStore>();
+        services.AddTransient<AddTourWindowVM>();
+        services.AddTransient<AddTourWindow>();
+        services.AddSingleton<Func<AddTourWindowVM>>(s => s.GetRequiredService<AddTourWindowVM>);
+        services.AddSingleton<Func<AddTourWindow>>(s => s.GetRequiredService<AddTourWindow>);
+        services.AddSingleton<IWindowService<AddTourWindowVM, AddTourWindow>, WindowService<AddTourWindowVM, AddTourWindow>>();
         _serviceProvider = services.BuildServiceProvider();
     }
     

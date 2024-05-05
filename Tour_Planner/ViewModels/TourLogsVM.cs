@@ -2,6 +2,7 @@
 using Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Data;
 using Tour_Planner.WindowsWPF;
@@ -41,6 +42,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_selectedTour != value) {
                     _selectedTour = value;
+                    Debug.WriteLine($"TourLogsVM: {SelectedTour?.Name} {SelectedTour?.Id}");
                     if (_selectedTour != null) {
                         TourLogsObList = new(_selectedTour.TourLogsList);
                         TourLogsCollectionView.Refresh();
@@ -51,8 +53,6 @@ namespace Tour_Planner.ViewModels {
                 }
             }
         }
-
-
 
         public RelayCommand AddTourLogCommand { get; }
         public RelayCommand DeleteTourLogCommand { get; }

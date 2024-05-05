@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using System.Diagnostics;
+using Models;
 using Tour_Planner.Enums;
 
 
@@ -42,13 +43,17 @@ namespace BusinessLayer {
         public IEnumerable<Tour> GetTours() {
             return TourList;
         }
+        
+        
 
         public void AddTour(Tour tour) {
             TourList.Add(tour);
+            AddTourEvent?.Invoke(tour);
         }
 
         public void DeleteTour(Tour tour) {
             TourList.Remove(tour);
+            OnTourDeleteEvent?.Invoke(tour);
         }
 
         public void UpdateTour(Tour tour) {
@@ -58,9 +63,15 @@ namespace BusinessLayer {
             }
         }
 
+        public event Action<Tour>? AddTourEvent;
+        public event Action<Tour>? OnTourDeleteEvent;
 
         public void AddTourLog(Tour tour, TourLogs tourLog) {
             var index = TourList.IndexOf(tour);
+            Debug.WriteLine($"Tour: {tour.Name}, {tour.Id}");
+            foreach (var tourl in TourList) {
+                Debug.WriteLine($"Tourl: {tourl.Name}, {tourl.Id}");
+            }
             if (index != -1) {
                 TourList[index].TourLogsList.Add(tourLog);
             }
