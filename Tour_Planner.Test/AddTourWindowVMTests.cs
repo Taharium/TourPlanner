@@ -1,4 +1,7 @@
-﻿using Models;
+﻿using BusinessLayer;
+using Models;
+using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Stores.WindowStores;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Test {
@@ -6,7 +9,10 @@ namespace Tour_Planner.Test {
         [Test]
         public void AddFunction_InvalidTour_ShowsErrorMessage() {
             // Arrange
-            var viewModel = new AddTourWindowVM(null);
+            IWindowStore windowStore = new WindowStore();
+            IMessageBoxService messageBoxService = new MessageBoxService();
+            IBusinessLogicTours businessLogicTours = new BusinessLogicImp();
+            var viewModel = new AddTourWindowVM(windowStore, messageBoxService, businessLogicTours);
             var expectedTour = new Tour(); // Empty tour, which is invalid
             bool eventRaised = false;
 
