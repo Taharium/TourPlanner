@@ -1,13 +1,13 @@
-﻿using Models;
+﻿using DataAccessLayer.DTOs;
+using Models;
 
 namespace DataAccessLayer.ToursRepository;
 
 public interface IToursRepository
 {
-    IEnumerable<Tour> GetTours();
-    void AddTour(Tour tour);
-    void DeleteTour(Tour tour);
-    void UpdateTour(Tour tour);
-    void Save();
+    IEnumerable<TourDTO> GetTours();
+    void AddTour(TourDTO tour);
+    void DeleteTour(TourDTO tour);
+    void UpdateTour(TourDTO tour);
     
 }

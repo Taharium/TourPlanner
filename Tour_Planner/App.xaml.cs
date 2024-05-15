@@ -16,10 +16,13 @@ namespace Tour_Planner {
                 .AddJsonFile("appsettings.json", false, true)
                 .Build();
 
-            var appConfiguration = new AppConfiguration(configuration);
+            /*var appConfiguration = new AppConfiguration(configuration);*/
             
             IoCContainerConfig ioCContainerConfig = (IoCContainerConfig?)Current.Resources["IoCConfig2"] ?? throw new NullReferenceException();
-            
+            ioCContainerConfig.AddServices();
+            ioCContainerConfig.AddVMs();
+            ioCContainerConfig.AddDbContext(configuration);
+            ioCContainerConfig.Build();
             
             MainWindow mainWindow = new() {
                 DataContext = ioCContainerConfig.MainWindowVm,

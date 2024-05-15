@@ -1,7 +1,12 @@
 ﻿using System;
 using BusinessLayer;
+using DataAccessLayer;
+using DataAccessLayer.ToursRepository;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Tour_Planner.ReportGeneration;
+using Tour_Planner.Services.AddTourServices;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.WindowServices;
 using Tour_Planner.Stores.WindowStores;
@@ -12,26 +17,48 @@ namespace Tour_Planner.Services;
 
 public class IoCContainerConfig {
 
-    private readonly ServiceProvider _serviceProvider;
+    private ServiceProvider _serviceProvider = null!;
+    
+    private readonly ServiceCollection _services = new();
     
     public IoCContainerConfig() {
-        var services = new ServiceCollection();
-        services.AddSingleton<MainWindowVM>();
-        services.AddSingleton<TourListVM>();
-        services.AddSingleton<SearchbarVM>();
-        services.AddSingleton<TabControlVM>();
-        services.AddSingleton<TourLogsVM>();
-        services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
-        services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
-        services.AddSingleton<IPdfReportGeneration, PdfReportGeneration>();
-        services.AddSingleton<IMessageBoxService, MessageBoxService>();
-        services.AddSingleton<IWindowStore, WindowStore>();
-        services.AddTransient<AddTourWindowVM>();
-        services.AddTransient<AddTourWindow>();
-        services.AddSingleton<Func<AddTourWindowVM>>(s => s.GetRequiredService<AddTourWindowVM>);
-        services.AddSingleton<Func<AddTourWindow>>(s => s.GetRequiredService<AddTourWindow>);
-        services.AddSingleton<IWindowService<AddTourWindowVM, AddTourWindow>, WindowService<AddTourWindowVM, AddTourWindow>>();
-        _serviceProvider = services.BuildServiceProvider();
+       
+        _services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
+        _services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
+        _services.AddSingleton<IPdfReportGeneration, PdfReportGeneration>();
+        _services.AddTransient<IToursRepository, ToursRepository>();
+        _services.AddTransient<IUnitofWork, UnitofWork>();
+        _services.AddSingleton<IAddTourService, AddTourService>();
+    }
+
+    public void AddServices()
+    {
+        _services.AddSingleton<IMessageBoxService, MessageBoxService>();
+        _services.AddSingleton<IWindowStore, WindowStore>();
+        _services.AddTransient<AddTourWindowVM>();
+        _services.AddTransient<AddTourWindow>();
+        _services.AddSingleton<Func<AddTourWindowVM>>(s => s.GetRequiredService<AddTourWindowVM>);
+        _services.AddSingleton<Func<AddTourWindow>>(s => s.GetRequiredService<AddTourWindow>);
+        _services.AddSingleton<IWindowService<AddTourWindowVM, AddTourWindow>, WindowService<AddTourWindowVM, AddTourWindow>>();
+    }
+
+    public void AddVMs()
+    {
+        _services.AddSingleton<MainWindowVM>();
+        _services.AddSingleton<TourListVM>();
+        _services.AddSingleton<SearchbarVM>();
+        _services.AddSingleton<TabControlVM>();
+        _services.AddSingleton<TourLogsVM>();
+    }
+    
+    public void AddDbContext(IConfiguration configuration)
+    {
+        _services.AddDbContext<TourPlannerDbContext>();
+    }
+
+    public void Build()
+    {
+        _serviceProvider = _services.BuildServiceProvider();
     }
     
     public MainWindowVM MainWindowVm => _serviceProvider.GetRequiredService<MainWindowVM>();
