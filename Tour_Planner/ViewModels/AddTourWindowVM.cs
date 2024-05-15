@@ -3,13 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using BusinessLayer;
 using Tour_Planner.Enums;
+using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Stores.WindowStores;
 
 namespace Tour_Planner.ViewModels {
     public class AddTourWindowVM : ViewModelBase {
         private Tour _tour;
         private string _errorMessage;
         private TransportType _selectedTransportType;
+        private readonly IWindowStore _windowStore;
+        private readonly IMessageBoxService _messageBoxService;
+        private readonly IBusinessLogicTours _businessLogicTours;
 
         public string ErrorMessage {
             get => _errorMessage;
@@ -20,7 +26,6 @@ namespace Tour_Planner.ViewModels {
                 }
             }
         }
-        private readonly Window _window;
 
         public Tour Tour {
             get => _tour;
@@ -52,9 +57,11 @@ namespace Tour_Planner.ViewModels {
         public RelayCommand FinishAddCommand { get; }
 
 
-        public AddTourWindowVM(Window window) {
+        public AddTourWindowVM(IWindowStore windowStore, IMessageBoxService messageBoxService, IBusinessLogicTours businessLogicTour){
             _errorMessage = "";
-            _window = window;
+            _windowStore = windowStore;
+            _messageBoxService = messageBoxService;
+            _businessLogicTours = businessLogicTour;
             _tour = new Tour();
             FinishAddCommand = new RelayCommand((_) => AddFunction());
         }
@@ -67,9 +74,10 @@ namespace Tour_Planner.ViewModels {
         public void AddFunction() {        //could be used using constructor and ref Tour tour
             if (IsTourValid()) {
                 ErrorMessage = "";
-                AddTourEvent?.Invoke(this, _tour);
-                MessageBox.Show("Tour added successfully!", "AddTour", MessageBoxButton.OK, MessageBoxImage.Information);
-                _window.Close();
+                _businessLogicTours.AddTour(_tour);
+                //AddTourEvent?.Invoke(this, _tour);
+                _messageBoxService.Show("Tour added successfully!", "AddTour", MessageBoxButton.OK, MessageBoxImage.Information);
+                _windowStore.Close();
             }
             else {
                 ErrorMessage = "Please fill in all fields!";
