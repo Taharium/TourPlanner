@@ -24,9 +24,10 @@ public class ToursRepository : IToursRepository
         _dbContext.Tours.Remove(tour);
     }
 
-    public void UpdateTour(Tour tour)
-    {
-        throw new NotImplementedException();
+    public void UpdateTour(Tour tour) {
+        var entry = _dbContext.Tours.Find(tour.Id) ?? throw new ArgumentException("Tour not found with this Id");
+        
+        _dbContext.Entry(entry).CurrentValues.SetValues(tour);
     }
 
     public void Save()

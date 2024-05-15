@@ -7,9 +7,9 @@ namespace DataAccessLayer;
 
 public class TourPlannerDbContext : DbContext
 {
-    private readonly IConfiguration _configuration = new ConfigurationBuilder()
+    /*private readonly IConfiguration _configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
-        .Build();
+        .Build();*/
     
     public DbSet<Tour> Tours { get; set; }
     public DbSet<TourLogs> TourLogs { get; set; }
@@ -27,8 +27,8 @@ public class TourPlannerDbContext : DbContext
         }
     }*/
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Tour_PlannerDB"));
-    }
+    }*/
 }
