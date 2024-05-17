@@ -29,8 +29,8 @@ public class TourPlannerDbContext : DbContext
         }
     }*/
     
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=TourPlanner;Username=postgres;Password=postgres");
-    }
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    // {
+    //     optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=TourPlanner;Username=postgres;Password=postgres");
+    // }
 }

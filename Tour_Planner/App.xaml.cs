@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using DataAccessLayer;
 using Microsoft.Extensions.Configuration;
@@ -20,19 +21,12 @@ namespace Tour_Planner {
         public App() {
             _host = Host.CreateDefaultBuilder()
                 .AddViewModels()
+                .AddBusinessLayer()
                 .AddServices()
+                .AddMainWindow()
                 .ConfigureServices((hostContext, services) => {
                     string connectionString = hostContext.Configuration.GetConnectionString("DataBase")!;
-                    //services.AddDbContext<TourPlannerDbContext>();
-                    services.AddSingleton(s => new MainWindow()
-                    {
-                        DataContext = s.GetRequiredService<MainWindowVM>(),
-                        TourList = { DataContext = s.GetRequiredService<TourListVM>() },
-                        Searchbar = { DataContext = s.GetRequiredService<SearchbarVM>() },
-                        TabControl = { DataContext = s.GetRequiredService<TabControlVM>() },
-                        TourLogs = { DataContext = s.GetRequiredService<TourLogsVM>() }
-                        
-                    });
+                    services.AddDbContext<TourPlannerDbContext>();
                 })
                 .Build();
         }
@@ -40,7 +34,9 @@ namespace Tour_Planner {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", false, true)
                 .Build();
-
+            //Copy if newer in properties for appesettings.json
+            //var s = configuration.GetConnectionString("DataBase");
+            //Debugger.Break();
             _host.Start();
             /*var appConfiguration = new AppConfiguration(configuration);*/
             
@@ -65,7 +61,7 @@ namespace Tour_Planner {
         }
 
         private void App_OnExit(object sender, ExitEventArgs e) {
-            //_host.Dispose();
+            _host.Dispose();
         }
     }
 }
