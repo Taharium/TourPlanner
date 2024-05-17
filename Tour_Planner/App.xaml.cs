@@ -26,7 +26,8 @@ namespace Tour_Planner {
                 .AddMainWindow()
                 .ConfigureServices((hostContext, services) => {
                     string connectionString = hostContext.Configuration.GetConnectionString("DataBase")!;
-                    services.AddDbContext<TourPlannerDbContext>();
+                    //Debugger.Break();
+                    //services.AddDbContext<TourPlannerDbContext>();
                 })
                 .Build();
         }
