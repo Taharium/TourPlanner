@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DataAccessLayer;
+using Microsoft.Extensions.Configuration;
 
 namespace Tour_Planner.Configurations;
 

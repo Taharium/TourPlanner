@@ -19,22 +19,19 @@ namespace Tour_Planner {
 
         private readonly IHost _host;
         public App() {
-            _host = Host.CreateDefaultBuilder()
-                .AddViewModels()
-                .AddBusinessLayer()
-                .AddServices()
-                .AddMainWindow()
-                .ConfigureServices((hostContext, services) => {
-                    string connectionString = hostContext.Configuration.GetConnectionString("DataBase")!;
-                    //Debugger.Break();
-                    //services.AddDbContext<TourPlannerDbContext>();
-                })
-                .Build();
-        }
-        private void App_OnStartup(object sender, StartupEventArgs e) {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", false, true)
                 .Build();
+            _host = Host.CreateDefaultBuilder()
+                .AddViewModels()
+                .AddBusinessLayer()
+                .AddServices(configuration)
+                .AddMainWindow()
+                .AddDbContext()
+                .Build();
+        }
+        private void App_OnStartup(object sender, StartupEventArgs e) {
+            
             //Copy if newer in properties for appesettings.json
             //var s = configuration.GetConnectionString("DataBase");
             //Debugger.Break();

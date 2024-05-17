@@ -1,5 +1,5 @@
 ﻿
-namespace Tour_Planner.Configurations;
+namespace DataAccessLayer;
 
 public interface IConfigDatabase {
     string ConnectionStringDb { get; }

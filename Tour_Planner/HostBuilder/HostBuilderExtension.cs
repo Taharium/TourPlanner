@@ -2,8 +2,11 @@
 using BusinessLayer;
 using DataAccessLayer;
 using DataAccessLayer.ToursRepository;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Tour_Planner.Configurations;
 using Tour_Planner.ReportGeneration;
 using Tour_Planner.Services.AddTourServices;
 using Tour_Planner.Services.MessageBoxServices;
@@ -51,7 +54,7 @@ public static class HostBuilderExtension {
         return hostBuilder;
     }
 
-    public static IHostBuilder AddServices(this IHostBuilder hostBuilder) {
+    public static IHostBuilder AddServices(this IHostBuilder hostBuilder, IConfiguration configuration) {
         hostBuilder.ConfigureServices(services => {
             services.AddSingleton<IMessageBoxService, MessageBoxService>();
             services.AddSingleton<IWindowStore, WindowStore>();
@@ -60,6 +63,7 @@ public static class HostBuilderExtension {
             services.AddSingleton<Func<AddTourWindowVM>>(s => s.GetRequiredService<AddTourWindowVM>);
             services.AddSingleton<Func<AddTourWindow>>(s => s.GetRequiredService<AddTourWindow>);
             services.AddSingleton<IWindowService<AddTourWindowVM, AddTourWindow>, WindowService<AddTourWindowVM, AddTourWindow>>();
+            /*services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(configuration));*/
         });
         return hostBuilder;
     }
