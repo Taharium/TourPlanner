@@ -46,6 +46,7 @@ public static class HostBuilderExtension {
         hostBuilder.ConfigureServices(services => {
             services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
             services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
+            services.AddSingleton<IOpenRouteService, BusinessLogicOpenRouteService>();
             services.AddSingleton<IPdfReportGeneration, PdfReportGeneration>();
             services.AddTransient<IToursRepository, ToursRepository>();
             services.AddTransient<IUnitofWork, UnitofWork>();
@@ -64,6 +65,7 @@ public static class HostBuilderExtension {
             services.AddSingleton<Func<AddTourWindow>>(s => s.GetRequiredService<AddTourWindow>);
             services.AddSingleton<IWindowService<AddTourWindowVM, AddTourWindow>, WindowService<AddTourWindowVM, AddTourWindow>>();
             /*services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(configuration));*/
+            services.AddSingleton<IConfigOpenRouteService, AppConfiguration>(s => new AppConfiguration(configuration));
         });
         return hostBuilder;
     }

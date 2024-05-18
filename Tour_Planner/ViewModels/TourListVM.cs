@@ -14,10 +14,12 @@ namespace Tour_Planner.ViewModels {
         public ObservableCollection<Tour> TourList { get; } = new();
 
         private readonly IBusinessLogicTours _businessLogicTours;
+        private readonly IOpenRouteService _openRouteService;
         private readonly IWindowService<AddTourWindowVM, AddTourWindow> _addTourWindow;
         private readonly IMessageBoxService _messageBoxService;
 
-        public TourListVM(IBusinessLogicTours businessLogicTours, IWindowService<AddTourWindowVM, AddTourWindow> addTourWindow, IMessageBoxService messageBoxService) {
+        public TourListVM(IBusinessLogicTours businessLogicTours, IWindowService<AddTourWindowVM, AddTourWindow> addTourWindow, IMessageBoxService messageBoxService, IOpenRouteService openRouteService) {
+            _openRouteService = openRouteService;
             _businessLogicTours = businessLogicTours;
             _addTourWindow = addTourWindow;
             _messageBoxService = messageBoxService;
@@ -112,6 +114,7 @@ namespace Tour_Planner.ViewModels {
 
         private void AddTour(Tour tour) {
             //_businessLogicTours.AddTour(tour);      //check first if add is successful then add in list
+            _openRouteService.GetRoute(tour);
             TourList.Add(tour);
             SelectedTour = tour;
             TourListCollectionView.Refresh();

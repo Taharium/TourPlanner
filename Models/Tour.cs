@@ -11,7 +11,7 @@ namespace Models {
         public string EndLocation { get; set; } = "";
         public TransportType TransportType { get; set; } = TransportType.Car;
         public string RouteInformationImage { get; set; } = "";
-        public string Distance { get; set; } = "";
+        public double Distance { get; set; } 
         public string EstimatedTime { get; set; } = "";
 
 
