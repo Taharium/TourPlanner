@@ -1,12 +1,15 @@
 ﻿using BusinessLayer;
 using Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.WindowServices;
+using Tour_Planner.Stores.TourStores;
 using Tour_Planner.WindowsWPF;
 
 namespace Tour_Planner.ViewModels {
@@ -15,22 +18,35 @@ namespace Tour_Planner.ViewModels {
 
         private readonly IBusinessLogicTours _businessLogicTours;
         private readonly IWindowService<AddTourWindowVM, AddTourWindow> _addTourWindow;
+        private readonly IWindowService<EditTourWindowVM, EditTourWindow> _editTourWindow;
         private readonly IMessageBoxService _messageBoxService;
+        private readonly ITourStore _tourStore;
 
-        public TourListVM(IBusinessLogicTours businessLogicTours, IWindowService<AddTourWindowVM, AddTourWindow> addTourWindow, IMessageBoxService messageBoxService) {
+        public TourListVM(IBusinessLogicTours businessLogicTours,
+                            IWindowService<AddTourWindowVM, AddTourWindow> addTourWindow, 
+                            IMessageBoxService messageBoxService,
+                            ITourStore tourStore,
+                            IWindowService<EditTourWindowVM, EditTourWindow> editTourWindow) {
+            _editTourWindow = editTourWindow;
             _businessLogicTours = businessLogicTours;
             _addTourWindow = addTourWindow;
             _messageBoxService = messageBoxService;
             _businessLogicTours.AddTourEvent += AddTour;
-            _businessLogicTours.OnTourDeleteEvent += DeleteTour; 
+            _businessLogicTours.OnTourDeleteEvent += DeleteTour;
+            _businessLogicTours.OnTourUpdateEvent += EditTour;
+            _tourStore = tourStore;
             TourList = new(_businessLogicTours.GetTours());
             TourListCollectionView = new(TourList);
             foreach (var tour in TourList) {
                 Debug.WriteLine($"TourListVM: {tour.Name} {tour.Id}");
             }
             AddTourCommand = new RelayCommand((_) => OpenAddTour());
-            DeleteTourCommand = new RelayCommand(OnDeleteTour);
-            EditTourCommand = new RelayCommand(OpenEditTour);
+            DeleteTourCommand = new RelayCommand((_) => OnDeleteTour(), (_) => CanExecuteAddEditDelTour());
+            EditTourCommand = new RelayCommand((_) => OpenEditTour(), (_) => CanExecuteAddEditDelTour());
+        }
+
+        private bool CanExecuteAddEditDelTour() {
+            return SelectedTour != null;
         }
 
         private string _searchedTour = "";
@@ -43,11 +59,14 @@ namespace Tour_Planner.ViewModels {
                     _selectedTour = value;
                     OnPropertyChanged(nameof(SelectedTour));
                     Debug.WriteLine($"TourListVM: {SelectedTour?.Name} {SelectedTour?.Id}");
-                    SelectedTourEvent?.Invoke(this, SelectedTour);
+                    // SelectedTourEvent?.Invoke(this, SelectedTour);
+                    DeleteTourCommand.RaiseCanExecuteChanged();
+                    EditTourCommand.RaiseCanExecuteChanged();
+                    _tourStore.SetCurrentTour(SelectedTour);
                 }
             }
         }
-
+        
         public ListCollectionView TourListCollectionView { get; private set; }
 
         public event EventHandler<Tour?>? SelectedTourEvent;
@@ -56,7 +75,7 @@ namespace Tour_Planner.ViewModels {
         public RelayCommand DeleteTourCommand { get; }
         public RelayCommand EditTourCommand { get; }
 
-        
+
 
         public void SearchedTour(string searchedTour) {
             _searchedTour = searchedTour;
@@ -71,28 +90,22 @@ namespace Tour_Planner.ViewModels {
             return tour.Name.Contains(_searchedTour, StringComparison.OrdinalIgnoreCase);
         }
 
-        private void OpenEditTour(object? a) {
-            if (a is Tour tour) {
-                EditTourWindow editTourWindow = new();
-                EditTourWindowVM editTourWindowVM = new(tour, editTourWindow);
-                editTourWindowVM.EditTourEvent += (s, e) => EditTour(e);
-                editTourWindow.DataContext = editTourWindowVM;
-                editTourWindow.Show();
-            }
+        private void OpenEditTour() {
+            _editTourWindow.ShowDialog();
         }
 
         private void EditTour(Tour tour) {
-            _businessLogicTours.UpdateTour(tour);       //check first if update is successful then update in list
+            //_businessLogicTours.UpdateTour(tour);       //check first if update is successful then update in list
             int index = TourList.IndexOf(tour);
             TourList[index] = new(tour);
             SelectedTour = tour;
             TourListCollectionView.Refresh();
         }
 
-        private void OnDeleteTour(object? a) {
+        private void OnDeleteTour() {
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this tour?", "Delete Tour", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
-            if (a is Tour tour && result == MessageBoxResult.Yes) {
-                _businessLogicTours.DeleteTour(tour);        //check first if delete is successful then remove from list
+            if (SelectedTour != null && result == MessageBoxResult.Yes) {
+                _businessLogicTours.DeleteTour(SelectedTour); //check first if delete is successful then remove from list
             }
         }
 

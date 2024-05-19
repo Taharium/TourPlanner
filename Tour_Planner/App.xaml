@@ -7,9 +7,7 @@
              Exit="App_OnExit">
     
     <Application.Resources>
-        <ResourceDictionary>
-            <services:IoCContainerConfig x:Key="IoCConfig2" />
-        </ResourceDictionary>
+        
     </Application.Resources>
     
 </Application>

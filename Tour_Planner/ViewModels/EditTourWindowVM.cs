@@ -3,15 +3,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using BusinessLayer;
 using Tour_Planner.Enums;
+using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Stores.TourStores;
+using Tour_Planner.Stores.WindowStores;
 
 namespace Tour_Planner.ViewModels {
     public class EditTourWindowVM : ViewModelBase {
 
-        private readonly Window _window;
         private string _errorMessage;
         private Tour _tempTour;
         private Tour _tour;
+        private readonly IWindowStore _windowStore;
+        private readonly IBusinessLogicTours _businessLogicTours;
+        private readonly IMessageBoxService _messageBoxService;
 
         public string ErrorMessage {
             get => _errorMessage;
@@ -43,11 +49,14 @@ namespace Tour_Planner.ViewModels {
 
         public RelayCommand FinishEditCommand { get; }
 
-        public EditTourWindowVM(Tour tour, Window window) {
-            _tour = tour;
-            _tempTour = new Tour(tour);
+        public EditTourWindowVM(ITourStore tourStore, IWindowStore windowStore, IBusinessLogicTours businessLogicTours, IMessageBoxService messageBoxService) {
+            _businessLogicTours = businessLogicTours;
+            _messageBoxService = messageBoxService;
+            _tour = tourStore.CurrentTour ?? new Tour();
+            _tempTour = new Tour(_tour);
             _errorMessage = "";
-            _window = window;
+            // _window = window;
+            _windowStore = windowStore;
             FinishEditCommand = new RelayCommand((_) => FinishEditFunction());
         }
 
@@ -70,9 +79,10 @@ namespace Tour_Planner.ViewModels {
             if (IsTourValid()) {
                 ErrorMessage = "";
                 UpdateTour();
-                MessageBox.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OK, MessageBoxImage.Information);
-                EditTourEvent?.Invoke(this, _tour);
-                _window.Close();
+                _messageBoxService.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OK, MessageBoxImage.Information);
+                //EditTourEvent?.Invoke(this, _tour);
+                _businessLogicTours.UpdateTour(_tour);
+                _windowStore.Close();
             }
             else {
                 ErrorMessage = "Please fill in all fields!";

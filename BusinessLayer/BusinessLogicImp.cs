@@ -37,7 +37,15 @@ namespace BusinessLayer {
                 StartLocation = "Vienna",
                 EndLocation = "Salzburg",
                 TransportType = TransportType.Car,
-                RouteInformationImage = @"..\Assets\Images\Tour.png"
+                RouteInformationImage = @"..\Assets\Images\Tour.png",
+                TourLogsList = [new TourLogs() {
+                    Distance = "34",
+                    TotalTime = "26"
+                }, new TourLogs() {
+                    Distance = "36",
+                    TotalTime = "268"
+                }]
+                
             }
         ];
 
@@ -62,11 +70,16 @@ namespace BusinessLayer {
             var index = TourList.IndexOf(tour);
             if (index != -1) {
                 TourList[index] = tour;
+                OnTourUpdateEvent?.Invoke(tour);
             }
         }
 
         public event Action<Tour>? AddTourEvent;
         public event Action<Tour>? OnTourDeleteEvent;
+        public event Action<Tour>? OnTourUpdateEvent;
+        public event Action<TourLogs>? AddTourLogEvent;
+        public event Action<TourLogs>? OnTourLogDeleteEvent;
+        public event Action<TourLogs>? OnTourLogUpdateEvent;
 
         public void AddTourLog(Tour tour, TourLogs tourLog) {
             var index = TourList.IndexOf(tour);
@@ -76,6 +89,7 @@ namespace BusinessLayer {
             }
             if (index != -1) {
                 TourList[index].TourLogsList.Add(tourLog);
+                AddTourLogEvent?.Invoke(tourLog);
             }
         }
 
@@ -83,6 +97,7 @@ namespace BusinessLayer {
             var index = TourList.IndexOf(tour);
             if (index != -1) {
                 TourList[index].TourLogsList.Remove(tourLog);
+                OnTourLogDeleteEvent?.Invoke(tourLog);
             }
         }
 
@@ -93,6 +108,7 @@ namespace BusinessLayer {
                 var logIndex = TourList[index].TourLogsList.IndexOf(tourLog);
                 if (logIndex != -1) {
                     TourList[index].TourLogsList[logIndex] = tourLog;
+                    OnTourLogUpdateEvent?.Invoke(tourLog);
                 }
             }
         }

@@ -1,4 +1,8 @@
-﻿using Models;
+﻿using BusinessLayer;
+using Models;
+using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Stores.TourStores;
+using Tour_Planner.Stores.WindowStores;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Test {
@@ -7,8 +11,7 @@ namespace Tour_Planner.Test {
         [Test]
         public void FinishEditFunction_InvalidTour_Error() {
             // Arrange
-            Tour tour = new Tour();
-            EditTourWindowVM viewModel = new EditTourWindowVM(tour, null);
+            EditTourWindowVM viewModel = new EditTourWindowVM(new TourStore(), new WindowStore(), new BusinessLogicImp(), new MessageBoxService());
 
             // Act
             viewModel.FinishEditFunction();

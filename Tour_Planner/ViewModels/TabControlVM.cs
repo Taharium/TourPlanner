@@ -1,5 +1,6 @@
 ﻿using Models;
 using Tour_Planner.Enums;
+using Tour_Planner.Stores.TourStores;
 
 namespace Tour_Planner.ViewModels {
 
@@ -27,12 +28,13 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        public TabControlVM() {
-            _tour = new Tour();
+        public TabControlVM(ITourStore tourStore) {
+            tourStore.OnSelectedTourChangedEvent += SetTour;
+            _tour = tourStore.CurrentTour;
             _selectedTab = (int)TabControlEnum.General;
         }
 
-        public void SetTour(Tour? tour) {
+        private void SetTour(Tour? tour) {
             if (tour != null) {
                 SelectedTab = (int)TabControlEnum.General;
                 SelectedTour = tour;

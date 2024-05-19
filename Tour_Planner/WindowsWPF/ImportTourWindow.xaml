@@ -1,0 +1,40 @@
+﻿<Window x:Class="Tour_Planner.WindowsWPF.ImportTourWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
+        mc:Ignorable="d"
+        Title="ImportTourWindow" Height="250" Width="600">
+    
+    <Window.Resources>
+        <ResourceDictionary Source="..\Assets\Style\MainWindowStyles.xaml"/>
+    </Window.Resources>
+    
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <TextBlock Text="Import File" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0">
+                <Label DockPanel.Dock="Top" Content="Please select a .json file to import" Style="{StaticResource TextSize}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" x:Name="FilePath" Text="{Binding FilePath}" Style="{StaticResource TextBoxFontInWindow}" IsReadOnly="True"/>
+                <Button Grid.Column="1" Width="70" HorizontalAlignment="Right" Style="{StaticResource TextBoxFontInWindow}" Content="Search" Command="{Binding SearchCommand}" />
+                </Grid>
+            </DockPanel>
+            <DockPanel Grid.Row="1">
+                <Button DockPanel.Dock="Right" Width="70" Style="{StaticResource TextBoxFontInWindow}" Content="Import" Command="{Binding ImportCommand}" Margin="9 5 5 0"/>
+                <TextBlock x:Name="ErrorText" Text="{Binding ErrorMessage}" Foreground="Red" Margin="5 5 5 0"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>

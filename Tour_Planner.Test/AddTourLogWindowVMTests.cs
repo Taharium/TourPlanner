@@ -1,5 +1,9 @@
-﻿using Models;
+﻿using BusinessLayer;
+using Models;
 using Tour_Planner.Enums;
+using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Stores.TourStores;
+using Tour_Planner.Stores.WindowStores;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Test {
@@ -8,7 +12,7 @@ namespace Tour_Planner.Test {
         [Test]
         public void AddTourLog_InValidData_Success() {
             // Arrange
-            var viewModel = new AddTourLogWindowVM(null);
+            var viewModel = new AddTourLogWindowVM(new WindowStore(), new TourStore(), new BusinessLogicImp(), new MessageBoxService());
             var tourLog = new TourLogs {
                 DateTime = DateTime.Now,
                 Comment = "Test comment",

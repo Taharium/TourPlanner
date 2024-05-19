@@ -31,10 +31,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Style="{StaticResource RoundCorner}" Command="{Binding AddTourLogCommand}" Grid.Column="1" Content="Add" Height="Auto" Width="Auto"/>
-                <Button Style="{StaticResource RoundCorner}" Grid.Column="2" Content="Del" Height="Auto" Width="Auto" 
-                        Command="{Binding DataContext.DeleteTourLogCommand, ElementName=TourLogsListView}" CommandParameter="{Binding SelectedItem, ElementName=TourLogsListView}"/>
-                <Button Style="{StaticResource RoundCorner}" Command="{Binding DataContext.EditTourLogCommand, ElementName=TourLogsListView}"
-                        CommandParameter="{Binding SelectedItem, ElementName=TourLogsListView}" Grid.Column="3" Content="Edit" Height="Auto" Width="Auto"/>
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding EditTourLogCommand}" Grid.Column="3" Content="Edit" Height="Auto" Width="Auto"/>
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding DeleteTourLogCommand}" Grid.Column="2" Content="Del" Height="Auto" Width="Auto"/>
             </Grid>
         </Grid>
         <Grid DockPanel.Dock="Top">

@@ -1,9 +1,9 @@
-﻿using Models;
+﻿using BusinessLayer;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using BusinessLayer;
 using Tour_Planner.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.WindowStores;
@@ -57,7 +57,7 @@ namespace Tour_Planner.ViewModels {
         public RelayCommand FinishAddCommand { get; }
 
 
-        public AddTourWindowVM(IWindowStore windowStore, IMessageBoxService messageBoxService, IBusinessLogicTours businessLogicTour){
+        public AddTourWindowVM(IWindowStore windowStore, IMessageBoxService messageBoxService, IBusinessLogicTours businessLogicTour) {
             _errorMessage = "";
             _windowStore = windowStore;
             _messageBoxService = messageBoxService;

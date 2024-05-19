@@ -10,4 +10,5 @@ public interface IBusinessLogicTours
     void UpdateTour(Tour tour);
     event Action<Tour> AddTourEvent;
     event Action<Tour> OnTourDeleteEvent;
+    event Action<Tour> OnTourUpdateEvent;
 }

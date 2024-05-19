@@ -3,15 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using BusinessLayer;
 using Tour_Planner.Enums;
+using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Stores.TourStores;
+using Tour_Planner.Stores.WindowStores;
 
 namespace Tour_Planner.ViewModels {
     public class AddTourLogWindowVM : ViewModelBase {
 
-        private readonly Window _window;
         private TourLogs _tourLog;
         private Rating _selectedRating;
         private Difficulty _selectedDifficulty;
+        private readonly IWindowStore _windowStore;
+        private readonly IMessageBoxService _messageBoxService;
+        private readonly IBusinessLogicTourLogs _businessLogicTourLogs;
+        private readonly Tour? _tour;
 
         public TourLogs TourLogs {
             get => _tourLog;
@@ -81,10 +88,13 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        public AddTourLogWindowVM(Window window) {
-            _errorMessage = "";
-            _window = window;
+        public AddTourLogWindowVM(IWindowStore windowStore, ITourStore tourStore, IBusinessLogicTourLogs businessLogicTourLogs, IMessageBoxService messageBoxService) {
+            _tour = tourStore.CurrentTour;
+            _windowStore = windowStore;
+            _businessLogicTourLogs = businessLogicTourLogs;
+            _messageBoxService = messageBoxService;
             _tourLog = new TourLogs();
+            _errorMessage = "";
             FinishAddTourLogCommand = new RelayCommand((_) => AddTourLogFunction());
         }
 
@@ -94,9 +104,13 @@ namespace Tour_Planner.ViewModels {
             }
 
             ErrorMessage = "";
-            AddTourLogEvent?.Invoke(this, _tourLog);
-            MessageBox.Show("Tour Log added successfully!", "AddTourLog", MessageBoxButton.OK, MessageBoxImage.Information);
-            _window.Close();
+            //AddTourLogEvent?.Invoke(this, _tourLog);
+            if (_tour != null) {
+                _businessLogicTourLogs.AddTourLog(_tour, _tourLog);
+                _messageBoxService.Show("Tour Log added successfully!", "AddTourLog", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                _windowStore.Close();
+            }
         }
 
         private bool IsTourLogValid() {

@@ -6,30 +6,30 @@
              xmlns:local="clr-namespace:Tour_Planner.Views"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    
-    
-        <Grid>
-            <Menu Width="Auto" MinHeight="35">
-                <MenuItem Header="_File" Width="Auto" MinHeight="35">
-                    <MenuItem Header="Exit" Width="Auto" MinHeight="35" />
-                </MenuItem>
-                <MenuItem Header="_Edit" Width="Auto" Height="Auto">
-                    <MenuItem Header="Undo" Width="Auto" MinHeight="35" />
-                    <MenuItem Header="Redo" Width="Auto" MinHeight="35" />
-                    <MenuItem Header="Cut" Width="Auto" MinHeight="35" />
-                    <MenuItem Header="Copy" Width="Auto" MinHeight="35" />
-                    <MenuItem Header="Paste" Width="Auto" MinHeight="35" />
-                </MenuItem>
-                <MenuItem Header="_Options" Width="Auto" MinHeight="35" />
-                <MenuItem Header="_Settings" Width="Auto" MinHeight="35">
-                    <MenuItem Header="LightMode" Width="Auto" MinHeight="35" />
-                    <MenuItem Header="DarkMode" Width="Auto" MinHeight="35" />
-                </MenuItem>
-                <MenuItem Header="_Tool" Width="Auto" MinHeight="35" />
-                <MenuItem Header="_Help" Width="Auto" MinHeight="35">
-                    <MenuItem Header="About" Width="Auto" MinHeight="35" />
-                </MenuItem>
-            </Menu>
-    </Grid>
 
+    <Grid>
+        <Menu x:Name="MenuM" Width="Auto" MinHeight="35" >
+            <MenuItem Header="_File" Width="Auto" MinHeight="35" >
+                <MenuItem Header="Export" Width="Auto" MinHeight="35" >
+                    <MenuItem Command="{Binding ExportOneTourCommand}" Header="Export Tour" Width="Auto" MinHeight="35" />
+                    <!--<MenuItem Command="{Binding ExportAllTourCommand}" Header="Export All" Width="Auto" MinHeight="35" />-->
+                </MenuItem>
+                <MenuItem Command="{Binding ImportTourCommand}" Header="Import" Width="Auto" MinHeight="35"/>
+            </MenuItem>
+            <MenuItem Header="_Edit" Width="Auto" Height="Auto">
+            </MenuItem>
+            <MenuItem Header="_Options" Width="Auto" MinHeight="35" >
+                <MenuItem Header="PDF File" Width="Auto" MinHeight="35" />
+            </MenuItem>
+            <MenuItem Header="_Settings" Width="Auto" MinHeight="35">
+                <MenuItem Header="LightMode" Width="Auto" MinHeight="35" />
+                <MenuItem Header="DarkMode" Width="Auto" MinHeight="35" />
+            </MenuItem>
+            <MenuItem Header="_Tool" Width="Auto" MinHeight="35" />
+            <MenuItem Header="_Help" Width="Auto" MinHeight="35">
+                <MenuItem Header="About" Width="Auto" MinHeight="35" />
+            </MenuItem>
+        </Menu>
+    </Grid>
+    
 </UserControl>

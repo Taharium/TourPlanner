@@ -31,8 +31,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*" />
                     <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource RoundCorner}" Command="{Binding AddTourCommand}" Grid.Column="1" Content="Add Tour" Height="Auto" Width="Auto" Padding="5 0 5 0" />
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding AddTourCommand}" Grid.Column="1" Content="Add" Height="Auto" Width="Auto" Padding="5 0 5 0" />
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding EditTourCommand}" Grid.Column="2" Content="Edit" Height="Auto" Width="Auto" Padding="5 0 5 0" />
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding DeleteTourCommand}" Grid.Column="3" Content="Del" Height="Auto" Width="Auto" Padding="5 0 5 0" />
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
@@ -49,14 +53,14 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <ListBoxItem Style="{StaticResource BorderForListBox}" Padding="1" IsHitTestVisible="False">
-                                <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="{Binding Name}" />
+                                <TextBlock Height="25" VerticalAlignment="Center" Grid.Column="0" Text="{Binding Name}" />
                             </ListBoxItem>
-                            <Button Background="White" Grid.Column="1" Height="Auto" Width="Auto" Command="{Binding DataContext.EditTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}">
+                            <!--<Button Background="White" Grid.Column="1" Height="Auto" Width="Auto" Command="{Binding DataContext.EditTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}">
                                 <Image Source="..\Assets\Images\edit_Icon.png" MaxHeight="25" Width="Auto" />
                             </Button>
                             <Button Background="White" Grid.Column="2" Command="{Binding DataContext.DeleteTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}" >
                                 <Image Source="..\Assets\Images\delete_Icon.png" MaxHeight="25" Width="Auto" />
-                            </Button>
+                            </Button>-->
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

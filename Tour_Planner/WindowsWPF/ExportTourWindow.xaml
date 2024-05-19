@@ -1,0 +1,45 @@
+﻿<Window x:Class="Tour_Planner.WindowsWPF.ExportTourWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
+        mc:Ignorable="d"
+        Title="ExportTourWindow" Height="350" Width="600">
+    
+    <Window.Resources>
+        <ResourceDictionary Source="..\Assets\Style\MainWindowStyles.xaml"/>
+    </Window.Resources>
+    
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0">
+                <Label DockPanel.Dock="Top" Content="Please write a Name for your file" Style="{StaticResource TextSize}"/>
+                <TextBox x:Name="FileName" Text="{Binding FileName}" Style="{StaticResource TextBoxFontInWindow}"/>
+            </DockPanel>
+            <DockPanel Grid.Row="1">
+                <Label DockPanel.Dock="Top" Content="Your file path" Style="{StaticResource TextSize}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" x:Name="FilePath" Text="{Binding FilePath}" Style="{StaticResource TextBoxFontInWindow}" IsReadOnly="True"/>
+                <Button Grid.Column="1" Width="100" HorizontalAlignment="Right" Style="{StaticResource TextBoxFontInWindow}" Content="Search/Save" Command="{Binding SearchAndSaveExportCommand}" />
+                </Grid>
+            </DockPanel>
+            <DockPanel Grid.Row="2">
+                <TextBlock x:Name="ErrorText" Text="{Binding ErrorMessage}" Foreground="Red" Margin="5 5 5 0"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+    
+</Window>

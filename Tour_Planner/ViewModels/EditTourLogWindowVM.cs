@@ -3,15 +3,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using BusinessLayer;
 using Tour_Planner.Enums;
+using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Stores.TourLogStores;
+using Tour_Planner.Stores.TourStores;
+using Tour_Planner.Stores.WindowStores;
 
 namespace Tour_Planner.ViewModels {
     public class EditTourLogWindowVM : ViewModelBase {
-        private readonly Window _window;
         private TourLogs _tempTourLog;
         private TourLogs _tourLog;
         private Rating _selectedRating;
         private Difficulty _selectedDifficulty;
+        private readonly IWindowStore _windowStore;
+        private readonly IMessageBoxService _messageBoxService;
+        private readonly IBusinessLogicTourLogs _businessLogicTourLogs;
+        private readonly Tour? _tour;
 
 
         public TourLogs TourLogs {
@@ -82,11 +90,16 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        public EditTourLogWindowVM(TourLogs tourLogs, Window window) {
+        public EditTourLogWindowVM(IWindowStore windowStore, ITourStore tourStore, ITourLogStore tourLogStore, 
+                                    IBusinessLogicTourLogs businessLogicTourLogs,
+                                    IMessageBoxService messageBoxService) {
+            _tour = tourStore.CurrentTour;
+            _windowStore = windowStore;
+            _businessLogicTourLogs = businessLogicTourLogs;
+            _messageBoxService = messageBoxService;
+            _tourLog = tourLogStore.CurrentTour ?? new TourLogs();
+            _tempTourLog = new TourLogs(_tourLog);
             _errorMessage = "";
-            _window = window;
-            _tourLog = tourLogs;
-            _tempTourLog = new TourLogs(tourLogs);
             FinishEditTourLogCommand = new RelayCommand((_) => EditTourLogsFunction());
         }
 
@@ -105,9 +118,13 @@ namespace Tour_Planner.ViewModels {
             }
             ErrorMessage = "";
             UpdateTourLog();
-            EditTourLogEvent?.Invoke(this, _tourLog);
-            MessageBox.Show("Tour Log edited successfully!", "EditTourLog", MessageBoxButton.OK, MessageBoxImage.Information);
-            _window.Close();
+            //EditTourLogEvent?.Invoke(this, _tourLog);
+            if (_tour != null) {
+                _businessLogicTourLogs.UpdateTourLog(_tour, _tourLog);
+                _messageBoxService.Show("Tour Log edited successfully!", "EditTourLog", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                _windowStore.Close();
+            }
         }
 
         public bool IsTourLogValid() {

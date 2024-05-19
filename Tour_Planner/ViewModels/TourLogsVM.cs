@@ -5,32 +5,54 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Data;
+using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Services.WindowServices;
+using Tour_Planner.Stores.TourLogStores;
+using Tour_Planner.Stores.TourStores;
 using Tour_Planner.WindowsWPF;
 
 namespace Tour_Planner.ViewModels {
     public class TourLogsVM : ViewModelBase {
 
         private ObservableCollection<TourLogs> TourLogsObList = new();
-        private IBusinessLogicTourLogs _businessLogicTourLogs;
-        
-        public TourLogsVM(IBusinessLogicTourLogs businessLogicTourLogs) {
+        private readonly IBusinessLogicTourLogs _businessLogicTourLogs;
+        private readonly IMessageBoxService _messageBoxService;
+        private readonly ITourLogStore _tourLogStore;
+        private readonly IWindowService<EditTourLogWindowVM, EditTourLogWindow> _editTourLogWindow;
+        private readonly IWindowService<AddTourLogWindowVM, AddTourLogWindow> _addTourLogWindow;
+
+        public TourLogsVM(IBusinessLogicTourLogs businessLogicTourLogs,ITourLogStore tourLogStore, ITourStore tourStore, IMessageBoxService messageBoxService, 
+                        IWindowService<EditTourLogWindowVM, EditTourLogWindow> editTourLogWindow,
+                        IWindowService<AddTourLogWindowVM, AddTourLogWindow> addTourLogWindow) {
+            _editTourLogWindow = editTourLogWindow;
+            _addTourLogWindow = addTourLogWindow;
+            _messageBoxService = messageBoxService;
+            tourStore.OnSelectedTourChangedEvent += SetTour;
+            _tourLogStore = tourLogStore;
+            _selectedTour = tourStore.CurrentTour;
             _businessLogicTourLogs = businessLogicTourLogs;
+            _businessLogicTourLogs.OnTourLogDeleteEvent += DeleteTourLog;
+            _businessLogicTourLogs.OnTourLogUpdateEvent += EditTourLog;
+            _businessLogicTourLogs.AddTourLogEvent += AddTourLog;
             TourLogsCollectionView ??= new(TourLogsObList);
             TourLogsCollectionView.Refresh();
             TourLogsCollectionView.MoveCurrentTo(null);
 
-            AddTourLogCommand = new RelayCommand(OpenAddTourLog, CanExcuteAddTourLog);
-            DeleteTourLogCommand = new RelayCommand(DeleteTourLog, CanExcuteDeleteEditTourLog);
-            EditTourLogCommand = new RelayCommand(EditTourLog, CanExcuteDeleteEditTourLog);
+            AddTourLogCommand = new RelayCommand((_) => OpenAddTourLog(), (_) => CanExecuteAddTourLog());
+            DeleteTourLogCommand = new RelayCommand((_) => OnDeleteTourLog(), (_) => CanExecuteDeleteEditTourLog());
+            EditTourLogCommand = new RelayCommand((_) => OpenEditTourLog(), (_) => CanExecuteDeleteEditTourLog());
         }
 
-        private TourLogs? _selectedtourlog;
+        private TourLogs? _selectedTourLog;
         public TourLogs? SelectedTourLog {
-            get => _selectedtourlog;
+            get => _selectedTourLog;
             set {
-                if (_selectedtourlog != value) {
-                    _selectedtourlog = value;
+                if (_selectedTourLog != value) {
+                    _selectedTourLog = value;
                     OnPropertyChanged(nameof(SelectedTourLog));
+                    _tourLogStore.SetCurrentTour(SelectedTourLog);
+                    EditTourLogCommand.RaiseCanExecuteChanged();
+                    DeleteTourLogCommand.RaiseCanExecuteChanged();
                     //TourLogsCollectionView.Refresh();
                 }
             }
@@ -63,63 +85,51 @@ namespace Tour_Planner.ViewModels {
         public EventHandler<TourLogs>? EditTourLogEvent;
         public EventHandler<Tour>? Update;
 
-        
 
-        public void OpenAddTourLog(object? a) {
-            AddTourLogWindow addTourLogWindow = new();
-            AddTourLogWindowVM addTourLogWindowVM = new AddTourLogWindowVM(addTourLogWindow);
-            addTourLogWindow.DataContext = addTourLogWindowVM;
-            addTourLogWindowVM.AddTourLogEvent += (s, e) => AddTourLog(e);
-            addTourLogWindow.Show();
+
+        private void OpenAddTourLog() {
+            _addTourLogWindow.ShowDialog();
         }
 
         private void AddTourLog(TourLogs tourLogs) {
-            if (SelectedTour != null) {
-                _businessLogicTourLogs.AddTourLog(SelectedTour, tourLogs);
-                TourLogsObList.Add(tourLogs);
-                SelectedTourLog = tourLogs;
-                TourLogsCollectionView.Refresh();
-            }
+            TourLogsObList.Add(tourLogs);
+            SelectedTourLog = tourLogs;
+            TourLogsCollectionView.Refresh();
         }
 
-        public void EditTourLog(object? obj) {
-            if (obj is TourLogs tourLogs) {
-                EditTourLogWindow editTourLogWindow = new();
-                EditTourLogWindowVM editTourLogWindowVM = new EditTourLogWindowVM(tourLogs, editTourLogWindow);
-                editTourLogWindow.DataContext = editTourLogWindowVM;
-                editTourLogWindowVM.EditTourLogEvent += (s, e) => EditTourLogFunction(e);
-                editTourLogWindow.Show();
-            }
+        private void OpenEditTourLog() { 
+            _editTourLogWindow.ShowDialog();
         }
 
-        private void EditTourLogFunction(TourLogs tourLogs) {
-            if (SelectedTour != null) {
-                _businessLogicTourLogs.UpdateTourLog(SelectedTour, tourLogs);
-                int index = TourLogsObList.IndexOf(tourLogs);
-                TourLogsObList[index] = tourLogs;
-                SelectedTourLog = tourLogs;
-                TourLogsCollectionView.Refresh();
-            }
+        private void EditTourLog(TourLogs tourLogs) {
+            //_businessLogicTourLogs.UpdateTourLog(SelectedTour, tourLogs);
+            int index = TourLogsObList.IndexOf(tourLogs);
+            TourLogsObList[index] = tourLogs;
+            SelectedTourLog = tourLogs;
+            TourLogsCollectionView.Refresh();
         }
 
-        public bool CanExcuteDeleteEditTourLog(object? parameter) {
+        private bool CanExecuteDeleteEditTourLog() {
             return SelectedTourLog != null;
         }
 
-        public bool CanExcuteAddTourLog(object? parameter) {
+        private bool CanExecuteAddTourLog() {
             return SelectedTour != null;
         }
 
-        public void DeleteTourLog(object? a) {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this tour log?", "Delete Tour Log", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
-            if (a is TourLogs tourlog && result == MessageBoxResult.Yes && SelectedTour != null) {
-                _businessLogicTourLogs.DeleteTourLog(SelectedTour, tourlog);
-                TourLogsObList.Remove(tourlog);
-                TourLogsCollectionView.Refresh();
+        private void OnDeleteTourLog() {
+            MessageBoxResult result = _messageBoxService.Show("Are you sure you want to delete this tour log?", "Delete Tour Log", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
+            if (SelectedTourLog != null && result == MessageBoxResult.Yes && SelectedTour != null) {
+                _businessLogicTourLogs.DeleteTourLog(SelectedTour, SelectedTourLog);
             }
         }
 
-        public void SetTour(Tour? tour) {
+        private void DeleteTourLog(TourLogs tourLogs) {
+            TourLogsObList.Remove(tourLogs);
+            TourLogsCollectionView.Refresh();
+        }
+
+        private void SetTour(Tour? tour) {
             if (tour != null)
                 SelectedTour = tour;
         }

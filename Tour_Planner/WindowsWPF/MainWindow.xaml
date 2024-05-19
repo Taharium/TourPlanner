@@ -19,7 +19,7 @@
 
     <DockPanel>
         <Grid DockPanel.Dock="Top">
-            <views:MenuView/>
+            <views:MenuView x:Name="TopMenu"/>
         </Grid>
         <Grid DockPanel.Dock="Top">
             <views:SearchbarView x:Name="Searchbar"/>
