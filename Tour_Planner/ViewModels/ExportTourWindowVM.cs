@@ -146,20 +146,13 @@ public class ExportTourWindowVM : ViewModelBase {
         ErrorMessage = "";
 
         List<Tour> tourList;
-        if (SelectAll) {
-            _messageBoxService.Show("All were selected", "Ex", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            tourList = TourList.ToList();
-        }
-        else {
-            tourList = TourList.Where(t => t.IsSelected).ToList();
-        }
+        tourList = SelectAll ? TourList.ToList() : TourList.Where(t => t.IsSelected).ToList();
 
         bool? dialog = _saveFileDialog.ShowDialog(FileName);
         if (dialog is true) {
             FilePath = _saveFileDialog.GetFilePath();
             //File.WriteAllText(FilePath, _oneTour ? _tour.Beautify() : _tours.Beautify());
             File.WriteAllText(FilePath, tourList.Beautify());
-            //TODO: MessageBox or SaveMessage?
             //TODO: Exception handling
             //TODO: Logging
             MessageBoxResult result = _messageBoxService.Show("File saved successfully!\n Do you want to see the file?",

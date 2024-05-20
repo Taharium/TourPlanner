@@ -89,7 +89,6 @@ public class ImportTourWindowVM : ViewModelBase {
         }
 
         ErrorMessage = "";
-        //TODO: MessageBox or SaveMessage?
         //TODO: Exception handling
         //TODO: Logging
         string jsonfile = File.ReadAllText(FilePath);
