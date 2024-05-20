@@ -13,6 +13,7 @@ public class MenuVM : ViewModelBase {
     private readonly IBusinessLogicTours _businessLogicTours;
     private readonly IWindowService<ImportTourWindowVM, ImportTourWindow> _importTourWindow;
     private readonly IWindowService<ExportTourWindowVM, ExportTourWindow> _exportTourWindow;
+    private readonly IWindowService<GeneratePdfWindowVM, GeneratePdfWindow> _generatepdfWindow;
     public Tour? SelectedTour {
         get => _tour;
         set {
@@ -26,20 +27,25 @@ public class MenuVM : ViewModelBase {
 
     public RelayCommand ExportTourCommand { get; }
     public RelayCommand ImportTourCommand { get; }
+    public RelayCommand GenerateReportCommand { get; }
 
     public MenuVM(IBusinessLogicTours businessLogicTours, IWindowService<ImportTourWindowVM, ImportTourWindow> importTourWindow, ITourStore tourStore,
-        IWindowService<ExportTourWindowVM, ExportTourWindow> exportTourWindow) {
+        IWindowService<ExportTourWindowVM, ExportTourWindow> exportTourWindow,
+        IWindowService<GeneratePdfWindowVM, GeneratePdfWindow> generatepdfWindow) {
         _businessLogicTours = businessLogicTours;
         _importTourWindow = importTourWindow;
         _exportTourWindow = exportTourWindow;
+        _generatepdfWindow = generatepdfWindow;
         tourStore.OnSelectedTourChangedEvent += SetTour;
         _tour = tourStore.CurrentTour;
         
-        ExportTourCommand = new RelayCommand((_) => OpenExportOneWindow(), (_) => CanExecuteExportTour());
+        GenerateReportCommand = new RelayCommand((_) => OpenGeneratePdfWindow(), (_) => CanExecuteExportGenerateTour());
+        ExportTourCommand = new RelayCommand((_) => OpenExportOneWindow(), (_) => CanExecuteExportGenerateTour());
         ImportTourCommand = new RelayCommand((_) => OpenImportWindow());
     }
 
     private void OpenGeneratePdfWindow() {
+        _generatepdfWindow.ShowDialog();
     }
 
     private void OpenImportWindow() {
@@ -50,7 +56,7 @@ public class MenuVM : ViewModelBase {
         _exportTourWindow.ShowDialog();
     }
 
-    private bool CanExecuteExportTour() {
+    private bool CanExecuteExportGenerateTour() {
         return _businessLogicTours.GetTours().Count() != 0;
     }
 

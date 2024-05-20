@@ -28,7 +28,6 @@ public class ExportTourWindowVM : ViewModelBase {
             if (_tourList != value) {
                 _tourList = value;
                 OnPropertyChanged(nameof(TourList));
-                SearchAndSaveExportCommand.RaiseCanExecuteChanged();
             }
         }
     }
@@ -45,7 +44,6 @@ public class ExportTourWindowVM : ViewModelBase {
                 _selectAll = value;
                 OnPropertyChanged(nameof(SelectAll));
                 UpdateSelection(SelectAll);
-                SearchAndSaveExportCommand.RaiseCanExecuteChanged();
                 Debug.WriteLine($"IsSelected Count: {TourList.Count(t => t.IsSelected)}");
             }
         }
@@ -68,7 +66,6 @@ public class ExportTourWindowVM : ViewModelBase {
             if (_fileName != value) {
                 _fileName = value;
                 OnPropertyChanged(nameof(FileName));
-                SearchAndSaveExportCommand.RaiseCanExecuteChanged();
             }
         }
     }

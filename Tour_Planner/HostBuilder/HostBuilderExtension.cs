@@ -99,6 +99,10 @@ public static class HostBuilderExtension {
             services.AddSingleton<Func<EditTourLogWindowVM>>(s => s.GetRequiredService<EditTourLogWindowVM>);
             services.AddSingleton<Func<EditTourLogWindow>>(s => s.GetRequiredService<EditTourLogWindow>);
             
+            services.AddTransient<GeneratePdfWindow>();
+            services.AddTransient<GeneratePdfWindowVM>();
+            services.AddSingleton<Func<GeneratePdfWindowVM>>(s => s.GetRequiredService<GeneratePdfWindowVM>);
+            services.AddSingleton<Func<GeneratePdfWindow>>(s => s.GetRequiredService<GeneratePdfWindow>);
             /*services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(configuration));*/
         });
         return hostBuilder;
