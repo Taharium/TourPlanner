@@ -7,7 +7,7 @@ namespace Tour_Planner.ReportGeneration;
 
 public class PdfReportGeneration : IPdfReportGeneration {
     //Save file dialog, import dialog, export dialog 
-    public void GenerateReport(Tour tour, string path) {
+    public void GenerateOneTourReport(Tour tour, string path) {
         var writer = new PdfWriter(path);
         var pdf = new PdfDocument(writer);
         var document = new Document(pdf);

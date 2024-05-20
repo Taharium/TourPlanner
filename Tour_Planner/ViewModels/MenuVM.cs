@@ -13,7 +13,6 @@ public class MenuVM : ViewModelBase {
     private readonly IBusinessLogicTours _businessLogicTours;
     private readonly IWindowService<ImportTourWindowVM, ImportTourWindow> _importTourWindow;
     private readonly IWindowService<ExportTourWindowVM, ExportTourWindow> _exportTourWindow;
-
     public Tour? SelectedTour {
         get => _tour;
         set {
@@ -26,11 +25,10 @@ public class MenuVM : ViewModelBase {
     }
 
     public RelayCommand ExportTourCommand { get; }
-    //public RelayCommand ExportAllTourCommand { get; }
     public RelayCommand ImportTourCommand { get; }
 
     public MenuVM(IBusinessLogicTours businessLogicTours, IWindowService<ImportTourWindowVM, ImportTourWindow> importTourWindow, ITourStore tourStore,
-                IWindowService<ExportTourWindowVM, ExportTourWindow> exportTourWindow) {
+        IWindowService<ExportTourWindowVM, ExportTourWindow> exportTourWindow) {
         _businessLogicTours = businessLogicTours;
         _importTourWindow = importTourWindow;
         _exportTourWindow = exportTourWindow;
@@ -38,17 +36,15 @@ public class MenuVM : ViewModelBase {
         _tour = tourStore.CurrentTour;
         
         ExportTourCommand = new RelayCommand((_) => OpenExportOneWindow(), (_) => CanExecuteExportTour());
-        //ExportAllTourCommand = new RelayCommand((_) => OpenExportAllWindow());
         ImportTourCommand = new RelayCommand((_) => OpenImportWindow());
+    }
+
+    private void OpenGeneratePdfWindow() {
     }
 
     private void OpenImportWindow() {
         _importTourWindow.ShowDialog();
     }
-
-    /*private void OpenExportAllWindow() {
-        _exportTourWindow.ShowDialog();
-    }*/
 
     private void OpenExportOneWindow() {
         _exportTourWindow.ShowDialog();

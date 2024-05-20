@@ -44,14 +44,12 @@ public class ImportTourWindowVM : ViewModelBase {
 
     public RelayCommand SearchCommand { get; }
     public RelayCommand ImportCommand { get; }
-    public RelayCommand CloseCommand { get; }
 
     public ImportTourWindowVM(IWindowStore windowStore, IMessageBoxService messageBoxService, IBusinessLogicTours businessLogicTour, IOpenFileDialogService openFileDialogService) {
         _windowStore = windowStore;
         _messageBoxService = messageBoxService;
         _businessLogicTours = businessLogicTour;
         _openFileDialog = openFileDialogService;
-        CloseCommand = new RelayCommand((_) => CloseWindow());
         SearchCommand = new RelayCommand((_) => OpenFileExplorer());
         ImportCommand = new RelayCommand((_) => ImportFile());
     }
@@ -114,8 +112,5 @@ public class ImportTourWindowVM : ViewModelBase {
             MessageBoxImage.Information);
         _windowStore.Close();
     }
-
-    private void CloseWindow() {
-        _windowStore.Close();
-    }
+    
 }

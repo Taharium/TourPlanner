@@ -50,7 +50,6 @@ public static class HostBuilderExtension {
         hostBuilder.ConfigureServices(services => {
             services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
             services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
-            services.AddSingleton<IPdfReportGeneration, PdfReportGeneration>();
             services.AddTransient<IToursRepository, ToursRepository>();
             services.AddTransient<IUnitofWork, UnitofWork>();
             services.AddSingleton<IAddTourService, AddTourService>();
@@ -63,37 +62,43 @@ public static class HostBuilderExtension {
             services.AddSingleton<IOpenFileDialogService, OpenFileDialogService>();
             services.AddSingleton<ISaveFileDialogService, SaveFileDialogService>();
             services.AddSingleton<IMessageBoxService, MessageBoxService>();
+            services.AddSingleton<IPdfReportGeneration, PdfReportGeneration>();
             services.AddSingleton<IWindowStore, WindowStore>();
             services.AddSingleton<ITourStore, TourStore>();
             services.AddSingleton<ITourLogStore, TourLogStore>();
+            
             services.AddSingleton(typeof(IWindowService<,>), typeof(WindowService<,>));
+            
             services.AddTransient<AddTourWindowVM>();
             services.AddTransient<AddTourWindow>();
             services.AddSingleton<Func<AddTourWindowVM>>(s => s.GetRequiredService<AddTourWindowVM>);
             services.AddSingleton<Func<AddTourWindow>>(s => s.GetRequiredService<AddTourWindow>);
+            
             services.AddTransient<AddTourLogWindowVM>();
             services.AddTransient<AddTourLogWindow>();
             services.AddSingleton<Func<AddTourLogWindowVM>>(s => s.GetRequiredService<AddTourLogWindowVM>);
             services.AddSingleton<Func<AddTourLogWindow>>(s => s.GetRequiredService<AddTourLogWindow>);
-            //services.AddSingleton<IWindowService<AddTourWindowVM, AddTourWindow>, WindowService<AddTourWindowVM, AddTourWindow>>();
+            
             services.AddTransient<ImportTourWindowVM>();
             services.AddTransient<ImportTourWindow>();
             services.AddSingleton<Func<ImportTourWindowVM>>(s => s.GetRequiredService<ImportTourWindowVM>);
             services.AddSingleton<Func<ImportTourWindow>>(s => s.GetRequiredService<ImportTourWindow>);
-            //services.AddSingleton<IWindowService<ImportTourWindowVM, ImportTourWindow>, WindowService<ImportTourWindowVM, ImportTourWindow>>();
+
             services.AddTransient<ExportTourWindowVM>();
             services.AddTransient<ExportTourWindow>();
             services.AddSingleton<Func<ExportTourWindowVM>>(s => s.GetRequiredService<ExportTourWindowVM>);
             services.AddSingleton<Func<ExportTourWindow>>(s => s.GetRequiredService<ExportTourWindow>);
-            //services.AddSingleton<IWindowService<ExportTourWindowVM, ExportTourWindow>, WindowService<ExportTourWindowVM, ExportTourWindow>>();
+
             services.AddTransient<EditTourWindow>();
             services.AddTransient<EditTourWindowVM>();
             services.AddSingleton<Func<EditTourWindowVM>>(s => s.GetRequiredService<EditTourWindowVM>);
             services.AddSingleton<Func<EditTourWindow>>(s => s.GetRequiredService<EditTourWindow>);
+            
             services.AddTransient<EditTourLogWindow>();
             services.AddTransient<EditTourLogWindowVM>();
             services.AddSingleton<Func<EditTourLogWindowVM>>(s => s.GetRequiredService<EditTourLogWindowVM>);
             services.AddSingleton<Func<EditTourLogWindow>>(s => s.GetRequiredService<EditTourLogWindow>);
+            
             /*services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(configuration));*/
         });
         return hostBuilder;
