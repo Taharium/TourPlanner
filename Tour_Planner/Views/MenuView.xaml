@@ -10,8 +10,8 @@
     <Grid>
         <Menu x:Name="MenuM" Width="Auto" MinHeight="35" >
             <MenuItem Header="_File" Width="Auto" MinHeight="35" >
-                <MenuItem Header="Export" Width="Auto" MinHeight="35" >
-                    <MenuItem Command="{Binding ExportOneTourCommand}" Header="Export Tour" Width="Auto" MinHeight="35" />
+                <MenuItem Command="{Binding ExportTourCommand}" Header="Export" Width="Auto" MinHeight="35" >
+                    <!--<MenuItem  Header="Export Tour" Width="Auto" MinHeight="35" />-->
                     <!--<MenuItem Command="{Binding ExportAllTourCommand}" Header="Export All" Width="Auto" MinHeight="35" />-->
                 </MenuItem>
                 <MenuItem Command="{Binding ImportTourCommand}" Header="Import" Width="Auto" MinHeight="35"/>

@@ -51,6 +51,7 @@ namespace Tour_Planner.ViewModels {
 
         private string _searchedTour = "";
         private Tour? _selectedTour;
+        // private ListCollectionView _tourListCollectionView;
 
         public Tour? SelectedTour {
             get => _selectedTour;
@@ -68,7 +69,16 @@ namespace Tour_Planner.ViewModels {
         }
         
         public ListCollectionView TourListCollectionView { get; private set; }
-
+        /*public ListCollectionView TourListCollectionView {
+            get => _tourListCollectionView;
+            set {
+                if (_tourListCollectionView != value) {
+                    _tourListCollectionView = value;
+                    OnPropertyChanged(nameof(TourListCollectionView));
+                }
+            }
+        }*/
+        
         public event EventHandler<Tour?>? SelectedTourEvent;
 
         public RelayCommand AddTourCommand { get; }
@@ -97,7 +107,7 @@ namespace Tour_Planner.ViewModels {
         private void EditTour(Tour tour) {
             //_businessLogicTours.UpdateTour(tour);       //check first if update is successful then update in list
             int index = TourList.IndexOf(tour);
-            TourList[index] = new(tour);
+            TourList[index] = tour; //new(tour)
             SelectedTour = tour;
             TourListCollectionView.Refresh();
         }
@@ -115,11 +125,6 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void OpenAddTour() {
-            /*AddTourWindow addTourWindow = new();
-            AddTourWindowVM addTourWindowVM = new AddTourWindowVM(addTourWindow);
-            addTourWindow.DataContext = addTourWindowVM;
-            addTourWindowVM.AddTourEvent += (s, e) => AddTour(e);
-            addTourWindow.Show();*/
             _addTourWindow.ShowDialog();
         }
 

@@ -1,18 +1,122 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Tour_Planner.Enums;
 
 namespace Models {
-    public class Tour {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public ObservableCollection<TourLogs> TourLogsList { get; set; } = new();
-        public string Name { get; set; } = "";
-        public string Description { get; set; } = "";
-        public string StartLocation { get; set; } = "";
-        public string EndLocation { get; set; } = "";
-        public TransportType TransportType { get; set; } = TransportType.Car;
-        public string RouteInformationImage { get; set; } = "";
-        public string Distance { get; set; } = "";
-        public string EstimatedTime { get; set; } = "";
+    public class Tour : INotifyPropertyChanged {
+        //private ObservableCollection<TourLogs> _tourLogsList = new ObservableCollection<TourLogs>();
+        public ObservableCollection<TourLogs> TourLogsList { get; set; } = new ObservableCollection<TourLogs>();
+        private Guid _id = Guid.NewGuid();
+        private string _name = "";
+        private string _description = "";
+        private string _startLocation = "";
+        private string _endLocation = "";
+        private TransportType _transportType = TransportType.Car;
+        private string _routeInformationImage = "";
+        private string _distance = "";
+        private string _estimatedTime = "";
+        private bool _isSelected;
+
+        public Guid Id {
+            get => _id;
+            set {
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Name {
+            get => _name;
+            set {
+                if (value != _name) {
+                    _name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Description {
+            get => _description;
+            set {
+                if (value != _description) {
+                    _description = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string StartLocation {
+            get => _startLocation;
+            set {
+                if (value != _startLocation) {
+                    _startLocation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string EndLocation {
+            get => _endLocation;
+            set {
+                if (value != _endLocation) {
+                    _endLocation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public TransportType TransportType {
+            get => _transportType;
+            set {
+                if (value != _transportType) {
+                    _transportType = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string RouteInformationImage {
+            get => _routeInformationImage;
+            set {
+                if (value != _routeInformationImage) {
+                    _routeInformationImage = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Distance {
+            get => _distance;
+            set {
+                if (value != _distance) {
+                    _distance = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string EstimatedTime {
+            get => _estimatedTime;
+            set {
+                if (value != _estimatedTime) {
+                    _estimatedTime = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsSelected {
+            get => _isSelected;
+            set {
+                if (value != _isSelected) {
+                    _isSelected = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
 
         public Tour() { }
@@ -28,6 +132,21 @@ namespace Models {
             Distance = tour.Distance;
             EstimatedTime = tour.EstimatedTime;
             TourLogsList = tour.TourLogsList;
+            IsSelected = tour.IsSelected;
+        }
+        
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "") {
+
+            ValidatePropertyName(propertyName);
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ValidatePropertyName(string propertyName) {
+            if (TypeDescriptor.GetProperties(this)[propertyName] == null) {
+                throw new ArgumentException("Property not found", propertyName);
+            }
         }
     }
 

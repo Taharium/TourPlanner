@@ -18,7 +18,7 @@ namespace Models {
             set {
                 if (_id != value) {
                     _id = value;
-                    RaisePropertyChanged(nameof(Id));
+                    OnPropertyChanged(nameof(Id));
                 }
             }
         }
@@ -28,7 +28,7 @@ namespace Models {
             set {
                 if (_dateTime != value) {
                     _dateTime = value;
-                    RaisePropertyChanged(nameof(DateTime));
+                    OnPropertyChanged(nameof(DateTime));
                 }
             }
         }
@@ -37,7 +37,7 @@ namespace Models {
             set {
                 if (_totalTime != value) {
                     _totalTime = value;
-                    RaisePropertyChanged(nameof(TotalTime));
+                    OnPropertyChanged(nameof(TotalTime));
                 }
             }
         }
@@ -46,7 +46,7 @@ namespace Models {
             set {
                 if (_distance != value) {
                     _distance = value;
-                    RaisePropertyChanged(nameof(Distance));
+                    OnPropertyChanged(nameof(Distance));
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace Models {
             set {
                 if (_rating != value) {
                     _rating = value;
-                    RaisePropertyChanged(nameof(Rating));
+                    OnPropertyChanged(nameof(Rating));
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace Models {
             set {
                 if (_comment != value) {
                     _comment = value;
-                    RaisePropertyChanged(nameof(Comment));
+                    OnPropertyChanged(nameof(Comment));
                 }
             }
         }
@@ -76,7 +76,7 @@ namespace Models {
             set {
                 if (_difficulty != value) {
                     _difficulty = value;
-                    RaisePropertyChanged(nameof(Difficulty));
+                    OnPropertyChanged(nameof(Difficulty));
                 }
             }
         }
@@ -94,7 +94,7 @@ namespace Models {
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = "") {
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "") {
 
             ValidatePropertyName(propertyName);
 

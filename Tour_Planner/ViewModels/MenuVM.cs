@@ -20,12 +20,12 @@ public class MenuVM : ViewModelBase {
             if (_tour != value) {
                 _tour = value;
                 OnPropertyChanged(nameof(SelectedTour));
-                ExportOneTourCommand.RaiseCanExecuteChanged();
+                ExportTourCommand.RaiseCanExecuteChanged();
             }
         }
     }
 
-    public RelayCommand ExportOneTourCommand { get; }
+    public RelayCommand ExportTourCommand { get; }
     //public RelayCommand ExportAllTourCommand { get; }
     public RelayCommand ImportTourCommand { get; }
 
@@ -37,8 +37,8 @@ public class MenuVM : ViewModelBase {
         tourStore.OnSelectedTourChangedEvent += SetTour;
         _tour = tourStore.CurrentTour;
         
-        ExportOneTourCommand = new RelayCommand((_) => OpenExportOneWindow(), (_) => CanExecuteExportOneTour());
-        //ExportAllTourCommand = new RelayCommand((_) => OpenExportWindow());
+        ExportTourCommand = new RelayCommand((_) => OpenExportOneWindow(), (_) => CanExecuteExportTour());
+        //ExportAllTourCommand = new RelayCommand((_) => OpenExportAllWindow());
         ImportTourCommand = new RelayCommand((_) => OpenImportWindow());
     }
 
@@ -46,20 +46,16 @@ public class MenuVM : ViewModelBase {
         _importTourWindow.ShowDialog();
     }
 
-    /*private void OpenExportWindow() {
-        ExportTourWindow exportTourWindow = new ExportTourWindow();
-        List<Tour> tours = _businessLogicTours.GetTours().ToList();
-        ExportTourWindowVM exportTourWindowVm = new ExportTourWindowVM(exportTourWindow, tours);
-        exportTourWindow.DataContext = exportTourWindowVm;
-        exportTourWindow.ShowDialog();
+    /*private void OpenExportAllWindow() {
+        _exportTourWindow.ShowDialog();
     }*/
 
     private void OpenExportOneWindow() {
         _exportTourWindow.ShowDialog();
     }
 
-    private bool CanExecuteExportOneTour() {
-        return SelectedTour != null;
+    private bool CanExecuteExportTour() {
+        return _businessLogicTours.GetTours().Count() != 0;
     }
 
     public void SetTour(Tour? tour) {

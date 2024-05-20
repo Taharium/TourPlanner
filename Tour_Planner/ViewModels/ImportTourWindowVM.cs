@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using BusinessLayer;
@@ -52,7 +53,7 @@ public class ImportTourWindowVM : ViewModelBase {
         _openFileDialog = openFileDialogService;
         CloseCommand = new RelayCommand((_) => CloseWindow());
         SearchCommand = new RelayCommand((_) => OpenFileExplorer());
-        ImportCommand = new RelayCommand((_) => ImportFile(), (_) => CanExecuteImportFile());
+        ImportCommand = new RelayCommand((_) => ImportFile());
     }
 
     private bool CanExecuteImportFile() {
@@ -73,14 +74,28 @@ public class ImportTourWindowVM : ViewModelBase {
 
     }
 
+    private bool ValidateImport() {
+        if (FilePath == "") {
+            ErrorMessage = "Please select a file using the search button";
+            return false;
+        }
+
+        return true;
+    }
+
     private void ImportFile() {
+        if (!ValidateImport()) {
+            return;
+        }
+
+        ErrorMessage = "";
         //TODO: MessageBox or SaveMessage?
         //TODO: Exception handling
         //TODO: Logging
         string jsonfile = File.ReadAllText(FilePath);
-        Tour newTour;
+        List<Tour> newTours;
         try {
-            newTour =  JsonConvert.DeserializeObject<Tour>(jsonfile) ?? throw new Exception();
+            newTours =  JsonConvert.DeserializeObject<List<Tour>>(jsonfile) ?? throw new Exception();
         }
         catch (Exception) {
             ErrorMessage = "Herp! Herp me!";
@@ -91,7 +106,10 @@ public class ImportTourWindowVM : ViewModelBase {
             ErrorMessage = "Tour already exists";
             return;
         }*/
-        _businessLogicTours.AddTour(newTour);
+        foreach (var tour in newTours) {
+            _businessLogicTours.AddTour(tour);
+        }
+        
         ErrorMessage = "";
         _messageBoxService.Show("Import file successfully", "ImportFile", MessageBoxButton.OK,
             MessageBoxImage.Information);
