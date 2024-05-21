@@ -1,5 +1,7 @@
 ﻿using BusinessLayer;
+using Microsoft.Extensions.Configuration;
 using Models;
+using Tour_Planner.Configurations;
 using Tour_Planner.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;
@@ -12,7 +14,10 @@ namespace Tour_Planner.Test {
         [Test]
         public void AddTourLog_InValidData_Success() {
             // Arrange
-            var viewModel = new AddTourLogWindowVM(new WindowStore(), new TourStore(), new BusinessLogicImp(), new MessageBoxService());
+            IConfiguration configuration = new ConfigurationManager();
+            IConfigOpenRouteService configOpenRouteService = new AppConfiguration(configuration);
+            IOpenRouteService openRouteService = new BusinessLogicOpenRouteService(configOpenRouteService);
+            var viewModel = new AddTourLogWindowVM(new WindowStore(), new TourStore(), new BusinessLogicImp(openRouteService), new MessageBoxService());
             var tourLog = new TourLogs {
                 DateTime = DateTime.Now,
                 Comment = "Test comment",

@@ -1,5 +1,7 @@
 ﻿using BusinessLayer;
+using Microsoft.Extensions.Configuration;
 using Models;
+using Tour_Planner.Configurations;
 using Tour_Planner.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourLogStores;
@@ -28,8 +30,11 @@ namespace Tour_Planner.Test {
                 Rating = rating,
                 Difficulty = difficulty
             });
-
-            var viewModel = new EditTourLogWindowVM(new WindowStore(), new TourStore(), tourLog, new BusinessLogicImp(), new MessageBoxService());
+            
+            IConfiguration configuration = new ConfigurationManager();
+            IConfigOpenRouteService configOpenRouteService = new AppConfiguration(configuration);
+            IOpenRouteService openRouteService = new BusinessLogicOpenRouteService(configOpenRouteService);
+            var viewModel = new EditTourLogWindowVM(new WindowStore(), new TourStore(), tourLog, new BusinessLogicImp(openRouteService), new MessageBoxService());
 
             // Act
             var result = viewModel.IsTourLogValid();
