@@ -65,10 +65,10 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             var averageRating = tour.TourLogsList.Any()
                 ? tour.TourLogsList.Average(log => (int)log.Rating)
                 : 0;
-            /*var totalDistance = tour.TourLogsList.Sum(log => log.Distance);
+            //var totalDistance = tour.TourLogsList.Average(log => double.Parse(log.Distance));
             var totalTime = tour.TourLogsList.Any()
-                ? TimeSpan.FromTicks(tour.TourLogsList.Sum(log => TimeSpan.TryParse(log.TotalTime).Ticks))
-                : TimeSpan.Zero;*/
+                ? TimeSpan.FromTicks((long)tour.TourLogsList.Select(log => TimeSpan.Parse(log.TotalTime).Ticks).Average())
+                : TimeSpan.Zero;
             var averageDifficulty = tour.TourLogsList.Any()
                 ? tour.TourLogsList.Average(log => (int)log.Difficulty)
                 : 0;
@@ -86,8 +86,8 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
 
             // Add calculated tour logs summary details
             document.Add(new Paragraph("Average Rating: " + averageRating).SetFontSize(12));
-            /*document.Add(new Paragraph("Total Distance: " + totalDistance + " km").SetFontSize(12));
-            document.Add(new Paragraph("Total Time: " + totalTime.ToString(@"hh\:mm\:ss")).SetFontSize(12));*/
+            //document.Add(new Paragraph("Average Total Distance: " + totalDistance + " km").SetFontSize(12));
+            document.Add(new Paragraph("Average Total Time: " + totalTime.ToString(@"hh\:mm\:ss")).SetFontSize(12));
             document.Add(new Paragraph("Average Difficulty: " + averageDifficulty).SetFontSize(12));
 
             // Add a separator
