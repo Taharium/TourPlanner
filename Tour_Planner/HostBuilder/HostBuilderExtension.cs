@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Tour_Planner.Configurations;
 using Tour_Planner.Services.AddTourServices;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.OpenFileDialogServices;
@@ -51,6 +52,7 @@ public static class HostBuilderExtension {
         hostBuilder.ConfigureServices(services => {
             services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
             services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
+            services.AddSingleton<IOpenRouteService, BusinessLogicOpenRouteService>();
             services.AddTransient<IToursRepository, ToursRepository>();
             services.AddTransient<IUnitofWork, UnitofWork>();
             services.AddSingleton<IAddTourService, AddTourService>();
@@ -107,6 +109,7 @@ public static class HostBuilderExtension {
             services.AddSingleton<Func<GeneratePdfWindowVM>>(s => s.GetRequiredService<GeneratePdfWindowVM>);
             services.AddSingleton<Func<GeneratePdfWindow>>(s => s.GetRequiredService<GeneratePdfWindow>);
             /*services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(configuration));*/
+            services.AddSingleton<IConfigOpenRouteService, AppConfiguration>(s => new AppConfiguration(configuration));
         });
         return hostBuilder;
     }

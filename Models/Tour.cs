@@ -13,7 +13,7 @@ namespace Models {
         private string _description = "";
         private string _startLocation = "";
         private string _endLocation = "";
-        private TransportType _transportType = TransportType.Car;
+        private TransportType _transportType = TransportType.CarPrivate;
         private string _routeInformationImage = "";
         private string _distance = "";
         private string _estimatedTime = "";
@@ -119,8 +119,6 @@ namespace Models {
                 }
             }
         }
-
-
         public Tour() { }
 
         public Tour(Tour tour) {

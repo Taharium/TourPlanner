@@ -1,4 +1,4 @@
-﻿namespace Tour_Planner.Configurations;
+﻿namespace BusinessLayer;
 
 public interface IConfigOpenRouteService {
     string ApiKey { get; }

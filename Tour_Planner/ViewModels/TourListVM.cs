@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using Tour_Planner.Services.MessageBoxServices;
@@ -22,11 +23,9 @@ namespace Tour_Planner.ViewModels {
         private readonly IMessageBoxService _messageBoxService;
         private readonly ITourStore _tourStore;
 
-        public TourListVM(IBusinessLogicTours businessLogicTours,
-                            IWindowService<AddTourWindowVM, AddTourWindow> addTourWindow, 
-                            IMessageBoxService messageBoxService,
-                            ITourStore tourStore,
-                            IWindowService<EditTourWindowVM, EditTourWindow> editTourWindow) {
+        public TourListVM(IBusinessLogicTours businessLogicTours, IWindowService<AddTourWindowVM, AddTourWindow> addTourWindow, 
+            IMessageBoxService messageBoxService, ITourStore tourStore, 
+            IWindowService<EditTourWindowVM, EditTourWindow> editTourWindow) {
             _editTourWindow = editTourWindow;
             _businessLogicTours = businessLogicTours;
             _addTourWindow = addTourWindow;
