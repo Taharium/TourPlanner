@@ -1,8 +1,10 @@
 ﻿using BusinessLayer;
 using Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using Tour_Planner.Services.MessageBoxServices;
@@ -14,12 +16,10 @@ namespace Tour_Planner.ViewModels {
         public ObservableCollection<Tour> TourList { get; } = new();
 
         private readonly IBusinessLogicTours _businessLogicTours;
-        private readonly IOpenRouteService _openRouteService;
         private readonly IWindowService<AddTourWindowVM, AddTourWindow> _addTourWindow;
         private readonly IMessageBoxService _messageBoxService;
 
-        public TourListVM(IBusinessLogicTours businessLogicTours, IWindowService<AddTourWindowVM, AddTourWindow> addTourWindow, IMessageBoxService messageBoxService, IOpenRouteService openRouteService) {
-            _openRouteService = openRouteService;
+        public TourListVM(IBusinessLogicTours businessLogicTours, IWindowService<AddTourWindowVM, AddTourWindow> addTourWindow, IMessageBoxService messageBoxService) {
             _businessLogicTours = businessLogicTours;
             _addTourWindow = addTourWindow;
             _messageBoxService = messageBoxService;
@@ -114,7 +114,6 @@ namespace Tour_Planner.ViewModels {
 
         private void AddTour(Tour tour) {
             //_businessLogicTours.AddTour(tour);      //check first if add is successful then add in list
-            _openRouteService.GetRoute(tour);
             TourList.Add(tour);
             SelectedTour = tour;
             TourListCollectionView.Refresh();

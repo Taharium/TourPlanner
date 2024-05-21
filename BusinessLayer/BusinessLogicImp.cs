@@ -1,18 +1,26 @@
 using DataAccessLayer;
 ﻿using System.Diagnostics;
+using System.Text.Json.Nodes;
 using Models;
 using Tour_Planner.Enums;
 
 
 namespace BusinessLayer {
     public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
+
+        private readonly IOpenRouteService _openRouteService;
+        public BusinessLogicImp(IOpenRouteService openRouteService)
+        {
+            _openRouteService = openRouteService;
+        }
+        
         public List<Tour> TourList { get; set; } = [
             new Tour() {
                 Name = "Yess",
                 Description = "Yess we can",
                 StartLocation = "Washington",
                 EndLocation = "San Francisco",
-                TransportType = TransportType.Plane,
+                TransportType = TransportType.CarPrivate,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
@@ -20,7 +28,7 @@ namespace BusinessLayer {
                 Description = "We can do it",
                 StartLocation = "New York",
                 EndLocation = "LA",
-                TransportType = TransportType.Plane,
+                TransportType = TransportType.CarPrivate,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
@@ -28,7 +36,7 @@ namespace BusinessLayer {
                 Description = "Yooo",
                 StartLocation = "Berlin",
                 EndLocation = "Munich",
-                TransportType = TransportType.Car,
+                TransportType = TransportType.CarPrivate,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
@@ -36,7 +44,7 @@ namespace BusinessLayer {
                 Description = "Austria is a country",
                 StartLocation = "Vienna",
                 EndLocation = "Salzburg",
-                TransportType = TransportType.Car,
+                TransportType = TransportType.CarPrivate,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             }
         ];
@@ -48,7 +56,10 @@ namespace BusinessLayer {
         
         
 
-        public void AddTour(Tour tour) {
+        public async Task AddTour(Tour tour) {
+            var jsonNodedirections = await _openRouteService.GetRoute(tour.StartLocation, tour.EndLocation, tour.TransportType);
+            tour.Distance = _openRouteService.GetDistance(jsonNodedirections);
+            tour.EstimatedTime = _openRouteService.GetEstimatedTime(jsonNodedirections);
             TourList.Add(tour);
             AddTourEvent?.Invoke(tour);
         }

@@ -9,9 +9,9 @@ namespace Models {
         public string Description { get; set; } = "";
         public string StartLocation { get; set; } = "";
         public string EndLocation { get; set; } = "";
-        public TransportType TransportType { get; set; } = TransportType.Car;
+        public TransportType TransportType { get; set; } = TransportType.CarPrivate;
         public string RouteInformationImage { get; set; } = "";
-        public double Distance { get; set; } 
+        public string Distance { get; set; } = "";
         public string EstimatedTime { get; set; } = "";
 
 

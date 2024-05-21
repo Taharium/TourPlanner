@@ -5,7 +5,7 @@ namespace BusinessLayer;
 public interface IBusinessLogicTours
 {
     IEnumerable<Tour> GetTours();
-    void AddTour(Tour tour);
+    Task AddTour(Tour tour);
     void DeleteTour(Tour tour);
     void UpdateTour(Tour tour);
     event Action<Tour> AddTourEvent;
