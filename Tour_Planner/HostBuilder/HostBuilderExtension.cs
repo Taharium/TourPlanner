@@ -5,10 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using Tour_Planner.ReportGeneration;
 using Tour_Planner.Services.AddTourServices;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.OpenFileDialogServices;
+using Tour_Planner.Services.OpenFolderDialogServices;
+using Tour_Planner.Services.PdfReportGenerationServices;
 using Tour_Planner.Services.SaveFileDialogServices;
 using Tour_Planner.Services.WindowServices;
 using Tour_Planner.Stores.TourLogStores;
@@ -59,10 +60,12 @@ public static class HostBuilderExtension {
 
     public static IHostBuilder AddServices(this IHostBuilder hostBuilder, IConfiguration configuration) {
         hostBuilder.ConfigureServices(services => {
+            services.AddSingleton<IPdfReportGenerationService, PdfReportGenerationService>();
+            services.AddSingleton<IOpenFolderDialogService, OpenFolderDialogService>();
             services.AddSingleton<IOpenFileDialogService, OpenFileDialogService>();
             services.AddSingleton<ISaveFileDialogService, SaveFileDialogService>();
             services.AddSingleton<IMessageBoxService, MessageBoxService>();
-            services.AddSingleton<IPdfReportGeneration, PdfReportGeneration>();
+            
             services.AddSingleton<IWindowStore, WindowStore>();
             services.AddSingleton<ITourStore, TourStore>();
             services.AddSingleton<ITourLogStore, TourLogStore>();

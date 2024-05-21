@@ -6,12 +6,14 @@ using System.IO;
 using System.Linq;
 using Models;
 using System.Windows;
+using System.Windows.Forms;
 using BusinessLayer;
 using Tour_Planner.Extensions;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.SaveFileDialogServices;
 using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;
+using MessageBoxOptions = System.Windows.MessageBoxOptions;
 
 namespace Tour_Planner.ViewModels;
 
@@ -43,7 +45,7 @@ public class ExportTourWindowVM : ViewModelBase {
             if (_selectAll != value) {
                 _selectAll = value;
                 OnPropertyChanged(nameof(SelectAll));
-                UpdateSelection(SelectAll);
+                UpdateSelection(_selectAll);
                 Debug.WriteLine($"IsSelected Count: {TourList.Count(t => t.IsSelected)}");
             }
         }
@@ -82,6 +84,7 @@ public class ExportTourWindowVM : ViewModelBase {
 
     public RelayCommand SearchAndSaveExportCommand { get; }
     public RelayCommand UnSelectAllCommand { get; }
+    public RelayCommand WindowClosingCommand { get; }
 
     public ExportTourWindowVM(IWindowStore windowStore, IBusinessLogicTours businessLogicTours,
         ISaveFileDialogService saveFileDialogService, IMessageBoxService messageBoxService) {
@@ -91,6 +94,15 @@ public class ExportTourWindowVM : ViewModelBase {
         _messageBoxService = messageBoxService;
         SearchAndSaveExportCommand = new RelayCommand((_) => OpenFileExplorer());
         UnSelectAllCommand = new RelayCommand((_) => UnSelectTours());
+        WindowClosingCommand = new RelayCommand((_) => CloseWindow());
+    }
+
+    private void CloseWindow() {
+        _selectAll = false;
+        List<Tour> tours = TourList.Where(t => t.IsSelected).ToList();
+        foreach (var tour in tours) {
+            tour.IsSelected = false;
+        }
     }
 
     private void UnSelectTours() {
@@ -158,7 +170,7 @@ public class ExportTourWindowVM : ViewModelBase {
             if (result == MessageBoxResult.Yes) {
                 Process.Start("explorer.exe", FilePath);
             }
-
+            CloseWindow();
             _windowStore.Close();
         }
     }

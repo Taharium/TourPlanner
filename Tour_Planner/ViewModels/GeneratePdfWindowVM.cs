@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using BusinessLayer;
+using Microsoft.Win32;
 using Models;
 using Tour_Planner.Services.MessageBoxServices;
-using Tour_Planner.Services.SaveFileDialogServices;
+using Tour_Planner.Services.OpenFolderDialogServices;
+using Tour_Planner.Services.PdfReportGenerationServices;
 using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;
 
@@ -15,7 +16,8 @@ namespace Tour_Planner.ViewModels;
 public class GeneratePdfWindowVM : ViewModelBase{
     private readonly IWindowStore _windowStore;
     private readonly IMessageBoxService _messageBoxService;
-    private readonly ISaveFileDialogService _saveFileDialogService;
+    private readonly IPdfReportGenerationService _pdfReportGenerationService;
+    private readonly IOpenFolderDialogService _openFolderDialogService;
 
     private ObservableCollection<Tour> _tourList;
     private Tour? _selectedTour;
@@ -82,9 +84,13 @@ public class GeneratePdfWindowVM : ViewModelBase{
         set {
             if (_selectedTour != value) {
                 _selectedTour = value;
-                if (_selectedTour != null && !SelectAll) {
+                if (_selectedTour != null) {
                     _selectedTour.IsSelected = true;
                     Debug.WriteLine($"Selected: {SelectedTour?.Name}");
+                }
+
+                if (SelectAll && _selectedTour != null) {
+                    _selectedTour.IsSelected = false;
                 }
                 
                 OnPropertyChanged(nameof(SelectedTour));
@@ -95,21 +101,34 @@ public class GeneratePdfWindowVM : ViewModelBase{
 
     public RelayCommand GeneratePdfReportCommand { get; }
     public RelayCommand UnSelectCommand { get; }
+    public RelayCommand WindowClosingCommand { get; }
     
     public GeneratePdfWindowVM(IWindowStore windowStore, ITourStore tourStore, IBusinessLogicTours businessLogicTours, 
-        IMessageBoxService messageBoxService, ISaveFileDialogService saveFileDialogService) {
+        IMessageBoxService messageBoxService, IOpenFolderDialogService openFolderDialogService, 
+        IPdfReportGenerationService pdfReportGenerationService) {
         _windowStore = windowStore;
         _messageBoxService = messageBoxService;
-        _saveFileDialogService = saveFileDialogService;
+        _openFolderDialogService = openFolderDialogService;
+        _pdfReportGenerationService = pdfReportGenerationService;
+        
         _tourList = new(businessLogicTours.GetTours());
         _selectedTour = tourStore.CurrentTour;
 
         GeneratePdfReportCommand = new RelayCommand((_) => GeneratePdfReport());
         UnSelectCommand = new RelayCommand((_) => UnSelectTour());
+        WindowClosingCommand = new RelayCommand((_) => CloseWindow());
+    }
+
+    private void CloseWindow() {
+        _selectAll = false;
+        if (SelectedTour != null) 
+            SelectedTour.IsSelected = false;
     }
 
     private void UnSelectTour() {
         _selectAll = false;
+        if (_selectedTour != null) 
+            _selectedTour.IsSelected = false;
         OnPropertyChanged(nameof(SelectAll));
     }
 
@@ -118,9 +137,53 @@ public class GeneratePdfWindowVM : ViewModelBase{
             SelectedTour.IsSelected = false;
         OnPropertyChanged(nameof(TourList));
     }
-    
+
+    private bool IsOneTourSelected() {
+        return SelectedTour is { IsSelected: true };
+    }
+
+    private bool ValidateGenerate() {
+        if (!SelectAll && !IsOneTourSelected()) {
+            ErrorMessage = "Please select one Tour";
+            return false;
+        }
+        
+        if (FileName == "") {
+            ErrorMessage = "Please write a file name";
+            return false;
+        }
+
+        return true;
+    }
     
     private void GeneratePdfReport() {
-        
+        if (!ValidateGenerate()) {
+            return;
+        }
+
+        ErrorMessage = "";
+
+        bool? dialog = _openFolderDialogService.ShowDialog();
+        if (dialog is true) {
+            FilePath = $"{_openFolderDialogService.GetFolderPath()}\\{FileName}.pdf";
+            
+            if (SelectedTour is { IsSelected: true }) {
+                _pdfReportGenerationService.GenerateOneTourReport(SelectedTour, FilePath);
+            }
+            else if (SelectAll) {
+                _pdfReportGenerationService.GenerateToursSummaryReport(TourList.ToList(),FilePath);
+            }
+            //TODO: Exception handling
+            //TODO: Logging
+            
+            MessageBoxResult result = _messageBoxService.Show("File saved successfully!\n Do you want to see the file?",
+                "Pdf-Report", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No,
+                MessageBoxOptions.None);
+            if (result == MessageBoxResult.Yes) {
+                Process.Start("explorer.exe", FilePath);
+            }
+            CloseWindow();
+            _windowStore.Close();
+        }
     }
 }

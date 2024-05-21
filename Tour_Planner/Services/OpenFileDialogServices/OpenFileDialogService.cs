@@ -6,7 +6,6 @@ namespace Tour_Planner.Services.OpenFileDialogServices;
 public class OpenFileDialogService : IOpenFileDialogService {
 
     private readonly OpenFileDialog _openFileDialog = new();
-    private bool _disposed = false;
 
     public bool? ShowDialog() {
         _openFileDialog.InitialDirectory = @"C:\";

@@ -5,6 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
         xmlns:converter="clr-namespace:Tour_Planner.Converter"
+        xmlns:localBehavior="clr-namespace:Tour_Planner.Behavior"
+        localBehavior:WindowClosingBehavior.ClosingCommand="{Binding WindowClosingCommand}"
         mc:Ignorable="d"
         Title="ExportTourWindow" Height="500" Width="600">
     

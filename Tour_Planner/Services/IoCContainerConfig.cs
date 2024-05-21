@@ -5,9 +5,9 @@ using DataAccessLayer.ToursRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Tour_Planner.ReportGeneration;
 using Tour_Planner.Services.AddTourServices;
 using Tour_Planner.Services.MessageBoxServices;
+using Tour_Planner.Services.PdfReportGenerationServices;
 using Tour_Planner.Services.WindowServices;
 using Tour_Planner.Stores.WindowStores;
 using Tour_Planner.ViewModels;
@@ -25,7 +25,7 @@ public class IoCContainerConfig {
        
         _services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
         _services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
-        _services.AddSingleton<IPdfReportGeneration, PdfReportGeneration>();
+        _services.AddSingleton<IPdfReportGenerationService, PdfReportGenerationService>();
         _services.AddTransient<IToursRepository, ToursRepository>();
         _services.AddTransient<IUnitofWork, UnitofWork>();
         _services.AddSingleton<IAddTourService, AddTourService>();

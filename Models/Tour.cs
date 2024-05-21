@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 using Tour_Planner.Enums;
 
 namespace Models {
@@ -108,6 +109,7 @@ namespace Models {
             }
         }
 
+        [JsonIgnore]
         public bool IsSelected {
             get => _isSelected;
             set {

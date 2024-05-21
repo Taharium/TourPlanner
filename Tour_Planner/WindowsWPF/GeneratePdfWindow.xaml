@@ -5,6 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Tour_Planner.WindowsWPF"
         xmlns:converter="clr-namespace:Tour_Planner.Converter"
+        xmlns:localBehavior="clr-namespace:Tour_Planner.Behavior"
+        localBehavior:WindowClosingBehavior.ClosingCommand="{Binding WindowClosingCommand}"
         mc:Ignorable="d"
         Title="GeneratePdfWindow" Height="500" Width="600">
     
@@ -40,7 +42,7 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <RadioButton GroupName="GenerateTourPDF" IsChecked="{Binding IsSelected}" Content="{Binding Name}" IsEnabled="{Binding DataContext.SelectAll, ElementName=TourListBox, Converter={converter:InverseBooleanConverter}}" CommandParameter="{Binding}" />
+                                        <RadioButton IsHitTestVisible="False" GroupName="GenerateTourPDF" IsChecked="{Binding IsSelected}" Content="{Binding Name}" IsEnabled="{Binding DataContext.SelectAll, ElementName=TourListBox, Converter={converter:InverseBooleanConverter}}" CommandParameter="{Binding}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

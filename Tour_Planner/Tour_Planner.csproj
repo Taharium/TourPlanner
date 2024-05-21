@@ -23,7 +23,7 @@
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
     <PackageReference Include="itext.bouncy-castle-adapter" Version="8.0.4" />
-    <PackageReference Include="itext7" Version="8.0.3" />
+    <PackageReference Include="itext7" Version="8.0.4" />
     <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -45,9 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\Images\Tour.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Assets\Images\Tour.png" />
   </ItemGroup>
 
   <ItemGroup>
