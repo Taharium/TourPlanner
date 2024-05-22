@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using DataAccessLayer.TourLogsRepository;
 using Microsoft.EntityFrameworkCore;
 using Tour_Planner.Configurations;
 using Tour_Planner.Services.AddTourServices;
@@ -55,14 +56,15 @@ public static class HostBuilderExtension {
             services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
             services.AddSingleton<IOpenRouteService, BusinessLogicOpenRouteService>();
             services.AddTransient<IToursRepository, ToursRepository>();
+            services.AddTransient<ITourLogsRepository, TourLogsRepository>();
             services.AddTransient<IUnitofWork, UnitofWork>();
-            services.AddSingleton<IAddTourService, AddTourService>();
+            //services.AddSingleton<IAddTourService, AddTourService>();
         });
         return hostBuilder;
     }
 
-    public static IHostBuilder AddServices(this IHostBuilder hostBuilder, IConfiguration configuration) {
-        hostBuilder.ConfigureServices(services => {
+    public static IHostBuilder AddServices(this IHostBuilder hostBuilder) {
+        hostBuilder.ConfigureServices((hostContext, services) => {
             services.AddSingleton<IPdfReportGenerationService, PdfReportGenerationService>();
             services.AddSingleton<IOpenFolderDialogService, OpenFolderDialogService>();
             services.AddSingleton<IOpenFileDialogService, OpenFileDialogService>();
@@ -109,17 +111,18 @@ public static class HostBuilderExtension {
             services.AddTransient<GeneratePdfWindowVM>();
             services.AddSingleton<Func<GeneratePdfWindowVM>>(s => s.GetRequiredService<GeneratePdfWindowVM>);
             services.AddSingleton<Func<GeneratePdfWindow>>(s => s.GetRequiredService<GeneratePdfWindow>);
-            services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(configuration));
-            services.AddSingleton<IConfigOpenRouteService, AppConfiguration>(s => new AppConfiguration(configuration));
-            services.AddDbContext<TourPlannerDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DataBase")));
+            
+            services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(hostContext.Configuration));
+            services.AddSingleton<IConfigOpenRouteService, AppConfiguration>(s => new AppConfiguration(hostContext.Configuration));
         });
         return hostBuilder;
     }
 
-    /*public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder) {
-        hostBuilder.ConfigureServices(services => {
-            //dotnet ef migrations add <MigrationName>
+    public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder) {
+        hostBuilder.ConfigureServices((hostContext, services) => {
+            services.AddDbContext<TourPlannerDbContext>(options =>
+                options.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase")));
         });
         return hostBuilder;
-    }*/
+    }
 }
