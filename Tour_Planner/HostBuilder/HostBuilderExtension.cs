@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Microsoft.EntityFrameworkCore;
 using Tour_Planner.Configurations;
 using Tour_Planner.Services.AddTourServices;
 using Tour_Planner.Services.MessageBoxServices;
@@ -108,17 +109,17 @@ public static class HostBuilderExtension {
             services.AddTransient<GeneratePdfWindowVM>();
             services.AddSingleton<Func<GeneratePdfWindowVM>>(s => s.GetRequiredService<GeneratePdfWindowVM>);
             services.AddSingleton<Func<GeneratePdfWindow>>(s => s.GetRequiredService<GeneratePdfWindow>);
-            /*services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(configuration));*/
+            services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(configuration));
             services.AddSingleton<IConfigOpenRouteService, AppConfiguration>(s => new AppConfiguration(configuration));
+            services.AddDbContext<TourPlannerDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DataBase")));
         });
         return hostBuilder;
     }
 
-    public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder) {
+    /*public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder) {
         hostBuilder.ConfigureServices(services => {
             //dotnet ef migrations add <MigrationName>
-            services.AddDbContext<TourPlannerDbContext>();
         });
         return hostBuilder;
-    }
+    }*/
 }
