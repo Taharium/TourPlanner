@@ -7,36 +7,31 @@ namespace DataAccessLayer;
 
 public class TourPlannerDbContext : DbContext
 {
-    /*private readonly IConfiguration _configuration = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json")
-        .Build();*/
 
     /*private readonly IConfigDatabase _configuration;*/
     
     public TourPlannerDbContext(DbContextOptions<TourPlannerDbContext> options) : base(options) {}
 
-    /*public TourPlannerDbContext()
+    /*public TourPlannerDbContext(IConfigDatabase configuration)
     {
+        _configuration = configuration;
     }*/
-    
     
     public DbSet<TourDTO> Tours { get; set; }
     
-    /*public void EnsureDb()
-    {
-        try
-        {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error: " + e.Message);
-        }
-    }*/
+    public DbSet<TourLogsDTO> TourLogs { get; set; }
+    
     
     /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     { 
         optionsBuilder.UseNpgsql(_configuration.ConnectionStringDb);
     }*/
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<TourDTO>()
+            .HasMany(t => t.TourLogsList)
+            .WithOne(tl => tl.Tour)
+            .HasForeignKey(tl => tl.TourId);
+    }
 }

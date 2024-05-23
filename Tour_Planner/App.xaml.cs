@@ -21,8 +21,9 @@ namespace Tour_Planner {
                 })
                 .AddViewModels()
                 .AddMainWindow()
-                .AddBusinessLayer()
                 .AddServices()
+                .AddBusinessLayer()
+                .AddDataAccessLayer()
                 .AddDbContext()
                 .Build();
         }

@@ -55,10 +55,16 @@ public static class HostBuilderExtension {
             services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
             services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
             services.AddSingleton<IOpenRouteService, BusinessLogicOpenRouteService>();
+        });
+        return hostBuilder;
+    }
+    
+    public static IHostBuilder AddDataAccessLayer(this IHostBuilder hostBuilder) {
+        hostBuilder.ConfigureServices(services => {
             services.AddTransient<IToursRepository, ToursRepository>();
             services.AddTransient<ITourLogsRepository, TourLogsRepository>();
             services.AddTransient<IUnitofWork, UnitofWork>();
-            //services.AddSingleton<IAddTourService, AddTourService>();
+            services.AddTransient<IAddTourService, AddTourService>();
         });
         return hostBuilder;
     }
@@ -119,9 +125,12 @@ public static class HostBuilderExtension {
     }
 
     public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder) {
-        hostBuilder.ConfigureServices((hostContext, services) => {
+        hostBuilder.ConfigureServices((hostContext, services) =>
+        {
             services.AddDbContext<TourPlannerDbContext>(options =>
-                options.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase")));
+            {
+                options.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase"));
+            });
         });
         return hostBuilder;
     }

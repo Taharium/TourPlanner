@@ -4,7 +4,7 @@ using Models;
 
 namespace Tour_Planner.Services.AddTourServices;
 
-public class AddTourService : IAddTourService
+public class AddTourService : TourServiceBase, IAddTourService
 {
     private readonly IUnitofWork _unitofWork;
     
