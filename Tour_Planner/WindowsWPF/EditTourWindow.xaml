@@ -34,11 +34,47 @@
             </DockPanel>
             <DockPanel Grid.Row="2">
                 <Label DockPanel.Dock="Top" Content="Start Location:" Style="{StaticResource TextSize}"/>
-                <TextBox x:Name="StartLocation" Text="{Binding Tour.StartLocation}" Style="{StaticResource TextBoxFontInWindow}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>    
+                        <ColumnDefinition Width="Auto"/>    
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Column="0" x:Name="StartLocation" Text="{Binding SelectedPlaceStart, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxFontInWindow}"/>
+                    <Button Grid.Row="0" Grid.Column="1" x:Name="SearchPlaceStartEdit" Content="Search" Command="{Binding SearchPlaceStartCommand}" CommandParameter="{Binding ElementName=StartLocation, Path=Text}" Style="{StaticResource TextBoxFontInWindow}" Padding="5 5 5 5"/>
+                    <ListBox Grid.Row="1" 
+                             Grid.Column="0" 
+                             Height="60"
+                             x:Name="SearchResultsEdit"
+                             ItemsSource="{Binding SearchResultsStart}"
+                             SelectedItem="{Binding SelectedPlaceStart}"
+                             Visibility="{Binding IsStartSearchTriggered, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </Grid>
             </DockPanel>
             <DockPanel Grid.Row="3">
                 <Label DockPanel.Dock="Top" Content="End Location:" Style="{StaticResource TextSize}"/>
-                <TextBox x:Name="EndLocation" Text="{Binding Tour.EndLocation}" Style="{StaticResource TextBoxFontInWindow}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>    
+                        <ColumnDefinition Width="Auto"/>    
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Row="0" Grid.Column="0" x:Name="EndLocation" Text="{Binding SelectedPlaceEnd, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxFontInWindow}" />
+                    <Button Grid.Row="0" Grid.Column="1" x:Name="SearchPlaceEndEdit" Content="Search" Command="{Binding SearchPlaceEndCommand}" CommandParameter="{Binding ElementName=EndLocation, Path=Text}" Style="{StaticResource TextBoxFontInWindow}" Padding="5 5 5 5 "/>
+                    <ListBox Grid.Row="1" 
+                             Grid.Column="0"
+                             Height="60"
+                             x:Name="SearchResultsEndEdit"
+                             ItemsSource="{Binding SearchResultsEnd}"
+                             SelectedItem="{Binding SelectedPlaceEnd}"
+                             Visibility="{Binding IsEndSearchTriggered, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </Grid>
             </DockPanel>
             <DockPanel Grid.Row="4">
                 <Label DockPanel.Dock="Top" Content="Transport Type:" Style="{StaticResource TextSize}"/>

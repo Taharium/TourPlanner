@@ -43,9 +43,12 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
     public string GetDistance(JsonNode jsonNodeDirections)
     {
         const int tokilometer = 1000;
-        double distance = jsonNodeDirections?["features"]?[0]?["properties"]?["segments"]?[0]?["distance"]?.GetValue<Double>() / tokilometer ?? 0;
-        var distancestr = distance.ToString("F2");
-        return distancestr;
+        var distance = jsonNodeDirections?["features"]?[0]?["properties"]?["segments"]?[0]?["distance"]?.GetValue<Double>() / tokilometer ?? 0;
+        var firstDecimal = Math.Floor(distance * 10) / 10;
+        distance = firstDecimal >= 5 ? Math.Ceiling(distance) : Math.Floor(distance);
+        var numberFormat = new NumberFormatInfo();
+        numberFormat.NumberDecimalSeparator = ".";
+        return distance.ToString(numberFormat);
     }
     
     public string GetEstimatedTime(JsonNode jsonNodeDirections)

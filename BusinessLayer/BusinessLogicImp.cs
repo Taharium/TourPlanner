@@ -57,8 +57,6 @@ namespace BusinessLayer {
         {
             return TourList;
         }
-        
-        
 
         public async Task AddTour(Tour tour) {
             var jsonNodedirections = await _openRouteService.GetRoute(tour.StartLocation, tour.EndLocation, tour.TransportType);
@@ -73,7 +71,10 @@ namespace BusinessLayer {
             OnTourDeleteEvent?.Invoke(tour);
         }
 
-        public void UpdateTour(Tour tour) {
+        public async Task UpdateTour(Tour tour) {
+            var jsonNodedirections = await _openRouteService.GetRoute(tour.StartLocation, tour.EndLocation, tour.TransportType);
+            tour.Distance = _openRouteService.GetDistance(jsonNodedirections);
+            tour.EstimatedTime = _openRouteService.GetEstimatedTime(jsonNodedirections);
             var index = TourList.IndexOf(tour);
             if (index != -1) {
                 TourList[index] = tour;
