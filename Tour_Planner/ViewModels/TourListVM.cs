@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -100,10 +101,15 @@ namespace Tour_Planner.ViewModels {
                    tour.Description.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
                    tour.StartLocation.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
                    tour.EndLocation.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
+                   tour.Distance.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
+                   tour.EstimatedTime.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
                    tour.TransportType.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
                    tour.TourLogsList.Any(t => t.Comment.Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
+                   tour.TourLogsList.Any(t => t.Distance.Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
+                   tour.TourLogsList.Any(t => t.TotalTime.Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
+                   tour.TourLogsList.Any(t => t.Rating.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
                    tour.TourLogsList.Any(t => t.Difficulty.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
-                   tour.TourLogsList.Any(t => t.Rating.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase));
+                   tour.TourLogsList.Any(t => t.DateTime.ToString(CultureInfo.InvariantCulture).Contains(_searchedText, StringComparison.OrdinalIgnoreCase));
         }
 
         private void OpenEditTour() {
