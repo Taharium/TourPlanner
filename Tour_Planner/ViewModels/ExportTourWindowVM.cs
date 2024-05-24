@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Models;
 using System.Windows;
-using System.Windows.Forms;
 using BusinessLayer;
+using Models;
 using Tour_Planner.Extensions;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.SaveFileDialogServices;
-using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;
 using MessageBoxOptions = System.Windows.MessageBoxOptions;
 
