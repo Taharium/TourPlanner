@@ -89,7 +89,7 @@ namespace BusinessLayer {
         public event Action<TourLogs>? OnTourLogDeleteEvent;
         public event Action<TourLogs>? OnTourLogUpdateEvent;
 
-        private Popularity ComputePopularity(Tour tour)
+        public Popularity ComputePopularity(Tour tour)
         {
             return tour.TourLogsList.Count switch
             {
@@ -100,7 +100,7 @@ namespace BusinessLayer {
             };
         }
         
-        private Child_Friendliness ComputeChildFriendliness(Tour tour)
+        public Child_Friendliness ComputeChildFriendliness(Tour tour)
         {
             if (tour.TourLogsList.Count == 0)
             {
