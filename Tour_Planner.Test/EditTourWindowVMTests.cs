@@ -16,7 +16,7 @@ namespace Tour_Planner.Test {
             IConfiguration configuration = new ConfigurationManager();
             IConfigOpenRouteService configOpenRouteService = new AppConfiguration(configuration);
             IOpenRouteService openRouteService = new BusinessLogicOpenRouteService(configOpenRouteService);
-            EditTourWindowVM viewModel = new EditTourWindowVM(new TourStore(), new WindowStore(), new BusinessLogicImp(openRouteService), new MessageBoxService());
+            EditTourWindowVM viewModel = new EditTourWindowVM(new TourStore(), new WindowStore(), new BusinessLogicImp(openRouteService), new MessageBoxService(), new BusinessLogicOpenRouteService(configOpenRouteService));
 
             // Act
             viewModel.FinishEditFunction();
