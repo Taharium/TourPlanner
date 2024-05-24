@@ -21,6 +21,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -43,6 +44,10 @@
                     <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding SelectedTour.Distance, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
                     <Label Grid.Row="2" Grid.Column="2" Content="Estimated Time (in h):" Style="{StaticResource TextSize}"/>
                     <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding SelectedTour.EstimatedTime, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <Label Grid.Row="3" Grid.Column="2" Content="Popularity:" Style="{StaticResource TextSize}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding SelectedTour.Popularity, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
+                    <Label Grid.Row="4" Grid.Column="2" Content="Child-friendliness:" Style="{StaticResource TextSize}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding SelectedTour.ChildFriendliness, Mode=TwoWay}" Style="{StaticResource TextBlockFontInWindow}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Route">

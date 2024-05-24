@@ -14,6 +14,8 @@ namespace Models {
         private string _startLocation = "";
         private string _endLocation = "";
         private TransportType _transportType = TransportType.CarPrivate;
+        private Popularity _popularity = Popularity.Low;
+        private Child_Friendliness _childFriendliness = Child_Friendliness.Low;
         private string _routeInformationImage = "";
         private string _distance = "";
         private string _estimatedTime = "";
@@ -78,6 +80,24 @@ namespace Models {
                 }
             }
         }
+        public Popularity Popularity {
+            get => _popularity;
+            set {
+                if (value != _popularity) {
+                    _popularity = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public Child_Friendliness ChildFriendliness {
+            get => _childFriendliness;
+            set {
+                if (value != _childFriendliness) {
+                    _childFriendliness = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public string RouteInformationImage {
             get => _routeInformationImage;
@@ -128,6 +148,8 @@ namespace Models {
             StartLocation = tour.StartLocation;
             EndLocation = tour.EndLocation;
             TransportType = tour.TransportType;
+            Popularity = tour.Popularity;
+            ChildFriendliness = tour.ChildFriendliness;
             RouteInformationImage = tour.RouteInformationImage;
             Distance = tour.Distance;
             EstimatedTime = tour.EstimatedTime;

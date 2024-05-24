@@ -89,14 +89,57 @@ namespace BusinessLayer {
         public event Action<TourLogs>? OnTourLogDeleteEvent;
         public event Action<TourLogs>? OnTourLogUpdateEvent;
 
+        private Popularity ComputePopularity(Tour tour)
+        {
+            return tour.TourLogsList.Count switch
+            {
+                <= 4 => Popularity.Low, 
+                <= 8 => Popularity.Medium, 
+                <= 12 => Popularity.High,
+                _ => Popularity.VeryHigh
+            };
+        }
+        
+        private Child_Friendliness ComputeChildFriendliness(Tour tour)
+        {
+            if (tour.TourLogsList.Count == 0)
+            {
+                return Child_Friendliness.Low; 
+            }
+
+            double totalDifficulty = 0;
+            double totalTime = 0;
+            double totalDistance = 0;
+
+            foreach (var log in tour.TourLogsList)
+            {
+                totalDifficulty += (int)log.Difficulty;
+                totalTime += double.Parse(log.TotalTime);
+                totalDistance += double.Parse(log.Distance);
+            }
+
+            double averageDifficulty = totalDifficulty / tour.TourLogsList.Count;
+            double averageTime = totalTime / tour.TourLogsList.Count;
+            double averageDistance = totalDistance / tour.TourLogsList.Count;
+
+            return (averageDifficulty, averageTime, averageDistance) switch
+            {
+                (<= 1, <= 2, <= 100) => Child_Friendliness.VeryHigh,
+                (<= 1.7, <= 3, <= 200) => Child_Friendliness.High,
+                (<= 2.5, <= 4, <= 300) => Child_Friendliness.Medium,
+                _ => Child_Friendliness.Low
+            };
+            
+        }
+        
+        
         public void AddTourLog(Tour tour, TourLogs tourLog) {
             var index = TourList.IndexOf(tour);
-            Debug.WriteLine($"Tour: {tour.Name}, {tour.Id}");
-            foreach (var tourl in TourList) {
-                Debug.WriteLine($"Tourl: {tourl.Name}, {tourl.Id}");
-            }
             if (index != -1) {
                 TourList[index].TourLogsList.Add(tourLog);
+                TourList[index].Popularity = ComputePopularity(TourList[index]);
+                TourList[index].ChildFriendliness = ComputeChildFriendliness(TourList[index]);
+                OnTourUpdateEvent?.Invoke(TourList[index]);
                 AddTourLogEvent?.Invoke(tourLog);
             }
         }
@@ -105,6 +148,9 @@ namespace BusinessLayer {
             var index = TourList.IndexOf(tour);
             if (index != -1) {
                 TourList[index].TourLogsList.Remove(tourLog);
+                TourList[index].Popularity = ComputePopularity(TourList[index]);
+                TourList[index].ChildFriendliness = ComputeChildFriendliness(TourList[index]);
+                OnTourUpdateEvent?.Invoke(TourList[index]);
                 OnTourLogDeleteEvent?.Invoke(tourLog);
             }
         }
@@ -116,6 +162,9 @@ namespace BusinessLayer {
                 var logIndex = TourList[index].TourLogsList.IndexOf(tourLog);
                 if (logIndex != -1) {
                     TourList[index].TourLogsList[logIndex] = tourLog;
+                    TourList[index].Popularity = ComputePopularity(TourList[index]);
+                    TourList[index].ChildFriendliness = ComputeChildFriendliness(TourList[index]);
+                    OnTourUpdateEvent?.Invoke(TourList[index]);
                     OnTourLogUpdateEvent?.Invoke(tourLog);
                 }
             }

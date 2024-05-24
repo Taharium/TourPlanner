@@ -56,7 +56,7 @@
                 <ComboBox Margin="5 0" Padding="7" x:Name="Difficulty" ItemsSource="{Binding DifficultyOptions}" SelectedItem="{Binding TourLogs.Difficulty, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
             <DockPanel Grid.Row="3">
-                <Label DockPanel.Dock="Top" Content="Total Distance (in m):" Style="{StaticResource TextSize}"/>
+                <Label DockPanel.Dock="Top" Content="Total Distance (in km):" Style="{StaticResource TextSize}"/>
                 <TextBox x:Name="Distance" Text="{Binding TourLogs.Distance, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxFontInWindow}"/>
             </DockPanel>
             <DockPanel Grid.Row="4">

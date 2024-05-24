@@ -37,9 +37,6 @@ namespace Tour_Planner.ViewModels {
             _tourStore = tourStore;
             TourList = new(_businessLogicTours.GetTours());
             TourListCollectionView = new(TourList);
-            foreach (var tour in TourList) {
-                Debug.WriteLine($"TourListVM: {tour.Name} {tour.Id}");
-            }
             AddTourCommand = new RelayCommand((_) => OpenAddTour());
             DeleteTourCommand = new RelayCommand((_) => OnDeleteTour(), (_) => CanExecuteAddEditDelTour());
             EditTourCommand = new RelayCommand((_) => OpenEditTour(), (_) => CanExecuteAddEditDelTour());
