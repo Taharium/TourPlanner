@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Tour_Planner.Enums;
+using Models.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.WindowStores;
 

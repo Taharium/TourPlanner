@@ -1,4 +1,4 @@
-﻿namespace Tour_Planner.Enums {
+﻿namespace Models.Enums {
 
     public enum Rating {
         Excellent = 5,

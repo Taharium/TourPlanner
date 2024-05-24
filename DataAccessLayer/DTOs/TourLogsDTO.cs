@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
-using Tour_Planner.Enums;
+using Models.Enums;
 
 namespace DataAccessLayer.DTOs;
 

@@ -1,9 +1,6 @@
-using DataAccessLayer;
 using System.Diagnostics;
-using System.Text.Json.Nodes;
 using Models;
-using Tour_Planner.Enums;
-
+using Models.Enums;
 
 namespace BusinessLayer {
     public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
@@ -44,7 +41,7 @@ namespace BusinessLayer {
                 Description = "Austria is a country",
                 StartLocation = "Vienna",
                 EndLocation = "Salzburg",
-                TransportType = TransportType.CarPrivate,
+                TransportType = TransportType.Wheelchair,
                 RouteInformationImage = @"..\Assets\Images\Tour.png",
                 TourLogsList = [new TourLogs() {
                     Distance = "34",

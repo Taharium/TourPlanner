@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Models.Enums;
 using Newtonsoft.Json;
-using Tour_Planner.Enums;
 
 namespace Models {
     public class Tour : INotifyPropertyChanged {

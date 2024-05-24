@@ -1,12 +1,6 @@
-﻿using System.Collections;
-using System.Diagnostics;
-using System.Globalization;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Globalization;
 using System.Text.Json.Nodes;
-using Microsoft.Extensions.DependencyInjection;
-using Models;
-using TransportType = Tour_Planner.Enums.TransportType;
+using TransportType = Models.Enums.TransportType;
 
 namespace BusinessLayer;
 

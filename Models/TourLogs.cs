@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Tour_Planner.Enums;
+using Models.Enums;
 
 namespace Models {
     public class TourLogs : INotifyPropertyChanged {

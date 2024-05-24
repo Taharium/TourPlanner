@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using BusinessLayer;
-using Tour_Planner.Enums;
+using Models.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;

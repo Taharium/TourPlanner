@@ -48,7 +48,7 @@ namespace Tour_Planner.ViewModels {
             return SelectedTour != null;
         }
 
-        private string _searchedTour = "";
+        private string _searchedText = "";
         private Tour? _selectedTour;
         // private ListCollectionView _tourListCollectionView;
 
@@ -86,17 +86,24 @@ namespace Tour_Planner.ViewModels {
 
 
 
-        public void SearchedTour(string searchedTour) {
-            _searchedTour = searchedTour;
+        public void SearchedTour(string searchedText) {
+            _searchedText = searchedText;
             TourListCollectionView ??= new ListCollectionView(TourList);
             TourListCollectionView.Filter = FilterTour;
         }
 
         private bool FilterTour(object item) {
-            if (string.IsNullOrEmpty(_searchedTour))
+            if (string.IsNullOrEmpty(_searchedText))
                 return true;
             var tour = (Tour)item;
-            return tour.Name.Contains(_searchedTour, StringComparison.OrdinalIgnoreCase);
+            return tour.Name.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
+                   tour.Description.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
+                   tour.StartLocation.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
+                   tour.EndLocation.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
+                   tour.TransportType.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
+                   tour.TourLogsList.Any(t => t.Comment.Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
+                   tour.TourLogsList.Any(t => t.Difficulty.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
+                   tour.TourLogsList.Any(t => t.Rating.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase));
         }
 
         private void OpenEditTour() {

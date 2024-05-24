@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Nodes;
-using Models;
-using Tour_Planner.Enums;
+using Models.Enums;
 
 namespace BusinessLayer;
 

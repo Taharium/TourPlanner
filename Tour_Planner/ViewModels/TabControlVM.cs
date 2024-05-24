@@ -1,5 +1,5 @@
 ﻿using Models;
-using Tour_Planner.Enums;
+using Models.Enums;
 using Tour_Planner.Stores.TourStores;
 
 namespace Tour_Planner.ViewModels {

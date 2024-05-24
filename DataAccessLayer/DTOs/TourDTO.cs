@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using Models;
-using Tour_Planner.Enums;
+using Models.Enums;
 
 namespace DataAccessLayer.DTOs;
 
