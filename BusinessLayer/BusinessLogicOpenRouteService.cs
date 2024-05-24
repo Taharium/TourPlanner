@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 using System.Text.Json.Nodes;
 using TransportType = Models.Enums.TransportType;
 
@@ -62,17 +63,20 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
         var jsonNode = JsonNode.Parse(content);
         //read the name property from every feature
         var places = new List<string>();
+        var sb = new StringBuilder();
         // Check if the features property exists and is an array
-        if (jsonNode?["features"] is JsonArray features)
-        {
+        if (jsonNode?["features"] is JsonArray features) {
             // Iterate over each feature
-            foreach (var feature in features)
-            {
+            foreach (var feature in features) {
                 // Check if the feature has a properties object and a name property
-                if (feature?["properties"]?["name"] is {} nameNode)
-                {
+                if (feature?["properties"]?["name"] is { } nameNode && feature["properties"]?["country"] is { } countryNode) {
+                    sb.Clear();
+                    sb.Append(nameNode);
+                    sb.Append(", ");
+                    sb.Append(countryNode);
                     // Add the name to the list
                     places.Add(nameNode.ToString());
+                    places.Add(sb.ToString());
                 }
             }
         }
