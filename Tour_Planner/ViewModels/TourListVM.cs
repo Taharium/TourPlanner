@@ -101,6 +101,8 @@ namespace Tour_Planner.ViewModels {
                    tour.Distance.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
                    tour.EstimatedTime.Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
                    tour.TransportType.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
+                   tour.Popularity.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
+                   tour.ChildFriendliness.ToString().Contains(_searchedText, StringComparison.OrdinalIgnoreCase) ||
                    tour.TourLogsList.Any(t => t.Comment.Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
                    tour.TourLogsList.Any(t => t.Distance.Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
                    tour.TourLogsList.Any(t => t.TotalTime.Contains(_searchedText, StringComparison.OrdinalIgnoreCase)) ||
