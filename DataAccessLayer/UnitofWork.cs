@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.TourLogsRepository;
+﻿using DataAccessLayer.DBContextFactory;
+using DataAccessLayer.TourLogsRepository;
 using DataAccessLayer.ToursRepository;
 
 namespace DataAccessLayer;
@@ -9,20 +10,26 @@ public class UnitofWork : IUnitofWork, IDisposable
     
     public ITourLogsRepository TourLogsRepository { get; }
     
-    private readonly TourPlannerDbContext _context;
+    private TourPlannerDbContext _context;
+
+    private readonly ITourPlannerDbContextFactory _contextFactory;
     
     private bool _disposed = false;
     
-    public UnitofWork(IToursRepository toursRepository, ITourLogsRepository tourLogsRepository, TourPlannerDbContext context)
+    public UnitofWork(IToursRepository toursRepository, ITourLogsRepository tourLogsRepository, ITourPlannerDbContextFactory contextFactory)
     {
         ToursRepository = toursRepository;
         TourLogsRepository = tourLogsRepository;
-        _context = context;
+        _contextFactory = contextFactory;
+        _context = _contextFactory.CreateDbContext();
     }
     
     public async Task<int> Commit()
     {
-        return await _context.SaveChangesAsync();
+        var result = await _context.SaveChangesAsync();
+        _context.Dispose();
+        _context = _contextFactory.CreateDbContext();
+        return result;
     }
 
 

@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DTOs;
+﻿using DataAccessLayer.DBContextFactory;
+using DataAccessLayer.DTOs;
 using Models;
 
 namespace DataAccessLayer.ToursRepository;
@@ -7,9 +8,9 @@ public class ToursRepository : IToursRepository
 {
     private readonly TourPlannerDbContext _dbContext;
 
-    public ToursRepository(TourPlannerDbContext dbContext)
+    public ToursRepository(ITourPlannerDbContextFactory contextFactory)
     {
-        _dbContext = dbContext;
+        _dbContext = contextFactory.CreateDbContext();
     }
     
     public IEnumerable<TourDTO> GetTours() => _dbContext.Tours.ToList();

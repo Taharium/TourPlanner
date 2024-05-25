@@ -1,9 +1,20 @@
-﻿namespace DataAccessLayer.TourLogsRepository;
+﻿using DataAccessLayer.DBContextFactory;
+using DataAccessLayer.DTOs;
+
+namespace DataAccessLayer.TourLogsRepository;
 
 public class TourLogsRepository : ITourLogsRepository
 {
-    public void AddTourLog()
+    private readonly TourPlannerDbContext _context;
+
+    public TourLogsRepository(ITourPlannerDbContextFactory contextFactory)
     {
-        throw new NotImplementedException();
+        _context = contextFactory.CreateDbContext();
+    }
+    
+    
+    public void AddTourLog(TourLogsDTO tourLogsDTO)
+    {
+        _context.TourLogs.Add(tourLogsDTO);
     }
 }

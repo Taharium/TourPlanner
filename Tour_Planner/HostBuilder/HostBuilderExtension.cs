@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using BusinessLayer.Services.AddTourServices;
+using DataAccessLayer.DBContextFactory;
 using DataAccessLayer.TourLogsRepository;
 using Microsoft.EntityFrameworkCore;
 using Tour_Planner.Configurations;
@@ -55,16 +56,16 @@ public static class HostBuilderExtension {
             services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
             services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
             services.AddSingleton<IOpenRouteService, BusinessLogicOpenRouteService>();
+            services.AddSingleton<IAddTourService, AddTourService>();
         });
         return hostBuilder;
     }
     
     public static IHostBuilder AddDataAccessLayer(this IHostBuilder hostBuilder) {
         hostBuilder.ConfigureServices(services => {
-            services.AddTransient<IToursRepository, ToursRepository>();
-            services.AddTransient<ITourLogsRepository, TourLogsRepository>();
-            services.AddTransient<IUnitofWork, UnitofWork>();
-            services.AddTransient<IAddTourService, AddTourService>();
+            services.AddSingleton<IToursRepository, ToursRepository>();
+            services.AddSingleton<ITourLogsRepository, TourLogsRepository>();
+            services.AddSingleton<IUnitofWork, UnitofWork>();
         });
         return hostBuilder;
     }
@@ -127,10 +128,15 @@ public static class HostBuilderExtension {
     public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder) {
         hostBuilder.ConfigureServices((hostContext, services) =>
         {
-            services.AddDbContext<TourPlannerDbContext>(options =>
+            /*services.AddDbContext<TourPlannerDbContext>(options =>
             {
                 options.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase"));
-            });
+            });*/
+            var optionsBuilder = new DbContextOptionsBuilder<TourPlannerDbContext>();
+            optionsBuilder.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase"));
+
+            services.AddSingleton(optionsBuilder.Options);
+            services.AddSingleton<ITourPlannerDbContextFactory, TourPlannerDbContextFactory>();
         });
         return hostBuilder;
     }
