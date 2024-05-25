@@ -10,7 +10,7 @@ namespace Tour_Planner.Test;
 public class BusinessLogicTests
 {
     private Tour tour = new Tour();
-    private IBusinessLogicTours businessLogictours;
+    private BusinessLogicImp businessLogictours;
     
     [SetUp]
     public void Setup()
@@ -23,8 +23,8 @@ public class BusinessLogicTests
         TourLogs log1 = new TourLogs
         {
             DateTime = DateTime.Now,
-            TotalTime = "2 hours",
-            Distance = "10 km",
+            TotalTime = "2",
+            Distance = "10",
             Rating = Rating.Excellent,
             Comment = "Great tour!",
             Difficulty = Difficulty.Easy
@@ -33,8 +33,8 @@ public class BusinessLogicTests
         TourLogs log2 = new TourLogs
         {
             DateTime = DateTime.Now.AddDays(-1),
-            TotalTime = "3 hours",
-            Distance = "15 km",
+            TotalTime = "3",
+            Distance = "15",
             Rating = Rating.Good,
             Comment = "Nice tour, a bit challenging.",
             Difficulty = Difficulty.Medium
@@ -49,11 +49,9 @@ public class BusinessLogicTests
             StartLocation = "Mountain Base",
             EndLocation = "Mountain Peak",
             TransportType = TransportType.FootHiking,
-            Popularity = Popularity.High,
-            ChildFriendliness = Child_Friendliness.Low,
             RouteInformationImage = "path_to_image",
-            Distance = "25 km",
-            EstimatedTime = "5 hours",
+            Distance = "25",
+            EstimatedTime = "5",
             TourLogsList = TourLogsList
         };
     }
@@ -67,6 +65,18 @@ public class BusinessLogicTests
         
         // Assert
         Assert.That(popularity, Is.EqualTo(Popularity.Low));
+        
+    }
+    
+    [Test]
+    public void ComputedChildFriendliness()
+    {
+        
+        // Act
+        var childFriendliness = businessLogictours.ComputeChildFriendliness(tour);
+        
+        // Assert
+        Assert.That(childFriendliness, Is.EqualTo(Child_Friendliness.High));
         
     }
 }

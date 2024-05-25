@@ -124,9 +124,9 @@ namespace BusinessLayer {
 
             return (averageDifficulty, averageTime, averageDistance) switch
             {
-                (<= 1, <= 2, <= 100) => Child_Friendliness.VeryHigh,
-                (<= 1.7, <= 3, <= 200) => Child_Friendliness.High,
-                (<= 2.5, <= 4, <= 300) => Child_Friendliness.Medium,
+                (<= 1, <= 2, <= 30) => Child_Friendliness.VeryHigh,
+                (<= 1.7, <= 3, <= 60) => Child_Friendliness.High,
+                (<= 2.5, <= 4, <= 100) => Child_Friendliness.Medium,
                 _ => Child_Friendliness.Low
             };
             
