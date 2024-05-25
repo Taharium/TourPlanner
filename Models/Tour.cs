@@ -8,7 +8,7 @@ namespace Models {
     public class Tour : INotifyPropertyChanged {
         //private ObservableCollection<TourLogs> _tourLogsList = new ObservableCollection<TourLogs>();
         public ObservableCollection<TourLogs> TourLogsList { get; set; } = new ObservableCollection<TourLogs>();
-        private Guid _id = Guid.NewGuid();
+        private int _id;
         private string _name = "";
         private string _description = "";
         private string _startLocation = "";
@@ -21,7 +21,7 @@ namespace Models {
         private string _estimatedTime = "";
         private bool _isSelected;
 
-        public Guid Id {
+        public int Id {
             get => _id;
             set {
                 if (_id != value) {

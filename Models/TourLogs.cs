@@ -3,9 +3,10 @@ using System.Runtime.CompilerServices;
 using Models.Enums;
 
 namespace Models {
-    public class TourLogs : INotifyPropertyChanged {
+    public class TourLogs : INotifyPropertyChanged
+    {
 
-        private Guid _id = Guid.NewGuid();
+        private int _id;
         private DateTime _dateTime = DateTime.Now;
         private string _totalTime = "";
         private string _distance = "";
@@ -13,7 +14,7 @@ namespace Models {
         private string _comment = "";
         private Rating _rating = Rating.Excellent;
 
-        public Guid Id {
+        public int Id {
             get => _id;
             set {
                 if (_id != value) {

@@ -1,11 +1,11 @@
 ﻿using System;
 using BusinessLayer;
+using BusinessLayer.Services.AddTourServices;
 using DataAccessLayer;
 using DataAccessLayer.ToursRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Tour_Planner.Services.AddTourServices;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.PdfReportGenerationServices;
 using Tour_Planner.Services.WindowServices;

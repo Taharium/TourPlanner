@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using BusinessLayer.Services.AddTourServices;
 using Models;
 using Models.Enums;
 
@@ -6,9 +7,12 @@ namespace BusinessLayer {
     public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
 
         private readonly IOpenRouteService _openRouteService;
-        public BusinessLogicImp(IOpenRouteService openRouteService)
+        
+        private IAddTourService _addTourService;
+        public BusinessLogicImp(IOpenRouteService openRouteService, IAddTourService addTourService)
         {
             _openRouteService = openRouteService;
+            _addTourService = addTourService;
         }
         
         public List<Tour> TourList { get; set; } = [
@@ -63,10 +67,11 @@ namespace BusinessLayer {
             tour.Distance = _openRouteService.GetDistance(jsonNodedirections);
             tour.EstimatedTime = _openRouteService.GetEstimatedTime(jsonNodedirections);
             TourList.Add(tour);
+            /*await _addTourService.AddTour(tour);*/
             AddTourEvent?.Invoke(tour);
         }
 
-        public void DeleteTour(Tour tour) {
+        public async Task DeleteTour(Tour tour) {
             TourList.Remove(tour);
             OnTourDeleteEvent?.Invoke(tour);
         }
@@ -133,7 +138,7 @@ namespace BusinessLayer {
         }
         
         
-        public void AddTourLog(Tour tour, TourLogs tourLog) {
+        public async Task AddTourLog(Tour tour, TourLogs tourLog) {
             var index = TourList.IndexOf(tour);
             if (index != -1) {
                 TourList[index].TourLogsList.Add(tourLog);
@@ -144,7 +149,7 @@ namespace BusinessLayer {
             }
         }
 
-        public void DeleteTourLog(Tour tour, TourLogs tourLog) {
+        public async Task DeleteTourLog(Tour tour, TourLogs tourLog) {
             var index = TourList.IndexOf(tour);
             if (index != -1) {
                 TourList[index].TourLogsList.Remove(tourLog);
@@ -155,7 +160,7 @@ namespace BusinessLayer {
             }
         }
 
-        public void UpdateTourLog(Tour tour, TourLogs tourLog) {
+        public async Task UpdateTourLog(Tour tour, TourLogs tourLog) {
             var index = TourList.IndexOf(tour);
             //TourList[index] = new Tour(tour);
             if (index != -1) {

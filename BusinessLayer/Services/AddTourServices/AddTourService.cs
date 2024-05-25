@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using DataAccessLayer;
+﻿using DataAccessLayer;
 using Models;
 
-namespace Tour_Planner.Services.AddTourServices;
+namespace BusinessLayer.Services.AddTourServices;
 
 public class AddTourService : TourServiceBase, IAddTourService
 {
@@ -14,9 +13,10 @@ public class AddTourService : TourServiceBase, IAddTourService
     }
     
     public async Task AddTour(Tour tour)
-    { 
+    {
+        var tourDTO = ConvertToTourDTO(tour);
         
-        /*_unitofWork.ToursRepository.AddTour(tour);*/
+        _unitofWork.ToursRepository.AddTour(tourDTO);
         await _unitofWork.Commit();
     }
 }

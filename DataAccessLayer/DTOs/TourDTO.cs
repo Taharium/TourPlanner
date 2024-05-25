@@ -22,4 +22,6 @@ public class TourDTO
     public string EstimatedTime { get; set; } = null!;
     public ICollection<TourLogsDTO> TourLogsList { get; set; } = [];
     public TransportType TransportType { get; set; } 
+    public Popularity Popularity { get; set; }
+    public Child_Friendliness ChildFriendliness { get; set; }
 }

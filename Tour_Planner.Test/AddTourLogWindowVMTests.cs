@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using BusinessLayer.Services.AddTourServices;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Models.Enums;
