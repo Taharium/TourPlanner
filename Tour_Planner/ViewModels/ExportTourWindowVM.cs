@@ -9,6 +9,7 @@ using Models;
 using Tour_Planner.Extensions;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.SaveFileDialogServices;
+using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;
 using MessageBoxOptions = System.Windows.MessageBoxOptions;
 
@@ -84,9 +85,9 @@ public class ExportTourWindowVM : ViewModelBase {
     public RelayCommand WindowClosingCommand { get; }
 
     public ExportTourWindowVM(IWindowStore windowStore, IBusinessLogicTours businessLogicTours,
-        ISaveFileDialogService saveFileDialogService, IMessageBoxService messageBoxService) {
+        ISaveFileDialogService saveFileDialogService, IMessageBoxService messageBoxService, ITourStore tourstore) {
         _windowStore = windowStore;
-        _tourList = new(businessLogicTours.GetTours());
+        _tourList = new(tourstore.Tours);
         _saveFileDialog = saveFileDialogService;
         _messageBoxService = messageBoxService;
         SearchAndSaveExportCommand = new RelayCommand((_) => OpenFileExplorer());

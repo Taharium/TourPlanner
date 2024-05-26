@@ -1,5 +1,5 @@
-using System.Diagnostics;
 using BusinessLayer.Services.AddTourServices;
+using BusinessLayer.Services.GetToursService;
 using Models;
 using Models.Enums;
 
@@ -9,10 +9,14 @@ namespace BusinessLayer {
         private readonly IOpenRouteService _openRouteService;
         
         private IAddTourService _addTourService;
-        public BusinessLogicImp(IOpenRouteService openRouteService, IAddTourService addTourService)
+
+        private IGetToursService _getToursService;
+        
+        public BusinessLogicImp(IOpenRouteService openRouteService, IAddTourService addTourService, IGetToursService getToursService)
         {
             _openRouteService = openRouteService;
             _addTourService = addTourService;
+            _getToursService = getToursService;
         }
         
         public List<Tour> TourList { get; set; } = [
@@ -57,17 +61,17 @@ namespace BusinessLayer {
             }
         ];
 
-        public IEnumerable<Tour> GetTours()
+        public async Task<IEnumerable<Tour>> GetTours()
         {
-            return TourList;
+            return await _getToursService.GetTours();
         }
 
         public async Task AddTour(Tour tour) {
             var jsonNodedirections = await _openRouteService.GetRoute(tour.StartLocation, tour.EndLocation, tour.TransportType);
             tour.Distance = _openRouteService.GetDistance(jsonNodedirections);
             tour.EstimatedTime = _openRouteService.GetEstimatedTime(jsonNodedirections);
-            TourList.Add(tour);
-            /*await _addTourService.AddTour(tour);*/
+            /*TourList.Add(tour);*/
+            await _addTourService.AddTour(tour);
             AddTourEvent?.Invoke(tour);
         }
 

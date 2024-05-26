@@ -30,8 +30,17 @@ namespace Tour_Planner.ViewModels {
 
         public TabControlVM(ITourStore tourStore) {
             tourStore.OnSelectedTourChangedEvent += SetTour;
+            tourStore.OnTourDeleteEvent += ClearTour;
             _tour = tourStore.CurrentTour;
             _selectedTab = (int)TabControlEnum.General;
+        }
+
+        private void ClearTour(Tour? tour)
+        {
+            if (tour != null && tour == _tour)
+            {
+                SelectedTour = null;
+            }
         }
 
         private void SetTour(Tour? tour) {

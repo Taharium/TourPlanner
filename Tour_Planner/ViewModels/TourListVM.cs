@@ -16,7 +16,7 @@ using Tour_Planner.WindowsWPF;
 
 namespace Tour_Planner.ViewModels {
     public class TourListVM : ViewModelBase {
-        public ObservableCollection<Tour> TourList { get; } = new();
+        public ObservableCollection<Tour> TourList => _tourStore.Tours;
 
         private readonly IBusinessLogicTours _businessLogicTours;
         private readonly IWindowService<AddTourWindowVM, AddTourWindow> _addTourWindow;
@@ -35,7 +35,6 @@ namespace Tour_Planner.ViewModels {
             _businessLogicTours.OnTourDeleteEvent += DeleteTour;
             _businessLogicTours.OnTourUpdateEvent += EditTour;
             _tourStore = tourStore;
-            TourList = new(_businessLogicTours.GetTours());
             TourListCollectionView = new(TourList);
             AddTourCommand = new RelayCommand((_) => OpenAddTour());
             DeleteTourCommand = new RelayCommand((_) => OnDeleteTour(), (_) => CanExecuteAddEditDelTour());
@@ -117,8 +116,6 @@ namespace Tour_Planner.ViewModels {
 
         private void EditTour(Tour tour) {
             //_businessLogicTours.UpdateTour(tour);       //check first if update is successful then update in list
-            int index = TourList.IndexOf(tour);
-            TourList[index] = tour; //new(tour)
             SelectedTour = tour;
             TourListCollectionView.Refresh();
         }
@@ -131,7 +128,6 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void DeleteTour(Tour tour) {
-            TourList.Remove(tour);
             TourListCollectionView.Refresh();
         }
 
@@ -141,7 +137,6 @@ namespace Tour_Planner.ViewModels {
 
         private void AddTour(Tour tour) {
             //_businessLogicTours.AddTour(tour);      //check first if add is successful then add in list
-            TourList.Add(tour);
             SelectedTour = tour;
             TourListCollectionView.Refresh();
         }

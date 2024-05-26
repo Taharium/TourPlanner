@@ -111,7 +111,7 @@ public class GeneratePdfWindowVM : ViewModelBase{
         _openFolderDialogService = openFolderDialogService;
         _pdfReportGenerationService = pdfReportGenerationService;
         
-        _tourList = new(businessLogicTours.GetTours());
+        _tourList = new(tourStore.Tours);
         _selectedTour = tourStore.CurrentTour;
 
         GeneratePdfReportCommand = new RelayCommand((_) => GeneratePdfReport());

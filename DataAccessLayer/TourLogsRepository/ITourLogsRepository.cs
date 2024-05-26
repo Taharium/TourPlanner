@@ -4,6 +4,11 @@ namespace DataAccessLayer.TourLogsRepository;
 
 public interface ITourLogsRepository
 {
-     void AddTourLog(TourLogsDTO tourLogsDTO);
+     IEnumerable<TourLogsDTO> GetTourLogs(TourDTO tourDTO);
+     void AddTourLog(TourLogsDTO tourLogDTO);
+     void DeleteTourLog(TourLogsDTO tourLogDTO);
+     void UpdateTourLog(TourLogsDTO tourLogDTO);
+     
+     
      
 }

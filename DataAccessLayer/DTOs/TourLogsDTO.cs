@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 using Models.Enums;
 
 namespace DataAccessLayer.DTOs;
@@ -10,11 +10,11 @@ public class TourLogsDTO
     public int TourId { get; set; }
     public TourDTO Tour { get; set; } = null!;
     public DateTime DateTime = DateTime.Now;
-    [MaxLength(100)]
+    [Column(TypeName = "varchar(100)")]
     public string TotalTime { get; set; } = null!;
-    [MaxLength(100)]
+    [Column(TypeName = "varchar(100)")]
     public string Distance { get; set; } = null!;
-    [MaxLength(300)]
+    [Column(TypeName = "varchar(250)")]
     public string Comment { get; set; } = null!;
     public Difficulty Difficulty { get; set; }
     public Rating Rating { get; set; }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using BusinessLayer.Services.AddTourServices;
+using BusinessLayer.Services.GetToursService;
 using DataAccessLayer.DBContextFactory;
 using DataAccessLayer.TourLogsRepository;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,7 @@ public static class HostBuilderExtension {
             services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
             services.AddSingleton<IOpenRouteService, BusinessLogicOpenRouteService>();
             services.AddSingleton<IAddTourService, AddTourService>();
+            services.AddSingleton<IGetToursService, GetToursService>();
         });
         return hostBuilder;
     }

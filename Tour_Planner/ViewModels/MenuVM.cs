@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BusinessLayer;
 using Models;
 using Tour_Planner.Services.WindowServices;
@@ -14,6 +15,8 @@ public class MenuVM : ViewModelBase {
     private readonly IWindowService<ImportTourWindowVM, ImportTourWindow> _importTourWindow;
     private readonly IWindowService<ExportTourWindowVM, ExportTourWindow> _exportTourWindow;
     private readonly IWindowService<GeneratePdfWindowVM, GeneratePdfWindow> _generatepdfWindow;
+    private readonly ITourStore _tourStore;
+    
     public Tour? SelectedTour {
         get => _tour;
         set {
@@ -37,7 +40,8 @@ public class MenuVM : ViewModelBase {
         _exportTourWindow = exportTourWindow;
         _generatepdfWindow = generatepdfWindow;
         tourStore.OnSelectedTourChangedEvent += SetTour;
-        _tour = tourStore.CurrentTour;
+        _tourStore = tourStore;
+        _tour = _tourStore.CurrentTour;
         
         GenerateReportCommand = new RelayCommand((_) => OpenGeneratePdfWindow(), (_) => CanExecuteExportGenerateTour());
         ExportTourCommand = new RelayCommand((_) => OpenExportOneWindow(), (_) => CanExecuteExportGenerateTour());
@@ -56,8 +60,9 @@ public class MenuVM : ViewModelBase {
         _exportTourWindow.ShowDialog();
     }
 
-    private bool CanExecuteExportGenerateTour() {
-        return _businessLogicTours.GetTours().Count() != 0;
+    private bool CanExecuteExportGenerateTour()
+    {
+        return _tourStore.Tours.Any();
     }
 
     public void SetTour(Tour? tour) {
