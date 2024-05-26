@@ -19,7 +19,7 @@ public abstract class TourServiceBase
             TransportType = tour.TransportType,
             Popularity = tour.Popularity,
             ChildFriendliness = tour.ChildFriendliness,
-            //I dont know how to handle the TourLogsList
+            TourLogsList = ConvertToTourLogsDTO(tour.Id, tour.TourLogsList)
         };
     }
     
@@ -37,36 +37,44 @@ public abstract class TourServiceBase
             TransportType = tourDTO.TransportType,
             Popularity = tourDTO.Popularity,
             ChildFriendliness = tourDTO.ChildFriendliness,
-            //I dont know how to handle the TourLogsList
+            TourLogsList = new(ConvertToTourLogsModel(tourDTO.TourLogsList))
         };
     }
-    
-    protected TourLogsDTO ConvertToTourLogsDTO(Tour tour, TourLogs tourLog)
-    {
-        return new TourLogsDTO()
-        {
-            Id = tourLog.Id,
-            TourId = tour.Id,
-            DateTime = tourLog.DateTime,
-            TotalTime = tourLog.TotalTime,
-            Distance = tourLog.Distance,
-            Comment = tourLog.Comment,
-            Difficulty = tourLog.Difficulty,
-            Rating = tourLog.Rating,
-        };
+
+    private List<TourLogsDTO> ConvertToTourLogsDTO(int tourId, ICollection<TourLogs> tourLogs) {
+        List<TourLogsDTO> tourLogsDtos = [];
+        
+        foreach (var tourLog in tourLogs) {
+            tourLogsDtos.Add(new TourLogsDTO() {
+                Id = tourLog.Id,
+                TourId = tourId,
+                DateTime = tourLog.DateTime,
+                TotalTime = tourLog.TotalTime,
+                Distance = tourLog.Distance,
+                Comment = tourLog.Comment,
+                Difficulty = tourLog.Difficulty,
+                Rating = tourLog.Rating,
+            });
+        }
+
+        return tourLogsDtos;
     }
-    
-    protected TourLogs ConvertToTourLogsModel(TourLogsDTO tourLogDTO)
-    {
-        return new TourLogs()
-        {
-            Id = tourLogDTO.Id,
-            DateTime = tourLogDTO.DateTime,
-            TotalTime = tourLogDTO.TotalTime,
-            Distance = tourLogDTO.Distance,
-            Comment = tourLogDTO.Comment,
-            Difficulty = tourLogDTO.Difficulty,
-            Rating = tourLogDTO.Rating,
-        };
+
+    private List<TourLogs> ConvertToTourLogsModel(ICollection<TourLogsDTO> tourLogsDTO) {
+        List<TourLogs> tourLogsList = [];
+        
+        foreach (var tourLogDTO in tourLogsDTO) {
+            tourLogsList.Add(new TourLogs() {
+                Id = tourLogDTO.Id,
+                DateTime = tourLogDTO.DateTime,
+                TotalTime = tourLogDTO.TotalTime,
+                Distance = tourLogDTO.Distance,
+                Comment = tourLogDTO.Comment,
+                Difficulty = tourLogDTO.Difficulty,
+                Rating = tourLogDTO.Rating,
+            });
+        }
+
+        return tourLogsList;
     }
 }
