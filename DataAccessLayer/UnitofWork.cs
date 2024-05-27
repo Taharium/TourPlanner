@@ -11,24 +11,19 @@ public class UnitofWork : IUnitofWork, IDisposable
     public ITourLogsRepository TourLogsRepository { get; }
     
     private TourPlannerDbContext _context;
-
-    private readonly ITourPlannerDbContextFactory _contextFactory;
     
     private bool _disposed = false;
     
-    public UnitofWork(IToursRepository toursRepository, ITourLogsRepository tourLogsRepository, ITourPlannerDbContextFactory contextFactory)
+    public UnitofWork(IToursRepository toursRepository, ITourLogsRepository tourLogsRepository, TourPlannerDbContext context)
     {
         ToursRepository = toursRepository;
         TourLogsRepository = tourLogsRepository;
-        _contextFactory = contextFactory;
-        _context = _contextFactory.CreateDbContext();
+        _context = context;
     }
     
     public async Task<int> Commit()
     {
         var result = await _context.SaveChangesAsync();
-        _context.Dispose();
-        _context = _contextFactory.CreateDbContext();
         return result;
     }
 

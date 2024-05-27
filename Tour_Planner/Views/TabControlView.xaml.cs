@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Views
 {
@@ -20,9 +10,35 @@ namespace Tour_Planner.Views
     /// </summary>
     public partial class TabControlView : UserControl
     {
+        private readonly string _filepath;
+        
         public TabControlView()
         {
             InitializeComponent();
+            
+            _filepath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/Resource/leaflet.html");
+
+            DataContextChanged += SetEventHandlers;
+            
+            InitializeAsync();
+        }
+        
+        private void SetEventHandlers(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(DataContext is not TabControlVM) return;
+            var vm = (TabControlVM)DataContext;
+            vm.UpdatedRoute += UpdateMap;
+        }
+
+        private void UpdateMap()
+        {
+            webView.CoreWebView2.Navigate(_filepath);
+        }
+
+        private async void InitializeAsync()
+        {
+            await webView.EnsureCoreWebView2Async(null);
+            webView.CoreWebView2.Navigate(_filepath);
         }
     }
 }

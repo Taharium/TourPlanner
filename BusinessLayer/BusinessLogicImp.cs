@@ -25,7 +25,7 @@ namespace BusinessLayer {
                 Description = "Yess we can",
                 StartLocation = "Washington",
                 EndLocation = "San Francisco",
-                TransportType = TransportType.CarPrivate,
+                TransportType = TransportType.Car,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
@@ -33,7 +33,7 @@ namespace BusinessLayer {
                 Description = "We can do it",
                 StartLocation = "New York",
                 EndLocation = "LA",
-                TransportType = TransportType.CarPrivate,
+                TransportType = TransportType.Car,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
@@ -41,7 +41,7 @@ namespace BusinessLayer {
                 Description = "Yooo",
                 StartLocation = "Berlin",
                 EndLocation = "Munich",
-                TransportType = TransportType.CarPrivate,
+                TransportType = TransportType.Car,
                 RouteInformationImage = @"..\Assets\Images\Tour.png"
             },
             new Tour() {
@@ -68,6 +68,8 @@ namespace BusinessLayer {
 
         public async Task AddTour(Tour tour) {
             var jsonNodedirections = await _openRouteService.GetRoute(tour.StartLocation, tour.EndLocation, tour.TransportType);
+            var directionsstr = jsonNodedirections.ToString();
+            tour.Directions = directionsstr;
             tour.Distance = _openRouteService.GetDistance(jsonNodedirections);
             tour.EstimatedTime = _openRouteService.GetEstimatedTime(jsonNodedirections);
             /*TourList.Add(tour);*/

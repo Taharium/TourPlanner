@@ -65,9 +65,12 @@ public static class HostBuilderExtension {
     
     public static IHostBuilder AddDataAccessLayer(this IHostBuilder hostBuilder) {
         hostBuilder.ConfigureServices(services => {
-            services.AddSingleton<IToursRepository, ToursRepository>();
-            services.AddSingleton<ITourLogsRepository, TourLogsRepository>();
-            services.AddSingleton<IUnitofWork, UnitofWork>();
+            services.AddTransient<IToursRepository, ToursRepository>();
+            services.AddTransient<ITourLogsRepository, TourLogsRepository>();
+            services.AddSingleton<IUnitofWorkFactory, UnitofWorkFactory>();
+            services.AddSingleton<Func<IToursRepository>>(s => s.GetRequiredService<IToursRepository>);
+            services.AddSingleton<Func<ITourLogsRepository>>(s => s.GetRequiredService<ITourLogsRepository>);
+            services.AddSingleton<Func<TourPlannerDbContext>>(s => s.GetRequiredService<TourPlannerDbContext>);
         });
         return hostBuilder;
     }
@@ -130,15 +133,14 @@ public static class HostBuilderExtension {
     public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder) {
         hostBuilder.ConfigureServices((hostContext, services) =>
         {
-            /*services.AddDbContext<TourPlannerDbContext>(options =>
+            services.AddDbContext<TourPlannerDbContext>(options =>
             {
                 options.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase"));
-            });*/
-            var optionsBuilder = new DbContextOptionsBuilder<TourPlannerDbContext>();
+            });
+            /*var optionsBuilder = new DbContextOptionsBuilder<TourPlannerDbContext>();
             optionsBuilder.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase"));
 
-            services.AddSingleton(optionsBuilder.Options);
-            services.AddSingleton<ITourPlannerDbContextFactory, TourPlannerDbContextFactory>();
+            services.AddSingleton(optionsBuilder.Options);*/
         });
         return hostBuilder;
     }

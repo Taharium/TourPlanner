@@ -13,13 +13,14 @@ namespace Models {
         private string _description = "";
         private string _startLocation = "";
         private string _endLocation = "";
-        private TransportType _transportType = TransportType.CarPrivate;
+        private TransportType _transportType = TransportType.Car;
         private Popularity _popularity = Popularity.Low;
         private Child_Friendliness _childFriendliness = Child_Friendliness.Low;
         private string _routeInformationImage = "";
         private string _distance = "";
         private string _estimatedTime = "";
         private bool _isSelected;
+        private string _directions = "";
 
         public int Id {
             get => _id;
@@ -139,6 +140,17 @@ namespace Models {
                 }
             }
         }
+        
+        public string Directions {
+            get => _directions;
+            set {
+                if (value != _directions) {
+                    _directions = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
         public Tour() { }
 
         public Tour(Tour tour) {

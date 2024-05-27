@@ -8,9 +8,9 @@ public class ToursRepository : IToursRepository
 {
     private readonly TourPlannerDbContext _dbContext;
 
-    public ToursRepository(ITourPlannerDbContextFactory contextFactory)
+    public ToursRepository(TourPlannerDbContext dbContext)
     {
-        _dbContext = contextFactory.CreateDbContext();
+        _dbContext = dbContext;
     }
     
     public IEnumerable<TourDTO> GetTours() => _dbContext.Tours.ToList();

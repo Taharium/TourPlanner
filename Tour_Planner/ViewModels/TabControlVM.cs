@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using System;
+using System.IO;
+using Models;
 using Models.Enums;
 using Tour_Planner.Stores.TourStores;
 
@@ -8,6 +10,8 @@ namespace Tour_Planner.ViewModels {
         private int _selectedTab;
         private Tour? _tour;
 
+        public event Action? UpdatedRoute;
+        
         public Tour? SelectedTour {
             get => _tour;
             set {
@@ -31,6 +35,7 @@ namespace Tour_Planner.ViewModels {
         public TabControlVM(ITourStore tourStore) {
             tourStore.OnSelectedTourChangedEvent += SetTour;
             tourStore.OnTourDeleteEvent += ClearTour;
+            tourStore.OnSelectedTourChangedEvent += GenerateRoute;
             _tour = tourStore.CurrentTour;
             _selectedTab = (int)TabControlEnum.General;
         }
@@ -48,6 +53,19 @@ namespace Tour_Planner.ViewModels {
                 SelectedTab = (int)TabControlEnum.General;
                 SelectedTour = tour;
             }
+        }
+
+        public void GenerateRoute(Tour? tour)
+        {
+            if (tour != null)
+            {
+                string directionsFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/Resource/directions.js");
+                string directions = $"let directions = {tour.Directions};";
+                File.WriteAllText(directionsFile, directions);
+                UpdatedRoute?.Invoke();
+
+            }
+            
         }
     }
 }

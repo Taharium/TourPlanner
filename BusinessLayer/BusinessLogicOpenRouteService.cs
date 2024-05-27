@@ -66,20 +66,13 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
         var jsonNode = JsonNode.Parse(content);
         //read the name property from every feature
         var places = new List<string>();
-        var sb = new StringBuilder();
         // Check if the features property exists and is an array
         if (jsonNode?["features"] is JsonArray features) {
             // Iterate over each feature
             foreach (var feature in features) {
                 // Check if the feature has a properties object and a name property
-                if (feature?["properties"]?["name"] is { } nameNode && feature["properties"]?["country"] is { } countryNode) {
-                    sb.Clear();
-                    sb.Append(nameNode);
-                    sb.Append(", ");
-                    sb.Append(countryNode);
-                    // Add the name to the list
-                    places.Add(nameNode.ToString());
-                    places.Add(sb.ToString());
+                if (feature?["properties"]?["label"] is { } labelNode) {
+                    places.Add(labelNode.ToString());
                 }
             }
         }
@@ -94,14 +87,9 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
         
         string transport = transportType switch
         {
-            TransportType.CarPrivate => "driving-car",
-            TransportType.CarHgvs => "driving-hgv",
-            TransportType.CyclingRegular => "cycling-regular",
-            TransportType.CyclingRoad => "cycling-road",
-            TransportType.CyclingMountain => "cycling-mountain",
-            TransportType.CyclingElectric => "cycling-electric",
-            TransportType.FootWalking => "foot-walking",
-            TransportType.FootHiking => "foot-hiking",
+            TransportType.Car=> "driving-car",
+            TransportType.Cycling => "cycling-regular",
+            TransportType.Foot => "foot-walking",
             TransportType.Wheelchair => "wheelchair",
             _ => "driving-car"
         };
@@ -111,15 +99,8 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
         responseDirections.EnsureSuccessStatusCode();
         var contentDirections = await responseDirections.Content.ReadAsStringAsync();
         var jsonNodeDirections = JsonNode.Parse(contentDirections);
-        
-        return jsonNodeDirections;
-        /*get bbox
-        var bbox = jsonNodeDirections?["features"]?[0]?["bbox"];
-        var bboxstr = bbox?.ToString();
-        
-        get route coordinates
-        var routeCoordinates = jsonNodeDirections?["features"]?[0]?["geometry"]?["coordinates"];
-        var routeCoordinatesstr = routeCoordinates?.ToString();*/
+        //COULD BE NULL Should be handled
+        return jsonNodeDirections!;
         
     }
 }

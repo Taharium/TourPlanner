@@ -5,17 +5,18 @@ namespace BusinessLayer.Services.GetToursService;
 
 public class GetToursService : TourServiceBase, IGetToursService
 {
-    private readonly IUnitofWork _unitofWork;
+    private readonly IUnitofWorkFactory _unitofWorkFactory;
     
-    public GetToursService(IUnitofWork unitofWork)
+    public GetToursService(IUnitofWorkFactory unitofWorkFactory)
     {
-        _unitofWork = unitofWork;
+        _unitofWorkFactory = unitofWorkFactory;
     }
     
     public async Task<IEnumerable<Tour>> GetTours()
     {
-        var toursDTO = _unitofWork.ToursRepository.GetTours();
-        await _unitofWork.Commit();
+        var unitofWork = _unitofWorkFactory.CreateUnitofWork();
+        var toursDTO = unitofWork.ToursRepository.GetTours();
+        await unitofWork.Commit();
         return toursDTO.Select(tourDTO => ConvertToTourModel(tourDTO));
     }
 }

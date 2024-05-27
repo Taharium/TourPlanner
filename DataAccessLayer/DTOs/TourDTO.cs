@@ -24,6 +24,8 @@ public class TourDTO
     public TransportType TransportType { get; set; } 
     public Popularity Popularity { get; set; }
     public Child_Friendliness ChildFriendliness { get; set; }
+    [Column(TypeName = "Text")]
+    public string Directions { get; set; } = null!;
     
     [NotMapped]
     public ICollection<TourLogsDTO> TourLogsList { get; set; } = new List<TourLogsDTO>();

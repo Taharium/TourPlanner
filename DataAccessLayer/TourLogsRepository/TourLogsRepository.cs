@@ -7,9 +7,9 @@ public class TourLogsRepository : ITourLogsRepository
 {
     private readonly TourPlannerDbContext _context;
 
-    public TourLogsRepository(ITourPlannerDbContextFactory contextFactory)
+    public TourLogsRepository(TourPlannerDbContext dbContext)
     {
-        _context = contextFactory.CreateDbContext();
+        _context = dbContext;
     }
 
 

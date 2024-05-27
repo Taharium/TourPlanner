@@ -19,6 +19,7 @@ public abstract class TourServiceBase
             TransportType = tour.TransportType,
             Popularity = tour.Popularity,
             ChildFriendliness = tour.ChildFriendliness,
+            Directions = tour.Directions,
             TourLogsList = ConvertToTourLogsDTO(tour.Id, tour.TourLogsList)
         };
     }
@@ -37,6 +38,7 @@ public abstract class TourServiceBase
             TransportType = tourDTO.TransportType,
             Popularity = tourDTO.Popularity,
             ChildFriendliness = tourDTO.ChildFriendliness,
+            Directions = tourDTO.Directions,
             TourLogsList = new(ConvertToTourLogsModel(tourDTO.TourLogsList))
         };
     }

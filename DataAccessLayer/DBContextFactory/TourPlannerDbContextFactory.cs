@@ -4,15 +4,15 @@ namespace DataAccessLayer.DBContextFactory;
 
 public class TourPlannerDbContextFactory : ITourPlannerDbContextFactory
 {
-    private readonly DbContextOptions<TourPlannerDbContext> _options;
+    private readonly Func<TourPlannerDbContext> _dbcontext;
     
-    public TourPlannerDbContextFactory(DbContextOptions<TourPlannerDbContext> options)
+    public TourPlannerDbContextFactory(Func<TourPlannerDbContext> context)
     {
-        _options = options;
+        _dbcontext = context;
     }
     
     public TourPlannerDbContext CreateDbContext()
     {
-        return new TourPlannerDbContext(_options);
+        return _dbcontext();
     }
 }

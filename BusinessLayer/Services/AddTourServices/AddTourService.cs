@@ -5,18 +5,18 @@ namespace BusinessLayer.Services.AddTourServices;
 
 public class AddTourService : TourServiceBase, IAddTourService
 {
-    private readonly IUnitofWork _unitofWork;
+    private readonly IUnitofWorkFactory _unitofWorkFactory;
     
-    public AddTourService(IUnitofWork unitofWork)
+    public AddTourService(IUnitofWorkFactory unitofWorkFactory)
     {
-        _unitofWork = unitofWork;
+        _unitofWorkFactory = unitofWorkFactory;
     }
     
     public async Task AddTour(Tour tour)
     {
         var tourDTO = ConvertToTourDTO(tour);
-        
-        _unitofWork.ToursRepository.AddTour(tourDTO);
-        await _unitofWork.Commit();
+        var unitofWork = _unitofWorkFactory.CreateUnitofWork();
+        unitofWork.ToursRepository.AddTour(tourDTO);
+        await unitofWork.Commit();
     }
 }
