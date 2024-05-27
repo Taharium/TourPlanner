@@ -7,6 +7,7 @@ public abstract class TourServiceBase
 {
     protected TourDTO ConvertToTourDTO(Tour tour)
     {
+        //TODO: Convert Tourlogs habe ich wahrscheinlich falsch gemacht
         return new TourDTO()
         {
             Id = tour.Id,

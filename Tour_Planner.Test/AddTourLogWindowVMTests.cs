@@ -15,6 +15,7 @@ namespace Tour_Planner.Test {
         [Test]
         public void AddTourLog_InValidData_Success() {
             // Arrange
+            //TODO: MOCKING probably
             IConfiguration configuration = new ConfigurationManager();
             IConfigOpenRouteService configOpenRouteService = new AppConfiguration(configuration);
             IOpenRouteService openRouteService = new BusinessLogicOpenRouteService(configOpenRouteService);

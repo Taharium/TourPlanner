@@ -1,24 +1,29 @@
 using BusinessLayer.Services.AddTourServices;
+using BusinessLayer.Services.DeleteTourServices;
+using BusinessLayer.Services.EditTourServices;
 using BusinessLayer.Services.GetToursService;
 using Models;
 using Models.Enums;
 
 namespace BusinessLayer {
     public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
-
         private readonly IOpenRouteService _openRouteService;
-        
-        private IAddTourService _addTourService;
+
+        private readonly IAddTourService _addTourService;
+        private readonly IDeleteTourService _deleteTourService;
+        private readonly IEditTourService _editTourService;
 
         private IGetToursService _getToursService;
-        
-        public BusinessLogicImp(IOpenRouteService openRouteService, IAddTourService addTourService, IGetToursService getToursService)
-        {
+
+        public BusinessLogicImp(IOpenRouteService openRouteService, IAddTourService addTourService,
+            IGetToursService getToursService, IDeleteTourService deleteTourService, IEditTourService editTourService) {
             _openRouteService = openRouteService;
             _addTourService = addTourService;
+            _deleteTourService = deleteTourService;
+            _editTourService = editTourService;
             _getToursService = getToursService;
         }
-        
+
         public List<Tour> TourList { get; set; } = [
             new Tour() {
                 Name = "Yess",
@@ -51,18 +56,20 @@ namespace BusinessLayer {
                 EndLocation = "Salzburg",
                 TransportType = TransportType.Wheelchair,
                 RouteInformationImage = @"..\Assets\Images\Tour.png",
-                TourLogsList = [new TourLogs() {
-                    Distance = "34",
-                    TotalTime = "26"
-                }, new TourLogs() {
-                    Distance = "36",
-                    TotalTime = "268"
-                }]
+                TourLogsList = [
+                    new TourLogs() {
+                        Distance = "34",
+                        TotalTime = "26"
+                    },
+                    new TourLogs() {
+                        Distance = "36",
+                        TotalTime = "268"
+                    }
+                ]
             }
         ];
 
-        public async Task<IEnumerable<Tour>> GetTours()
-        {
+        public async Task<IEnumerable<Tour>> GetTours() {
             return await _getToursService.GetTours();
         }
 
@@ -78,7 +85,8 @@ namespace BusinessLayer {
         }
 
         public async Task DeleteTour(Tour tour) {
-            TourList.Remove(tour);
+            // TourList.Remove(tour);
+            await _deleteTourService.DeleteTour(tour);
             OnTourDeleteEvent?.Invoke(tour);
         }
 
@@ -86,11 +94,13 @@ namespace BusinessLayer {
             var jsonNodedirections = await _openRouteService.GetRoute(tour.StartLocation, tour.EndLocation, tour.TransportType);
             tour.Distance = _openRouteService.GetDistance(jsonNodedirections);
             tour.EstimatedTime = _openRouteService.GetEstimatedTime(jsonNodedirections);
-            var index = TourList.IndexOf(tour);
+            await _editTourService.EditTour(tour);
+            OnTourUpdateEvent?.Invoke(tour);        //TODO: check if edittour was successful, but how??? rethrow exceptions
+            /*var index = TourList.IndexOf(tour);
             if (index != -1) {
                 TourList[index] = tour;
                 OnTourUpdateEvent?.Invoke(tour);
-            }
+            }*/
         }
 
         public event Action<Tour>? AddTourEvent;
@@ -100,30 +110,25 @@ namespace BusinessLayer {
         public event Action<TourLogs>? OnTourLogDeleteEvent;
         public event Action<TourLogs>? OnTourLogUpdateEvent;
 
-        public Popularity ComputePopularity(Tour tour)
-        {
-            return tour.TourLogsList.Count switch
-            {
-                <= 4 => Popularity.Low, 
-                <= 8 => Popularity.Medium, 
+        public Popularity ComputePopularity(Tour tour) {
+            return tour.TourLogsList.Count switch {
+                <= 4 => Popularity.Low,
+                <= 8 => Popularity.Medium,
                 <= 12 => Popularity.High,
                 _ => Popularity.VeryHigh
             };
         }
-        
-        public Child_Friendliness ComputeChildFriendliness(Tour tour)
-        {
-            if (tour.TourLogsList.Count == 0)
-            {
-                return Child_Friendliness.Low; 
+
+        public Child_Friendliness ComputeChildFriendliness(Tour tour) {
+            if (tour.TourLogsList.Count == 0) {
+                return Child_Friendliness.Low;
             }
 
             double totalDifficulty = 0;
             double totalTime = 0;
             double totalDistance = 0;
 
-            foreach (var log in tour.TourLogsList)
-            {
+            foreach (var log in tour.TourLogsList) {
                 totalDifficulty += (int)log.Difficulty;
                 totalTime += double.Parse(log.TotalTime);
                 totalDistance += double.Parse(log.Distance);
@@ -133,17 +138,15 @@ namespace BusinessLayer {
             double averageTime = totalTime / tour.TourLogsList.Count;
             double averageDistance = totalDistance / tour.TourLogsList.Count;
 
-            return (averageDifficulty, averageTime, averageDistance) switch
-            {
+            return (averageDifficulty, averageTime, averageDistance) switch {
                 (<= 1, <= 2, <= 30) => Child_Friendliness.VeryHigh,
                 (<= 1.7, <= 3, <= 60) => Child_Friendliness.High,
                 (<= 2.5, <= 4, <= 100) => Child_Friendliness.Medium,
                 _ => Child_Friendliness.Low
             };
-            
         }
-        
-        
+
+
         public async Task AddTourLog(Tour tour, TourLogs tourLog) {
             var index = TourList.IndexOf(tour);
             if (index != -1) {
