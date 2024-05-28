@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.DBContextFactory;
 using DataAccessLayer.DTOs;
+using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace DataAccessLayer.ToursRepository;
@@ -12,7 +13,11 @@ public class ToursRepository : IToursRepository
     {
         _dbContext = dbContext;
     }
-    
+
+    public TourDTO? GetById(int id) {
+        return _dbContext.Tours.Find(id);
+    }
+
     public IEnumerable<TourDTO> GetTours() => _dbContext.Tours.ToList();
 
     public void AddTour(TourDTO tour)
@@ -22,16 +27,12 @@ public class ToursRepository : IToursRepository
     }
 
     public void DeleteTour(TourDTO tour)
-    {
-        _ = _dbContext.Tours.Find(tour.Id) ?? throw new ArgumentException("Tour not found with this Id");
-        
+    { 
         _dbContext.Tours.Remove(tour);
     }
 
     public void UpdateTour(TourDTO tour) {
-        var entry = _dbContext.Tours.Find(tour.Id) ?? throw new ArgumentException("Tour not found with this Id");
-        
-        _dbContext.Entry(entry).CurrentValues.SetValues(tour);
+        _dbContext.Entry(tour).State = EntityState.Modified;
     }
     
 }

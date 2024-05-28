@@ -1,5 +1,9 @@
+using System.Collections;
+using BusinessLayer.Services.AddTourLogServices;
 using BusinessLayer.Services.AddTourServices;
+using BusinessLayer.Services.DeleteTourLogServices;
 using BusinessLayer.Services.DeleteTourServices;
+using BusinessLayer.Services.EditTourLogServices;
 using BusinessLayer.Services.EditTourServices;
 using BusinessLayer.Services.GetToursService;
 using Models;
@@ -13,61 +17,25 @@ namespace BusinessLayer {
         private readonly IDeleteTourService _deleteTourService;
         private readonly IEditTourService _editTourService;
 
+        private readonly IAddTourLogService _addTourLogService;
+        private readonly IDeleteTourLogService _deleteTourLogService;
+        private readonly IEditTourLogService _editTourLogService;
+
         private IGetToursService _getToursService;
 
         public BusinessLogicImp(IOpenRouteService openRouteService, IAddTourService addTourService,
-            IGetToursService getToursService, IDeleteTourService deleteTourService, IEditTourService editTourService) {
+            IGetToursService getToursService, IDeleteTourService deleteTourService, IEditTourService editTourService,
+            IAddTourLogService addTourLogService, IDeleteTourLogService deleteTourLogService,
+            IEditTourLogService editTourLogService) {
             _openRouteService = openRouteService;
             _addTourService = addTourService;
             _deleteTourService = deleteTourService;
             _editTourService = editTourService;
             _getToursService = getToursService;
+            _addTourLogService = addTourLogService;
+            _deleteTourService = deleteTourService;
+            _editTourService = editTourService;
         }
-
-        public List<Tour> TourList { get; set; } = [
-            new Tour() {
-                Name = "Yess",
-                Description = "Yess we can",
-                StartLocation = "Washington",
-                EndLocation = "San Francisco",
-                TransportType = TransportType.Car,
-                RouteInformationImage = @"..\Assets\Images\Tour.png"
-            },
-            new Tour() {
-                Name = "We can",
-                Description = "We can do it",
-                StartLocation = "New York",
-                EndLocation = "LA",
-                TransportType = TransportType.Car,
-                RouteInformationImage = @"..\Assets\Images\Tour.png"
-            },
-            new Tour() {
-                Name = "Yooo",
-                Description = "Yooo",
-                StartLocation = "Berlin",
-                EndLocation = "Munich",
-                TransportType = TransportType.Car,
-                RouteInformationImage = @"..\Assets\Images\Tour.png"
-            },
-            new Tour() {
-                Name = "Austria",
-                Description = "Austria is a country",
-                StartLocation = "Vienna",
-                EndLocation = "Salzburg",
-                TransportType = TransportType.Wheelchair,
-                RouteInformationImage = @"..\Assets\Images\Tour.png",
-                TourLogsList = [
-                    new TourLogs() {
-                        Distance = "34",
-                        TotalTime = "26"
-                    },
-                    new TourLogs() {
-                        Distance = "36",
-                        TotalTime = "268"
-                    }
-                ]
-            }
-        ];
 
         public async Task<IEnumerable<Tour>> GetTours() {
             return await _getToursService.GetTours();
@@ -92,6 +60,8 @@ namespace BusinessLayer {
 
         public async Task UpdateTour(Tour tour) {
             var jsonNodedirections = await _openRouteService.GetRoute(tour.StartLocation, tour.EndLocation, tour.TransportType);
+            var directionsstr = jsonNodedirections.ToString();
+            tour.Directions = directionsstr;
             tour.Distance = _openRouteService.GetDistance(jsonNodedirections);
             tour.EstimatedTime = _openRouteService.GetEstimatedTime(jsonNodedirections);
             await _editTourService.EditTour(tour);
@@ -148,29 +118,45 @@ namespace BusinessLayer {
 
 
         public async Task AddTourLog(Tour tour, TourLogs tourLog) {
-            var index = TourList.IndexOf(tour);
+            tour.Popularity = ComputePopularity(tour);
+            tour.ChildFriendliness = ComputeChildFriendliness(tour);
+            await _addTourLogService.AddTourLog(tour, tourLog);
+            await _editTourService.EditTour(tour);
+            AddTourLogEvent?.Invoke(tourLog);
+            OnTourUpdateEvent?.Invoke(tour);
+            /*var index = TourList.IndexOf(tour);
             if (index != -1) {
                 TourList[index].TourLogsList.Add(tourLog);
                 TourList[index].Popularity = ComputePopularity(TourList[index]);
                 TourList[index].ChildFriendliness = ComputeChildFriendliness(TourList[index]);
                 OnTourUpdateEvent?.Invoke(TourList[index]);
                 AddTourLogEvent?.Invoke(tourLog);
-            }
+            }*/
         }
 
         public async Task DeleteTourLog(Tour tour, TourLogs tourLog) {
-            var index = TourList.IndexOf(tour);
+            await _deleteTourLogService.DeleteTourLog(tour, tourLog);
+            tour.ChildFriendliness = ComputeChildFriendliness(tour);
+            tour.Popularity = ComputePopularity(tour);
+            OnTourLogDeleteEvent?.Invoke(tourLog);
+            OnTourUpdateEvent?.Invoke(tour);
+            /*var index = TourList.IndexOf(tour);
             if (index != -1) {
                 TourList[index].TourLogsList.Remove(tourLog);
                 TourList[index].Popularity = ComputePopularity(TourList[index]);
                 TourList[index].ChildFriendliness = ComputeChildFriendliness(TourList[index]);
-                OnTourUpdateEvent?.Invoke(TourList[index]);
-                OnTourLogDeleteEvent?.Invoke(tourLog);
-            }
+                
+            }*/
         }
 
         public async Task UpdateTourLog(Tour tour, TourLogs tourLog) {
-            var index = TourList.IndexOf(tour);
+            await _editTourLogService.EditTourLog(tour, tourLog);
+            tour.ChildFriendliness = ComputeChildFriendliness(tour);
+            tour.Popularity = ComputePopularity(tour);
+            OnTourLogDeleteEvent?.Invoke(tourLog);
+            OnTourUpdateEvent?.Invoke(tour);
+            
+            /*var index = TourList.IndexOf(tour);
             //TourList[index] = new Tour(tour);
             if (index != -1) {
                 var logIndex = TourList[index].TourLogsList.IndexOf(tourLog);
@@ -181,7 +167,7 @@ namespace BusinessLayer {
                     OnTourUpdateEvent?.Invoke(TourList[index]);
                     OnTourLogUpdateEvent?.Invoke(tourLog);
                 }
-            }
+            }*/
         }
     }
 }

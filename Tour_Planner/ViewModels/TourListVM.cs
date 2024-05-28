@@ -31,9 +31,9 @@ namespace Tour_Planner.ViewModels {
             _businessLogicTours = businessLogicTours;
             _addTourWindow = addTourWindow;
             _messageBoxService = messageBoxService;
-            _businessLogicTours.AddTourEvent += AddTour;
+            /*_businessLogicTours.AddTourEvent += AddTour;
             _businessLogicTours.OnTourDeleteEvent += DeleteTour;
-            _businessLogicTours.OnTourUpdateEvent += EditTour;
+            _businessLogicTours.OnTourUpdateEvent += EditTour;*/
             _tourStore = tourStore;
             TourListCollectionView = new(TourList);
             AddTourCommand = new RelayCommand((_) => OpenAddTour());

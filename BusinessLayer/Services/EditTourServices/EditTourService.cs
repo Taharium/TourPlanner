@@ -13,7 +13,7 @@ public class EditTourService : TourServiceBase, IEditTourService {
     
     public async Task EditTour(Tour tour) {
         var tourDTO = ConvertToTourDTO(tour);
-        var unitOfWork = _unitofWorkFactory.CreateUnitofWork();
+        using var unitOfWork = _unitofWorkFactory.CreateUnitofWork();
         unitOfWork.ToursRepository.UpdateTour(tourDTO);
         await unitOfWork.Commit();
     }

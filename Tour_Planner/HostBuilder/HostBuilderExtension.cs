@@ -1,15 +1,19 @@
-﻿using BusinessLayer;
+﻿using System;
+using BusinessLayer;
+using BusinessLayer.Services.AddTourLogServices;
+using BusinessLayer.Services.AddTourServices;
+using BusinessLayer.Services.DeleteTourLogServices;
+using BusinessLayer.Services.DeleteTourServices;
+using BusinessLayer.Services.EditTourLogServices;
+using BusinessLayer.Services.EditTourServices;
+using BusinessLayer.Services.GetToursService;
 using DataAccessLayer;
+using DataAccessLayer.TourLogsRepository;
 using DataAccessLayer.ToursRepository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using BusinessLayer.Services.AddTourServices;
-using BusinessLayer.Services.GetToursService;
-using DataAccessLayer.DBContextFactory;
-using DataAccessLayer.TourLogsRepository;
-using Microsoft.EntityFrameworkCore;
 using Tour_Planner.Configurations;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.OpenFileDialogServices;
@@ -57,8 +61,13 @@ public static class HostBuilderExtension {
             services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
             services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
             services.AddSingleton<IOpenRouteService, BusinessLogicOpenRouteService>();
-            services.AddSingleton<IAddTourService, AddTourService>();
             services.AddSingleton<IGetToursService, GetToursService>();
+            services.AddSingleton<IAddTourService, AddTourService>();
+            services.AddSingleton<IEditTourService, EditTourService>();
+            services.AddSingleton<IDeleteTourService, DeleteTourService>();
+            services.AddSingleton<IAddTourLogService, AddTourLogService>();
+            services.AddSingleton<IEditTourLogService, EditTourLogService>();
+            services.AddSingleton<IDeleteTourLogService, DeleteTourLogService>();
         });
         return hostBuilder;
     }
@@ -68,6 +77,7 @@ public static class HostBuilderExtension {
             services.AddTransient<IToursRepository, ToursRepository>();
             services.AddTransient<ITourLogsRepository, TourLogsRepository>();
             services.AddSingleton<IUnitofWorkFactory, UnitofWorkFactory>();
+            services.AddTransient<IUnitofWork, UnitofWork>();
             services.AddSingleton<Func<IToursRepository>>(s => s.GetRequiredService<IToursRepository>);
             services.AddSingleton<Func<ITourLogsRepository>>(s => s.GetRequiredService<ITourLogsRepository>);
             services.AddSingleton<Func<TourPlannerDbContext>>(s => s.GetRequiredService<TourPlannerDbContext>);
@@ -133,7 +143,7 @@ public static class HostBuilderExtension {
     public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder) {
         hostBuilder.ConfigureServices((hostContext, services) =>
         {
-            services.AddDbContext<TourPlannerDbContext>(options =>
+            services.AddDbContextFactory<TourPlannerDbContext>(options =>
             {
                 options.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase"));
             });

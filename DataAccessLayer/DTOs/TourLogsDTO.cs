@@ -7,7 +7,7 @@ namespace DataAccessLayer.DTOs;
 public class TourLogsDTO
 {
     public int Id { get; set; }
-    public int TourId { get; set; }
+    //public int TourId { get; set; }
     public TourDTO Tour { get; set; } = null!;
     public DateTime DateTime = DateTime.Now;
     [Column(TypeName = "varchar(100)")]

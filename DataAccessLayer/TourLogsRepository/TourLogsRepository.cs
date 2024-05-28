@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.DBContextFactory;
 using DataAccessLayer.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.TourLogsRepository;
 
@@ -13,7 +14,7 @@ public class TourLogsRepository : ITourLogsRepository
     }
 
 
-    public IEnumerable<TourLogsDTO> GetTourLogs(TourDTO tourDTO) => _context.TourLogs.Where(t => t.TourId == tourDTO.Id).ToList();
+    //public IEnumerable<TourLogsDTO> GetTourLogs(TourDTO tourDTO) => _context.TourLogs.Where(t => t.TourId == tourDTO.Id).ToList();
 
     public void AddTourLog(TourLogsDTO tourLogsDTO)
     {
@@ -27,10 +28,8 @@ public class TourLogsRepository : ITourLogsRepository
         _context.TourLogs.Remove(tourLogDTO);
     }
 
-    public void UpdateTourLog(TourLogsDTO tourLogDTO)
-    {
-        var entry = _context.TourLogs.Find(tourLogDTO.Id) ?? throw new ArgumentException("TourLog not found with this Id");
+    public void UpdateTourLog(TourLogsDTO tourLogDTO) {
 
-        _context.Entry(entry).CurrentValues.SetValues(tourLogDTO);
+        _context.Entry(tourLogDTO).State = EntityState.Modified;
     }
 }

@@ -7,16 +7,24 @@ public class GetToursService : TourServiceBase, IGetToursService
 {
     private readonly IUnitofWorkFactory _unitofWorkFactory;
     
-    public GetToursService(IUnitofWorkFactory unitofWorkFactory)
+    public GetToursService(IUnitofWorkFactory unitofWork)
     {
-        _unitofWorkFactory = unitofWorkFactory;
+        _unitofWorkFactory = unitofWork;
     }
     
     public async Task<IEnumerable<Tour>> GetTours()
     {
-        var unitofWork = _unitofWorkFactory.CreateUnitofWork();
+        using var unitofWork = _unitofWorkFactory.CreateUnitofWork();
         var toursDTO = unitofWork.ToursRepository.GetTours();
         await unitofWork.Commit();
-        return toursDTO.Select(tourDTO => ConvertToTourModel(tourDTO));
+
+        IList<Tour> toReturn = [];
+        
+        foreach (var tourDto in toursDTO) {
+            Tour tour = ConvertToTourModel(tourDto);
+            toReturn.Add(tour);
+        }
+
+        return toReturn;
     }
 }

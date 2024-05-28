@@ -3,7 +3,7 @@ using DataAccessLayer.ToursRepository;
 
 namespace DataAccessLayer;
 
-public interface IUnitofWork
+public interface IUnitofWork : IDisposable
 {
     public IToursRepository ToursRepository { get; }
     

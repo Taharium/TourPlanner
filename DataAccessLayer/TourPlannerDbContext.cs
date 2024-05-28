@@ -26,12 +26,17 @@ public class TourPlannerDbContext : DbContext
     { 
         optionsBuilder.UseNpgsql(_configuration.ConnectionStringDb);
     }*/
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+    }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    /*protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TourDTO>()
             .HasMany(t => t.TourLogsList)
             .WithOne(tl => tl.Tour)
             .HasForeignKey(tl => tl.TourId);
-    }
+    }*/
 }

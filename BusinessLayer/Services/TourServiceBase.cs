@@ -50,7 +50,7 @@ public abstract class TourServiceBase
         foreach (var tourLog in tourLogs) {
             tourLogsDtos.Add(new TourLogsDTO() {
                 Id = tourLog.Id,
-                TourId = tourId,
+                //TourId = tourId,
                 DateTime = tourLog.DateTime,
                 TotalTime = tourLog.TotalTime,
                 Distance = tourLog.Distance,
@@ -79,5 +79,32 @@ public abstract class TourServiceBase
         }
 
         return tourLogsList;
+    }
+    
+    public TourLogsDTO ConvertToTourLogsDTO(Tour tourDto, TourLogs tourLog) {
+        TourLogsDTO tourLogsDto = new TourLogsDTO() {
+            Id = tourLog.Id,
+            //TourId = tourId,
+            DateTime = tourLog.DateTime,
+            TotalTime = tourLog.TotalTime,
+            Distance = tourLog.Distance,
+            Comment = tourLog.Comment,
+            Difficulty = tourLog.Difficulty,
+            Rating = tourLog.Rating,
+        };
+        return tourLogsDto;
+    }
+    
+    public TourLogs ConvertToTourLogsModel(TourLogsDTO tourLogDTO) {
+        TourLogs tourLogs = new TourLogs() {
+            Id = tourLogDTO.Id,
+            DateTime = tourLogDTO.DateTime,
+            TotalTime = tourLogDTO.TotalTime,
+            Distance = tourLogDTO.Distance,
+            Comment = tourLogDTO.Comment,
+            Difficulty = tourLogDTO.Difficulty,
+            Rating = tourLogDTO.Rating,
+        };
+        return tourLogs;
     }
 }

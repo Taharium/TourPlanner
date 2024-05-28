@@ -37,7 +37,7 @@
         </Grid>
         <Grid DockPanel.Dock="Top">
             <Border BorderBrush="DarkGray" BorderThickness="0 1 1 1" />
-            <ListView HorizontalContentAlignment="Stretch" x:Name="TourLogsListView" SelectionMode="Single" ItemsSource="{Binding SelectedTour.TourLogsList, Mode=TwoWay}"
+            <ListView HorizontalContentAlignment="Stretch" x:Name="TourLogsListView" SelectionMode="Single" ItemsSource="{Binding SelectedTour.TourLogsList}"
                       SelectedItem="{Binding SelectedTourLog, Mode=TwoWay}">
                 <ListView.View>
                     <GridView>

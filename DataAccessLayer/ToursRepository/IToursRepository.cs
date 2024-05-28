@@ -3,8 +3,8 @@ using Models;
 
 namespace DataAccessLayer.ToursRepository;
 
-public interface IToursRepository
-{
+public interface IToursRepository {
+    TourDTO? GetById(int id);
     IEnumerable<TourDTO> GetTours();
     void AddTour(TourDTO tour);
     void DeleteTour(TourDTO tour);

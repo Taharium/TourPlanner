@@ -11,6 +11,8 @@ namespace Tour_Planner.Views
     public partial class TabControlView : UserControl
     {
         private readonly string _filepath;
+
+        private bool _isInitialized = false;
         
         public TabControlView()
         {
@@ -32,12 +34,15 @@ namespace Tour_Planner.Views
 
         private void UpdateMap()
         {
-            webView.CoreWebView2.Navigate(_filepath);
+            if (_isInitialized) {
+                webView.CoreWebView2.Navigate(_filepath);
+            }
         }
 
         private async void InitializeAsync()
         {
             await webView.EnsureCoreWebView2Async(null);
+            _isInitialized = true;
             webView.CoreWebView2.Navigate(_filepath);
         }
     }

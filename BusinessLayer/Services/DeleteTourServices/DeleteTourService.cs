@@ -12,7 +12,7 @@ public class DeleteTourService : TourServiceBase, IDeleteTourService {
 
     public async Task DeleteTour(Tour tour) {
         var tourDTO = ConvertToTourDTO(tour);
-        var unitofWork = _unitofWorkFactory.CreateUnitofWork();
+        using var unitofWork = _unitofWorkFactory.CreateUnitofWork();
         unitofWork.ToursRepository.DeleteTour(tourDTO);
         await unitofWork.Commit();
     }
