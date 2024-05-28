@@ -18,7 +18,9 @@ public class ToursRepository : IToursRepository
         return _dbContext.Tours.Find(id);
     }
 
-    public IEnumerable<TourDTO> GetTours() => _dbContext.Tours.ToList();
+    public IEnumerable<TourDTO> GetTours() {
+        return _dbContext.Tours.Include(tour => tour.TourLogsList).ToList();
+    }
 
     public void AddTour(TourDTO tour)
     {
