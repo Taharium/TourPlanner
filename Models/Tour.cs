@@ -14,8 +14,8 @@ namespace Models {
         private string _startLocation = "";
         private string _endLocation = "";
         private TransportType _transportType = TransportType.Car;
-        private Popularity _popularity = Popularity.Low;
-        private Child_Friendliness _childFriendliness = Child_Friendliness.Low;
+        private Popularity _popularity = Popularity.Unpopular;
+        private Child_Friendliness _childFriendliness = Child_Friendliness.NotSuitable;
         private string _routeInformationImage = "";
         private string _distance = "";
         private string _estimatedTime = "";

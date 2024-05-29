@@ -7,6 +7,7 @@ using BusinessLayer.Services.DeleteTourServices;
 using BusinessLayer.Services.EditTourLogServices;
 using BusinessLayer.Services.EditTourServices;
 using BusinessLayer.Services.GetToursService;
+using BusinessLayer.Services.GetToursServices;
 using DataAccessLayer;
 using DataAccessLayer.TourLogsRepository;
 using DataAccessLayer.ToursRepository;

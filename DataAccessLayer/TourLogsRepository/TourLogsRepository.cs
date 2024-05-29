@@ -23,8 +23,6 @@ public class TourLogsRepository : ITourLogsRepository
 
     public void DeleteTourLog(TourLogsDTO tourLogDTO)
     {
-        _ = _context.TourLogs.Find(tourLogDTO.Id) ?? throw new ArgumentException("TourLog not found with this Id");
-        
         _context.TourLogs.Remove(tourLogDTO);
     }
 

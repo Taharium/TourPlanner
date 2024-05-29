@@ -103,7 +103,7 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void AddTourLog(TourLogs tourLogs) {
-            TourLogsObList.Add(tourLogs);
+            _selectedTour?.TourLogsList.Add(tourLogs);
             SelectedTourLog = tourLogs;
             TourLogsCollectionView.Refresh();
         }
@@ -114,8 +114,12 @@ namespace Tour_Planner.ViewModels {
 
         private void EditTourLog(TourLogs tourLogs) {
             //_businessLogicTourLogs.UpdateTourLog(SelectedTour, tourLogs);
-            int index = TourLogsObList.IndexOf(tourLogs);
-            TourLogsObList[index] = tourLogs;
+            if (_selectedTour != null)
+            {
+                int index = _selectedTour.TourLogsList.IndexOf(tourLogs);
+                TourLogsObList[index] = tourLogs;
+            }
+
             SelectedTourLog = tourLogs;
             TourLogsCollectionView.Refresh();
         }
@@ -136,7 +140,8 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void DeleteTourLog(TourLogs tourLogs) {
-            TourLogsObList.Remove(tourLogs);
+            _selectedTour?.TourLogsList.Remove(tourLogs);
+            /*TourLogsObList.Remove(tourLogs);*/
             TourLogsCollectionView.Refresh();
         }
 

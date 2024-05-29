@@ -48,7 +48,7 @@ public class BusinessLogicTests
             Description = "A challenging mountain tour.",
             StartLocation = "Mountain Base",
             EndLocation = "Mountain Peak",
-            TransportType = TransportType.FootHiking,
+            TransportType = TransportType.Foot,
             RouteInformationImage = "path_to_image",
             Distance = "25",
             EstimatedTime = "5",
@@ -64,7 +64,7 @@ public class BusinessLogicTests
         var popularity = businessLogictours.ComputePopularity(tour);
         
         // Assert
-        Assert.That(popularity, Is.EqualTo(Popularity.Low));
+        Assert.That(popularity, Is.EqualTo(Popularity.Unpopular));
         
     }
     
@@ -76,7 +76,7 @@ public class BusinessLogicTests
         var childFriendliness = businessLogictours.ComputeChildFriendliness(tour);
         
         // Assert
-        Assert.That(childFriendliness, Is.EqualTo(Child_Friendliness.High));
+        Assert.That(childFriendliness, Is.EqualTo(Child_Friendliness.ChildFriendly));
         
     }
 }

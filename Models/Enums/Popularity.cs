@@ -2,8 +2,8 @@
 
 public enum Popularity
 {
-    Low = 0,
-    Medium,
-    High,
-    VeryHigh
+    Unpopular,
+    Known,
+    Popoular,
+    VeryPopular
 }

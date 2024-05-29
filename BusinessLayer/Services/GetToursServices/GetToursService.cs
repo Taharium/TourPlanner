@@ -1,7 +1,8 @@
-﻿using DataAccessLayer;
+﻿using BusinessLayer.Services.GetToursService;
+using DataAccessLayer;
 using Models;
 
-namespace BusinessLayer.Services.GetToursService;
+namespace BusinessLayer.Services.GetToursServices;
 
 public class GetToursService : TourServiceBase, IGetToursService
 {

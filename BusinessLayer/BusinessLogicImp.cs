@@ -28,13 +28,13 @@ namespace BusinessLayer {
             IAddTourLogService addTourLogService, IDeleteTourLogService deleteTourLogService,
             IEditTourLogService editTourLogService) {
             _openRouteService = openRouteService;
-            _addTourService = addTourService;
-            _deleteTourService = deleteTourService;
-            _editTourService = editTourService;
             _getToursService = getToursService;
-            _addTourLogService = addTourLogService;
-            _deleteTourService = deleteTourService;
+            _addTourService = addTourService;
             _editTourService = editTourService;
+            _deleteTourService = deleteTourService;
+            _addTourLogService = addTourLogService;
+            _deleteTourLogService = deleteTourLogService;
+            _editTourLogService = editTourLogService;
         }
 
         public async Task<IEnumerable<Tour>> GetTours() {
@@ -82,16 +82,16 @@ namespace BusinessLayer {
 
         public Popularity ComputePopularity(Tour tour) {
             return tour.TourLogsList.Count switch {
-                <= 4 => Popularity.Low,
-                <= 8 => Popularity.Medium,
-                <= 12 => Popularity.High,
-                _ => Popularity.VeryHigh
+                <= 4 => Popularity.Unpopular,
+                <= 8 => Popularity.Known,
+                <= 12 => Popularity.Popoular,
+                _ => Popularity.VeryPopular
             };
         }
 
         public Child_Friendliness ComputeChildFriendliness(Tour tour) {
             if (tour.TourLogsList.Count == 0) {
-                return Child_Friendliness.Low;
+                return Child_Friendliness.NotSuitable;
             }
 
             double totalDifficulty = 0;
@@ -109,10 +109,10 @@ namespace BusinessLayer {
             double averageDistance = totalDistance / tour.TourLogsList.Count;
 
             return (averageDifficulty, averageTime, averageDistance) switch {
-                (<= 1, <= 2, <= 30) => Child_Friendliness.VeryHigh,
-                (<= 1.7, <= 3, <= 60) => Child_Friendliness.High,
-                (<= 2.5, <= 4, <= 100) => Child_Friendliness.Medium,
-                _ => Child_Friendliness.Low
+                (<= 1, <= 2, <= 30) => Child_Friendliness.HighlyChildFriendly,
+                (<= 1.7, <= 3, <= 60) => Child_Friendliness.ChildFriendly,
+                (<= 2.5, <= 4, <= 100) => Child_Friendliness.CautionAdvised,
+                _ => Child_Friendliness.NotSuitable
             };
         }
 
@@ -124,14 +124,6 @@ namespace BusinessLayer {
             await _editTourService.EditTour(tour);
             AddTourLogEvent?.Invoke(tourLog);
             OnTourUpdateEvent?.Invoke(tour);
-            /*var index = TourList.IndexOf(tour);
-            if (index != -1) {
-                TourList[index].TourLogsList.Add(tourLog);
-                TourList[index].Popularity = ComputePopularity(TourList[index]);
-                TourList[index].ChildFriendliness = ComputeChildFriendliness(TourList[index]);
-                OnTourUpdateEvent?.Invoke(TourList[index]);
-                AddTourLogEvent?.Invoke(tourLog);
-            }*/
         }
 
         public async Task DeleteTourLog(Tour tour, TourLogs tourLog) {
@@ -140,34 +132,14 @@ namespace BusinessLayer {
             tour.Popularity = ComputePopularity(tour);
             OnTourLogDeleteEvent?.Invoke(tourLog);
             OnTourUpdateEvent?.Invoke(tour);
-            /*var index = TourList.IndexOf(tour);
-            if (index != -1) {
-                TourList[index].TourLogsList.Remove(tourLog);
-                TourList[index].Popularity = ComputePopularity(TourList[index]);
-                TourList[index].ChildFriendliness = ComputeChildFriendliness(TourList[index]);
-                
-            }*/
         }
 
         public async Task UpdateTourLog(Tour tour, TourLogs tourLog) {
             await _editTourLogService.EditTourLog(tour, tourLog);
             tour.ChildFriendliness = ComputeChildFriendliness(tour);
             tour.Popularity = ComputePopularity(tour);
-            OnTourLogDeleteEvent?.Invoke(tourLog);
+            OnTourLogUpdateEvent?.Invoke(tourLog);
             OnTourUpdateEvent?.Invoke(tour);
-            
-            /*var index = TourList.IndexOf(tour);
-            //TourList[index] = new Tour(tour);
-            if (index != -1) {
-                var logIndex = TourList[index].TourLogsList.IndexOf(tourLog);
-                if (logIndex != -1) {
-                    TourList[index].TourLogsList[logIndex] = tourLog;
-                    TourList[index].Popularity = ComputePopularity(TourList[index]);
-                    TourList[index].ChildFriendliness = ComputeChildFriendliness(TourList[index]);
-                    OnTourUpdateEvent?.Invoke(TourList[index]);
-                    OnTourLogUpdateEvent?.Invoke(tourLog);
-                }
-            }*/
         }
     }
 }
