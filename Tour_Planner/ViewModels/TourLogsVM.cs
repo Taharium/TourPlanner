@@ -14,18 +14,7 @@ using Tour_Planner.WindowsWPF;
 namespace Tour_Planner.ViewModels {
     public class TourLogsVM : ViewModelBase {
 
-        private ObservableCollection<TourLogs> TourLogsObList = [
-            new TourLogs() {
-                Comment = "He",
-                Distance = "2",
-                TotalTime = "2"
-            },
-            new TourLogs() {
-                Comment = "je",
-                Distance = "3",
-                TotalTime = "3"
-            }
-        ];
+        private ObservableCollection<TourLogs> TourLogsObList = new ObservableCollection<TourLogs>();
         private readonly IBusinessLogicTourLogs _businessLogicTourLogs;
         private readonly IMessageBoxService _messageBoxService;
         private readonly ITourLogStore _tourLogStore;
