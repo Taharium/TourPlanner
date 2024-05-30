@@ -35,8 +35,8 @@
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
                 <Button Style="{StaticResource RoundCorner}" Command="{Binding AddTourCommand}" Grid.Column="1" Content="Add" Height="Auto" Width="Auto" Padding="5 0 5 0" />
-                <Button Style="{StaticResource RoundCorner}" Command="{Binding EditTourCommand}" Grid.Column="2" Content="Edit" Height="Auto" Width="Auto" Padding="5 0 5 0" />
-                <Button Style="{StaticResource RoundCorner}" Command="{Binding DeleteTourCommand}" Grid.Column="3" Content="Del" Height="Auto" Width="Auto" Padding="5 0 5 0" />
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding DeleteTourCommand}" Grid.Column="2" Content="Del" Height="Auto" Width="Auto" Padding="5 0 5 0" />
+                <Button Style="{StaticResource RoundCorner}" Command="{Binding EditTourCommand}" Grid.Column="3" Content="Edit" Height="Auto" Width="Auto" Padding="5 0 5 0" />
             </Grid>
         </Grid>
         <Grid Grid.Row="1">

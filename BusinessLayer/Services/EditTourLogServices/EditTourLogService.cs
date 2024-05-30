@@ -11,8 +11,8 @@ public class EditTourLogService : TourServiceBase, IEditTourLogService {
         _unitofWorkFactory = unitofWorkFactory;
     }
     
-    public async Task EditTourLog(Tour tour, TourLogs tourLog) {
-        var tourLogsDto = ConvertToTourLogsDTO(tour, tourLog);
+    public async Task EditTourLog(TourLogs tourLog) {
+        var tourLogsDto = ConvertToTourLogsDTO(tourLog);
         using var unitofWork = _unitofWorkFactory.CreateUnitofWork();
         unitofWork.TourLogsRepository.UpdateTourLog(tourLogsDto);
         await unitofWork.Commit();

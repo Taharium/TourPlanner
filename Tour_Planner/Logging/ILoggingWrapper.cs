@@ -1,6 +1,6 @@
 ﻿namespace Tour_Planner.Logging;
 
-public interface ILoggerWrapper {
+public interface ILoggingWrapper {
     void Debug(string message);
     void Error(string message);
     void Fatal(string message);

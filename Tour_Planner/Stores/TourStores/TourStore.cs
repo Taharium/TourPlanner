@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using BusinessLayer;
+using BusinessLayer.BLException;
 using Models;
+using Tour_Planner.Services.MessageBoxServices;
 
 namespace Tour_Planner.Stores.TourStores;
 
@@ -14,11 +17,14 @@ public class TourStore : ITourStore {
     public event Action<Tour?>? OnSelectedTourChangedEvent;
 
     public event Action<Tour?>? OnTourDeleteEvent;
+    public event Action<Tour?>? OnTourAddedEvent;
 
     private readonly IBusinessLogicTours _businessLogicTours;
+    private readonly IMessageBoxService _messageBoxService;
 
-    public TourStore(IBusinessLogicTours businessLogicTours) {
+    public TourStore(IBusinessLogicTours businessLogicTours, IMessageBoxService messageBoxService) {
         _businessLogicTours = businessLogicTours;
+        _messageBoxService = messageBoxService;
         LoadTours();
 
         _businessLogicTours.AddTourEvent += AddTour;
@@ -27,16 +33,22 @@ public class TourStore : ITourStore {
     }
 
     private async void LoadTours() {
-        var tours = await _businessLogicTours.GetTours();
+        try {
+            var tours = await _businessLogicTours.GetTours();
 
-        foreach (var tour in tours) {
-            Tours.Add(tour);
+            foreach (var tour in tours) {
+                Tours.Add(tour);
+            }
+        }
+        catch (BusinessLayerException e) {
+            _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
     private void AddTour(Tour tour) {
         //LoadTours();
         Tours.Add(tour);
+        OnTourAddedEvent?.Invoke(tour);
     }
 
     private void DeleteTour(Tour tour) {

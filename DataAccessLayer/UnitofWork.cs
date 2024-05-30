@@ -1,6 +1,5 @@
-﻿using DataAccessLayer.DBContextFactory;
-using DataAccessLayer.TourLogsRepository;
-using DataAccessLayer.ToursRepository;
+﻿using DataAccessLayer.TourLogRepository;
+using DataAccessLayer.TourRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer;
@@ -18,8 +17,8 @@ public class UnitofWork : IUnitofWork, IDisposable
     public UnitofWork(IDbContextFactory<TourPlannerDbContext> contextFactory) {
         _context = contextFactory.CreateDbContext();
 
-        ToursRepository = new ToursRepository.ToursRepository(_context);
-        TourLogsRepository = new TourLogsRepository.TourLogsRepository(_context);
+        ToursRepository = new ToursRepository(_context);
+        TourLogsRepository = new TourLogsRepository(_context);
     }
     
     public async Task<int> Commit()

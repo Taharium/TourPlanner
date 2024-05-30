@@ -65,7 +65,7 @@ public class MenuVM : ViewModelBase {
         return _tourStore.Tours.Any();
     }
 
-    public void SetTour(Tour? tour) {
+    private void SetTour(Tour? tour) {
         if (tour != null)
             SelectedTour = tour;
     }

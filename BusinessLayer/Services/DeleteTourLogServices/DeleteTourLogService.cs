@@ -12,8 +12,8 @@ public class DeleteTourLogService : TourServiceBase, IDeleteTourLogService {
         _unitofWorkFactory = unitofWorkFactory;
     }
     
-    public async Task DeleteTourLog(Tour tour, TourLogs tourLog) {
-        var tourLogsDto = ConvertToTourLogsDTO(tour, tourLog);
+    public async Task DeleteTourLog(TourLogs tourLog) {
+        var tourLogsDto = ConvertToTourLogsDTO(tourLog);
         using var unitofWork = _unitofWorkFactory.CreateUnitofWork();
         unitofWork.TourLogsRepository.DeleteTourLog(tourLogsDto);
         await unitofWork.Commit();

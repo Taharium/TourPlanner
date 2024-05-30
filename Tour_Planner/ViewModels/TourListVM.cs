@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using BusinessLayer.BLException;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.WindowServices;
 using Tour_Planner.Stores.TourStores;
@@ -31,10 +32,8 @@ namespace Tour_Planner.ViewModels {
             _businessLogicTours = businessLogicTours;
             _addTourWindow = addTourWindow;
             _messageBoxService = messageBoxService;
-            /*_businessLogicTours.AddTourEvent += AddTour;
-            _businessLogicTours.OnTourDeleteEvent += DeleteTour;
-            _businessLogicTours.OnTourUpdateEvent += EditTour;*/
             _tourStore = tourStore;
+            _tourStore.OnTourAddedEvent += AddTour;
             TourListCollectionView = new(TourList);
             AddTourCommand = new RelayCommand((_) => OpenAddTour());
             DeleteTourCommand = new RelayCommand((_) => OnDeleteTour(), (_) => CanExecuteAddEditDelTour());
@@ -47,7 +46,6 @@ namespace Tour_Planner.ViewModels {
 
         private string _searchedText = "";
         private Tour? _selectedTour;
-        // private ListCollectionView _tourListCollectionView;
 
         public Tour? SelectedTour {
             get => _selectedTour;
@@ -55,8 +53,6 @@ namespace Tour_Planner.ViewModels {
                 if (_selectedTour != value) {
                     _selectedTour = value;
                     OnPropertyChanged(nameof(SelectedTour));
-                    Debug.WriteLine($"TourListVM: {SelectedTour?.Name} {SelectedTour?.Id}");
-                    // SelectedTourEvent?.Invoke(this, SelectedTour);
                     DeleteTourCommand.RaiseCanExecuteChanged();
                     EditTourCommand.RaiseCanExecuteChanged();
                     _tourStore.SetCurrentTour(SelectedTour);
@@ -65,18 +61,7 @@ namespace Tour_Planner.ViewModels {
         }
         
         public ListCollectionView TourListCollectionView { get; private set; }
-        /*public ListCollectionView TourListCollectionView {
-            get => _tourListCollectionView;
-            set {
-                if (_tourListCollectionView != value) {
-                    _tourListCollectionView = value;
-                    OnPropertyChanged(nameof(TourListCollectionView));
-                }
-            }
-        }*/
         
-        public event EventHandler<Tour?>? SelectedTourEvent;
-
         public RelayCommand AddTourCommand { get; }
         public RelayCommand DeleteTourCommand { get; }
         public RelayCommand EditTourCommand { get; }
@@ -114,29 +99,23 @@ namespace Tour_Planner.ViewModels {
             _editTourWindow.ShowDialog();
         }
 
-        private void EditTour(Tour tour) {
-            //_businessLogicTours.UpdateTour(tour);       //check first if update is successful then update in list
-            SelectedTour = tour;
-            TourListCollectionView.Refresh();
-        }
-
         private void OnDeleteTour() {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this tour?", "Delete Tour", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
+            MessageBoxResult result = _messageBoxService.Show("Are you sure you want to delete this tour?", "Delete Tour", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
             if (SelectedTour != null && result == MessageBoxResult.Yes) {
-                _businessLogicTours.DeleteTour(SelectedTour); //check first if delete is successful then remove from list
+                try {
+                    _businessLogicTours.DeleteTour(SelectedTour);
+                }
+                catch (BusinessLayerException e) {
+                    _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-        }
-
-        private void DeleteTour(Tour tour) {
-            TourListCollectionView.Refresh();
         }
 
         private void OpenAddTour() {
             _addTourWindow.ShowDialog();
         }
 
-        private void AddTour(Tour tour) {
-            //_businessLogicTours.AddTour(tour);      //check first if add is successful then add in list
+        private void AddTour(Tour? tour) {
             SelectedTour = tour;
             TourListCollectionView.Refresh();
         }

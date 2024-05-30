@@ -1,10 +1,9 @@
 ﻿using DataAccessLayer.DTOs;
-using Models;
 
-namespace DataAccessLayer.ToursRepository;
+namespace DataAccessLayer.TourRepository;
 
 public interface IToursRepository {
-    TourDTO? GetById(int id);
+    TourDTO GetById(int tour, string name);
     IEnumerable<TourDTO> GetTours();
     void AddTour(TourDTO tour);
     void DeleteTour(TourDTO tour);

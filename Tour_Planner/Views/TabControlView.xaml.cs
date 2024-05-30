@@ -10,15 +10,20 @@ namespace Tour_Planner.Views
     /// </summary>
     public partial class TabControlView : UserControl
     {
-        private readonly string _filepath;
+        private readonly string _filepath = "";
 
         private bool _isInitialized = false;
         
         public TabControlView()
         {
             InitializeComponent();
-            
-            _filepath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/Resource/leaflet.html");
+            try {
+                _filepath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/Resource/leaflet.html");
+            }
+            catch (Exception) {
+                MessageBox.Show("Failed to get path to leaflet.html", "Error", MessageBoxButton.OK,MessageBoxImage.Error);
+                return;
+            }
 
             DataContextChanged += SetEventHandlers;
             
@@ -34,7 +39,7 @@ namespace Tour_Planner.Views
 
         private void UpdateMap()
         {
-            if (_isInitialized) {
+            if (_isInitialized && _filepath != "") {
                 webView.CoreWebView2.Navigate(_filepath);
             }
         }

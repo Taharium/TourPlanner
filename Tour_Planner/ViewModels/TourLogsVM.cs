@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Data;
+using BusinessLayer.BLException;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.WindowServices;
 using Tour_Planner.Stores.TourLogStores;
@@ -14,16 +15,16 @@ using Tour_Planner.WindowsWPF;
 namespace Tour_Planner.ViewModels {
     public class TourLogsVM : ViewModelBase {
 
-        private ObservableCollection<TourLogs> TourLogsObList = new ObservableCollection<TourLogs>();
+        private ObservableCollection<TourLogs> _tourLogsObList = new ObservableCollection<TourLogs>();
         private readonly IBusinessLogicTourLogs _businessLogicTourLogs;
         private readonly IMessageBoxService _messageBoxService;
         private readonly ITourLogStore _tourLogStore;
         private readonly IWindowService<EditTourLogWindowVM, EditTourLogWindow> _editTourLogWindow;
         private readonly IWindowService<AddTourLogWindowVM, AddTourLogWindow> _addTourLogWindow;
 
-        public TourLogsVM(IBusinessLogicTourLogs businessLogicTourLogs,ITourLogStore tourLogStore, ITourStore tourStore, IMessageBoxService messageBoxService, 
-                        IWindowService<EditTourLogWindowVM, EditTourLogWindow> editTourLogWindow,
-                        IWindowService<AddTourLogWindowVM, AddTourLogWindow> addTourLogWindow) {
+        public TourLogsVM(IBusinessLogicTourLogs businessLogicTourLogs,ITourLogStore tourLogStore, ITourStore tourStore, 
+            IMessageBoxService messageBoxService, IWindowService<EditTourLogWindowVM, EditTourLogWindow> editTourLogWindow,
+            IWindowService<AddTourLogWindowVM, AddTourLogWindow> addTourLogWindow) {
             _editTourLogWindow = editTourLogWindow;
             _addTourLogWindow = addTourLogWindow;
             _messageBoxService = messageBoxService;
@@ -34,7 +35,7 @@ namespace Tour_Planner.ViewModels {
             _businessLogicTourLogs.OnTourLogDeleteEvent += DeleteTourLog;
             _businessLogicTourLogs.OnTourLogUpdateEvent += EditTourLog;
             _businessLogicTourLogs.AddTourLogEvent += AddTourLog;
-            TourLogsCollectionView ??= new(TourLogsObList);
+            TourLogsCollectionView ??= new(_tourLogsObList);
             TourLogsCollectionView.Refresh();
             TourLogsCollectionView.MoveCurrentTo(null);
 
@@ -53,7 +54,6 @@ namespace Tour_Planner.ViewModels {
                     _tourLogStore.SetCurrentTour(SelectedTourLog);
                     EditTourLogCommand.RaiseCanExecuteChanged();
                     DeleteTourLogCommand.RaiseCanExecuteChanged();
-                    //TourLogsCollectionView.Refresh();
                 }
             }
         }
@@ -64,14 +64,12 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_selectedTour != value) {
                     _selectedTour = value;
-                    Debug.WriteLine($"TourLogsVM: {SelectedTour?.Name} {SelectedTour?.Id}");
                     if (_selectedTour != null) {
-                        TourLogsObList = new(_selectedTour.TourLogsList);
+                        _tourLogsObList = new(_selectedTour.TourLogsList);
                         TourLogsCollectionView.Refresh();
                     }
                     AddTourLogCommand.RaiseCanExecuteChanged();
                     OnPropertyChanged(nameof(SelectedTour));
-                    //TourLogsCollectionView.Refresh();
                 }
             }
         }
@@ -82,11 +80,7 @@ namespace Tour_Planner.ViewModels {
 
         public ListCollectionView TourLogsCollectionView { get; private set; }
 
-        public EventHandler<TourLogs>? EditTourLogEvent;
-        public EventHandler<Tour>? Update;
-
-
-
+        
         private void OpenAddTourLog() {
             _addTourLogWindow.ShowDialog();
         }
@@ -102,11 +96,10 @@ namespace Tour_Planner.ViewModels {
         }
 
         private void EditTourLog(TourLogs tourLogs) {
-            //_businessLogicTourLogs.UpdateTourLog(SelectedTour, tourLogs);
             if (_selectedTour != null)
             {
                 int index = _selectedTour.TourLogsList.IndexOf(tourLogs);
-                TourLogsObList[index] = tourLogs;
+                _tourLogsObList[index] = tourLogs;
             }
 
             SelectedTourLog = tourLogs;
@@ -124,13 +117,17 @@ namespace Tour_Planner.ViewModels {
         private void OnDeleteTourLog() {
             MessageBoxResult result = _messageBoxService.Show("Are you sure you want to delete this tour log?", "Delete Tour Log", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
             if (SelectedTourLog != null && result == MessageBoxResult.Yes && SelectedTour != null) {
-                _businessLogicTourLogs.DeleteTourLog(SelectedTour, SelectedTourLog);
+                try {
+                    _businessLogicTourLogs.DeleteTourLog(SelectedTour, SelectedTourLog);
+                }
+                catch (BusinessLayerException e) {
+                    _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
         private void DeleteTourLog(TourLogs tourLogs) {
             _selectedTour?.TourLogsList.Remove(tourLogs);
-            /*TourLogsObList.Remove(tourLogs);*/
             TourLogsCollectionView.Refresh();
         }
 

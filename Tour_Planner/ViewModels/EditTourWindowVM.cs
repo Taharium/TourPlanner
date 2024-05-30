@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
+using BusinessLayer.BLException;
 using Models.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;
@@ -113,22 +114,22 @@ namespace Tour_Planner.ViewModels {
                 return Enum.GetValues(typeof(TransportType)).Cast<TransportType>();
             }
         }
-
-        public event EventHandler<Tour>? EditTourEvent;
-
+        
         public RelayCommand FinishEditCommand { get; }
         
         public AsyncRelayCommand SearchPlaceStartCommand { get; }
         public AsyncRelayCommand SearchPlaceEndCommand { get; }
 
-        public EditTourWindowVM(ITourStore tourStore, IWindowStore windowStore, IBusinessLogicTours businessLogicTours, IMessageBoxService messageBoxService, IOpenRouteService openRouteService) {
+        public EditTourWindowVM(ITourStore tourStore, IWindowStore windowStore, IBusinessLogicTours businessLogicTours, 
+            IMessageBoxService messageBoxService, IOpenRouteService openRouteService) {
             _openRouteService = openRouteService;
             _businessLogicTours = businessLogicTours;
             _messageBoxService = messageBoxService;
             _tour = tourStore.CurrentTour ?? new Tour();
             _tempTour = new Tour(_tour);
+            SelectedPlaceEnd = _tempTour.EndLocation;
+            SelectedPlaceStart = _tempTour.StartLocation;
             _errorMessage = "";
-            // _window = window;
             _windowStore = windowStore;
             SearchPlaceStartCommand = new AsyncRelayCommand(searchplace => SearchStartLocationEdit(searchplace));
             SearchPlaceEndCommand = new AsyncRelayCommand(searchplace => SearchEndLocationEdit(searchplace));
@@ -182,12 +183,18 @@ namespace Tour_Planner.ViewModels {
         public void FinishEditFunction() {
 
             if (IsTourValid()) {
-                ErrorMessage = "";
-                UpdateTour();
-                _messageBoxService.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OK, MessageBoxImage.Information);
-                //EditTourEvent?.Invoke(this, _tour);
-                _businessLogicTours.UpdateTour(_tour);
-                _windowStore.Close();
+                try {
+                    ErrorMessage = "";
+                    UpdateTour();
+                    _messageBoxService.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    _businessLogicTours.UpdateTour(_tour);
+                    _windowStore.Close();
+                }
+                catch (BusinessLayerException e) {
+                    _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _windowStore.Close();
+                }
             }
             else {
                 ErrorMessage = "Please fill in all fields!";

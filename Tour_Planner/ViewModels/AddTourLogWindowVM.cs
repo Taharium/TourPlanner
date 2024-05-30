@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using BusinessLayer;
+using BusinessLayer.BLException;
 using Models.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;
@@ -29,8 +30,6 @@ namespace Tour_Planner.ViewModels {
                 }
             }
         }
-
-        public event EventHandler<TourLogs>? AddTourLogEvent;
         public RelayCommand FinishAddTourLogCommand { get; }
 
         private string _errorMessage;
@@ -88,7 +87,8 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        public AddTourLogWindowVM(IWindowStore windowStore, ITourStore tourStore, IBusinessLogicTourLogs businessLogicTourLogs, IMessageBoxService messageBoxService) {
+        public AddTourLogWindowVM(IWindowStore windowStore, ITourStore tourStore, 
+            IBusinessLogicTourLogs businessLogicTourLogs, IMessageBoxService messageBoxService) {
             _tour = tourStore.CurrentTour;
             _windowStore = windowStore;
             _businessLogicTourLogs = businessLogicTourLogs;
@@ -104,29 +104,35 @@ namespace Tour_Planner.ViewModels {
             }
 
             ErrorMessage = "";
-            //AddTourLogEvent?.Invoke(this, _tourLog);
             if (_tour != null) {
-                _businessLogicTourLogs.AddTourLog(_tour, _tourLog);
-                _messageBoxService.Show("Tour Log added successfully!", "AddTourLog", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-                _windowStore.Close();
+                try {
+                    _businessLogicTourLogs.AddTourLog(_tour, _tourLog);
+                    _messageBoxService.Show("Tour Log added successfully!", "AddTourLog", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    _windowStore.Close();
+                }
+                catch (BusinessLayerException e) {
+                    _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _windowStore.Close();
+                }
+                
             }
         }
 
         private bool IsTourLogValid() {
 
             if (_tourLog.DateTime > DateTime.Now) {
-                ErrorMessage = "Please enter a valid Date and Time in the past";
+                ErrorMessage = "Please enter a valid Date and Time in the past!";
                 return false;
             }
 
             if (_tourLog.Distance == "") {
-                ErrorMessage = "Please enter a Distance";
+                ErrorMessage = "Please enter a Distance!";
                 return false;
             }
 
             if (_tourLog.TotalTime == "") {
-                ErrorMessage = "Please enter a Time";
+                ErrorMessage = "Please enter a Time!";
                 return false;
             }
 
@@ -134,7 +140,7 @@ namespace Tour_Planner.ViewModels {
                 _tourLog.Distance = parsedDistance.ToString();
             }
             else {
-                ErrorMessage = "Please enter a valid number for Distance";
+                ErrorMessage = "Please enter a valid number for Distance!";
                 return false;
             }
 
@@ -142,7 +148,7 @@ namespace Tour_Planner.ViewModels {
                 _tourLog.TotalTime = parsedTime.ToString();
             }
             else {
-                ErrorMessage = "Please enter a valid number for Time";
+                ErrorMessage = "Please enter a valid number for Time!";
                 return false;
             }
 
