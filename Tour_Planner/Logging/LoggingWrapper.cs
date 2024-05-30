@@ -3,20 +3,20 @@ using System.IO;
 
 namespace Tour_Planner.Logging;
 
-public class LoggerWrapper : ILoggerWrapper {
-    private log4net.ILog _logger;
+public class LoggingWrapper : ILoggingWrapper {
+    private readonly log4net.ILog _logger;
 
-    public static LoggerWrapper CreateLogger(string configPath, string caller) {
+    public static LoggingWrapper CreateLogger(string configPath, string caller) {
         if (!File.Exists(configPath)) {
             throw new ArgumentException("Does not exist.", nameof(configPath));
         }
 
         log4net.Config.XmlConfigurator.Configure(new FileInfo(configPath));
         var logger = log4net.LogManager.GetLogger(caller); // System.Reflection.MethodBase.GetCurrentMethod().DeclaringType
-        return new LoggerWrapper(logger);
+        return new LoggingWrapper(logger);
     }
 
-    private LoggerWrapper(log4net.ILog logger) {
+    private LoggingWrapper(log4net.ILog logger) {
         _logger = logger;
     }
 

@@ -13,9 +13,9 @@ public class AddTourLogService : TourServiceBase, IAddTourLogService {
     }
     
     public async Task AddTourLog(Tour tour, TourLogs tourLog) {
-        var tourLogsDto = ConvertToTourLogsDTO(tour, tourLog);
+        var tourLogsDto = ConvertToTourLogsDTO(tourLog);
         using var unitofWork = _unitofWorkFactory.CreateUnitofWork();
-        TourDTO tourDto = unitofWork.ToursRepository.GetById(tour.Id) ?? new();
+        TourDTO tourDto = unitofWork.ToursRepository.GetById(tour.Id, tour.Name);
         tourLogsDto.Tour = tourDto;
         unitofWork.TourLogsRepository.AddTourLog(tourLogsDto);
         await unitofWork.Commit();

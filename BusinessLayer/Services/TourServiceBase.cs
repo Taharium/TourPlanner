@@ -7,7 +7,6 @@ public abstract class TourServiceBase
 {
     protected TourDTO ConvertToTourDTO(Tour tour)
     {
-        //TODO: Convert Tourlogs habe ich wahrscheinlich falsch gemacht
         return new TourDTO()
         {
             Id = tour.Id,
@@ -21,7 +20,7 @@ public abstract class TourServiceBase
             Popularity = tour.Popularity,
             ChildFriendliness = tour.ChildFriendliness,
             Directions = tour.Directions,
-            TourLogsList = ConvertToTourLogsDTO(tour.Id, tour.TourLogsList)
+            TourLogsList = ConvertToTourLogsDTO(tour.TourLogsList)
         };
     }
     
@@ -44,13 +43,12 @@ public abstract class TourServiceBase
         };
     }
 
-    private List<TourLogsDTO> ConvertToTourLogsDTO(int tourId, ICollection<TourLogs> tourLogs) {
+    private List<TourLogsDTO> ConvertToTourLogsDTO(ICollection<TourLogs> tourLogs) {
         List<TourLogsDTO> tourLogsDtos = [];
         
         foreach (var tourLog in tourLogs) {
             tourLogsDtos.Add(new TourLogsDTO() {
                 Id = tourLog.Id,
-                //TourId = tourId,
                 DateTime = tourLog.DateTime,
                 TotalTime = tourLog.TotalTime,
                 Distance = tourLog.Distance,
@@ -81,10 +79,9 @@ public abstract class TourServiceBase
         return tourLogsList;
     }
     
-    public TourLogsDTO ConvertToTourLogsDTO(Tour tourDto, TourLogs tourLog) {
+    public TourLogsDTO ConvertToTourLogsDTO(TourLogs tourLog) {
         TourLogsDTO tourLogsDto = new TourLogsDTO() {
             Id = tourLog.Id,
-            //TourId = tourId,
             DateTime = tourLog.DateTime,
             TotalTime = tourLog.TotalTime,
             Distance = tourLog.Distance,

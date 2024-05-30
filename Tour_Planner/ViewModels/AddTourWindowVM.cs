@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using BusinessLayer.BLException;
 using Models.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.WindowStores;
@@ -123,7 +124,6 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        public event EventHandler<Tour>? AddTourEvent;
         public AsyncRelayCommand FinishAddCommand { get; }
         
         public AsyncRelayCommand SearchPlaceStartCommand { get; }
@@ -131,7 +131,8 @@ namespace Tour_Planner.ViewModels {
 
 
 
-        public AddTourWindowVM(IWindowStore windowStore, IMessageBoxService messageBoxService, IBusinessLogicTours businessLogicTour, IOpenRouteService openRouteService){
+        public AddTourWindowVM(IWindowStore windowStore, IMessageBoxService messageBoxService, 
+            IBusinessLogicTours businessLogicTour, IOpenRouteService openRouteService){
             _errorMessage = "";
             _windowStore = windowStore;
             _messageBoxService = messageBoxService;
@@ -178,15 +179,21 @@ namespace Tour_Planner.ViewModels {
                    !string.IsNullOrWhiteSpace(_tour.StartLocation) && !string.IsNullOrWhiteSpace(_tour.EndLocation);
         }
 
-        public async Task AddFunction() {        //could be used using constructor and ref Tour tour
-            _tour.StartLocation = _selectedPlaceStart;
-            _tour.EndLocation = _selectedPlaceEnd;
+        public async Task AddFunction() {
             if (IsTourValid()) {
-                ErrorMessage = "";
-                await _businessLogicTours.AddTour(_tour);
-                //AddTourEvent?.Invoke(this, _tour);
-                _messageBoxService.Show("Tour added successfully!", "AddTour", MessageBoxButton.OK, MessageBoxImage.Information);
-                _windowStore.Close();
+                try {
+                    _tour.StartLocation = _selectedPlaceStart;
+                    _tour.EndLocation = _selectedPlaceEnd;
+                    ErrorMessage = "";
+                    await _businessLogicTours.AddTour(_tour);
+                    _messageBoxService.Show("Tour added successfully!", "AddTour", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _windowStore.Close();
+                }
+                catch (BusinessLayerException e) {
+                    _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _windowStore.Close();
+                }
+                
             }
             else {
                 ErrorMessage = "Please fill in all fields!";

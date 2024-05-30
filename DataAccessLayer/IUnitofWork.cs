@@ -1,5 +1,5 @@
-﻿using DataAccessLayer.TourLogsRepository;
-using DataAccessLayer.ToursRepository;
+﻿using DataAccessLayer.TourLogRepository;
+using DataAccessLayer.TourRepository;
 
 namespace DataAccessLayer;
 

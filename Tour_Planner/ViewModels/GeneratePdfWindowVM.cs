@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -10,6 +11,7 @@ using Tour_Planner.Services.OpenFolderDialogServices;
 using Tour_Planner.Services.PdfReportGenerationServices;
 using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;
+using Tour_Planner.UIException;
 
 namespace Tour_Planner.ViewModels;
 
@@ -86,7 +88,6 @@ public class GeneratePdfWindowVM : ViewModelBase{
                 _selectedTour = value;
                 if (_selectedTour != null) {
                     _selectedTour.IsSelected = true;
-                    Debug.WriteLine($"Selected: {SelectedTour?.Name}");
                 }
 
                 if (SelectAll && _selectedTour != null) {
@@ -112,7 +113,7 @@ public class GeneratePdfWindowVM : ViewModelBase{
         _pdfReportGenerationService = pdfReportGenerationService;
         
         _tourList = new(tourStore.Tours);
-        _selectedTour = tourStore.CurrentTour;
+        SelectedTour = tourStore.CurrentTour;
 
         GeneratePdfReportCommand = new RelayCommand((_) => GeneratePdfReport());
         UnSelectCommand = new RelayCommand((_) => UnSelectTour());
@@ -144,12 +145,12 @@ public class GeneratePdfWindowVM : ViewModelBase{
 
     private bool ValidateGenerate() {
         if (!SelectAll && !IsOneTourSelected()) {
-            ErrorMessage = "Please select one Tour";
+            ErrorMessage = "Please select one Tour!";
             return false;
         }
         
         if (FileName == "") {
-            ErrorMessage = "Please write a file name";
+            ErrorMessage = "Please write a file name!";
             return false;
         }
 
@@ -160,30 +161,35 @@ public class GeneratePdfWindowVM : ViewModelBase{
         if (!ValidateGenerate()) {
             return;
         }
-
+        
         ErrorMessage = "";
-
-        bool? dialog = _openFolderDialogService.ShowDialog();
-        if (dialog is true) {
-            FilePath = $"{_openFolderDialogService.GetFolderPath()}\\{FileName}.pdf";
+        try {
+            bool? dialog = _openFolderDialogService.ShowDialog();
+            if (dialog is true) {
+                FilePath = $"{_openFolderDialogService.GetFolderPath()}\\{FileName}.pdf";
             
-            if (SelectedTour is { IsSelected: true }) {
-                _pdfReportGenerationService.GenerateOneTourReport(SelectedTour, FilePath);
+                if (SelectedTour is { IsSelected: true }) {
+                    _pdfReportGenerationService.GenerateOneTourReport(SelectedTour, FilePath);
+                }
+                else if (SelectAll) {
+                    _pdfReportGenerationService.GenerateToursSummaryReport(TourList.ToList(),FilePath);
+                }
+                
+                MessageBoxResult result = _messageBoxService.Show("File saved successfully!\n Do you want to see the file?",
+                    "Pdf-Report", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No,
+                    MessageBoxOptions.None);
+                if (result == MessageBoxResult.Yes) {
+                    Process.Start("explorer.exe", FilePath);
+                }
+                CloseWindow();
+                _windowStore.Close();
             }
-            else if (SelectAll) {
-                _pdfReportGenerationService.GenerateToursSummaryReport(TourList.ToList(),FilePath);
-            }
-            //TODO: Exception handling
-            //TODO: Logging
-            
-            MessageBoxResult result = _messageBoxService.Show("File saved successfully!\n Do you want to see the file?",
-                "Pdf-Report", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No,
-                MessageBoxOptions.None);
-            if (result == MessageBoxResult.Yes) {
-                Process.Start("explorer.exe", FilePath);
-            }
-            CloseWindow();
-            _windowStore.Close();
         }
+        catch (UiLayerException e) {
+            _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            FilePath = "";
+            FileName = "";
+        }
+        
     }
 }

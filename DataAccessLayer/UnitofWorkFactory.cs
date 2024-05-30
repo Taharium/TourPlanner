@@ -1,6 +1,4 @@
-﻿using DataAccessLayer.TourLogsRepository;
-using DataAccessLayer.ToursRepository;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer;
 

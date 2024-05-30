@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -44,7 +45,6 @@ public class ExportTourWindowVM : ViewModelBase {
                 _selectAll = value;
                 OnPropertyChanged(nameof(SelectAll));
                 UpdateSelection(_selectAll);
-                Debug.WriteLine($"IsSelected Count: {TourList.Count(t => t.IsSelected)}");
             }
         }
     }
@@ -120,21 +120,14 @@ public class ExportTourWindowVM : ViewModelBase {
         OnPropertyChanged(nameof(TourList));
     }
 
-    //UNSELECT CHECKBOX
-    private void InitializeTourList(IEnumerable<Tour> tours) {
-        foreach (var tour in tours) {
-            _tourList.Add(new Tour(tour));
-        }
-    }
-
     private bool ValidateExport() {
         if (!SelectAll && !IsAnyTourSelected()) {
-            ErrorMessage = "Please select at least one Tour";
+            ErrorMessage = "Please select at least one Tour!";
             return false;
         }
 
         if (FileName == "") {
-            ErrorMessage = "Please write a file name";
+            ErrorMessage = "Please write a file name!";
             return false;
         }
 
@@ -152,24 +145,30 @@ public class ExportTourWindowVM : ViewModelBase {
 
         ErrorMessage = "";
 
+        //TODO: Logging
+
         List<Tour> tourList;
         tourList = SelectAll ? TourList.ToList() : TourList.Where(t => t.IsSelected).ToList();
-
-        bool? dialog = _saveFileDialog.ShowDialog(FileName);
-        if (dialog is true) {
-            FilePath = _saveFileDialog.GetFilePath();
-            //File.WriteAllText(FilePath, _oneTour ? _tour.Beautify() : _tours.Beautify());
-            File.WriteAllText(FilePath, tourList.Beautify());
-            //TODO: Exception handling
-            //TODO: Logging
-            MessageBoxResult result = _messageBoxService.Show("File saved successfully!\n Do you want to see the file?",
-                "ExportTour", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No,
-                MessageBoxOptions.None);
-            if (result == MessageBoxResult.Yes) {
-                Process.Start("explorer.exe", FilePath);
+        try {
+            bool? dialog = _saveFileDialog.ShowDialog(FileName);
+            if (dialog is true) {
+                FilePath = _saveFileDialog.GetFilePath();
+                File.WriteAllText(FilePath, tourList.Beautify());
+                MessageBoxResult result = _messageBoxService.Show("File saved successfully!\n Do you want to see the file?",
+                    "ExportTour", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No,
+                    MessageBoxOptions.None);
+                if (result == MessageBoxResult.Yes) {
+                    Process.Start("explorer.exe", FilePath);
+                }
+                CloseWindow();
+                _windowStore.Close();
             }
-            CloseWindow();
-            _windowStore.Close();
         }
+        catch (Exception) {
+            _messageBoxService.Show("Failed to Export Tour(s) to specified path!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            FilePath = "";
+            FileName = "";
+        }
+        
     }
 }

@@ -3,5 +3,5 @@
 namespace BusinessLayer.Services.EditTourLogServices;
 
 public interface IEditTourLogService {
-    Task EditTourLog(Tour tour, TourLogs tourLog);
+    Task EditTourLog(TourLogs tourLog);
 }

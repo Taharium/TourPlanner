@@ -5,7 +5,8 @@
         private readonly TabControlVM _tabControlVM;
         private readonly TourLogsVM _tourLogsVM;
         private readonly MenuVM _menuVM;
-        public MainWindowVM(TourListVM tourListVM, SearchbarVM searchbarVM, TabControlVM tabControlVM, TourLogsVM tourLogsVM, MenuVM menuVM) {
+        public MainWindowVM(TourListVM tourListVM, SearchbarVM searchbarVM, TabControlVM tabControlVM, 
+            TourLogsVM tourLogsVM, MenuVM menuVM) {
             _tourListVM = tourListVM;
             _searchbarVM = searchbarVM;
             _tabControlVM = tabControlVM;

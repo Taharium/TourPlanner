@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using BusinessLayer;
+using BusinessLayer.BLException;
 using Models;
 using Newtonsoft.Json;
 using Tour_Planner.Services.MessageBoxServices;
@@ -45,7 +46,8 @@ public class ImportTourWindowVM : ViewModelBase {
     public RelayCommand SearchCommand { get; }
     public RelayCommand ImportCommand { get; }
 
-    public ImportTourWindowVM(IWindowStore windowStore, IMessageBoxService messageBoxService, IBusinessLogicTours businessLogicTour, IOpenFileDialogService openFileDialogService) {
+    public ImportTourWindowVM(IWindowStore windowStore, IMessageBoxService messageBoxService, 
+        IBusinessLogicTours businessLogicTour, IOpenFileDialogService openFileDialogService) {
         _windowStore = windowStore;
         _messageBoxService = messageBoxService;
         _businessLogicTours = businessLogicTour;
@@ -54,27 +56,27 @@ public class ImportTourWindowVM : ViewModelBase {
         ImportCommand = new RelayCommand((_) => ImportFile());
     }
 
-    private bool CanExecuteImportFile() {
-        return ErrorMessage == "" && FilePath != "";
-    }
-
-    private void OpenFileExplorer() { 
-        _openFileDialog = new OpenFileDialogService();
-        bool? dialog = _openFileDialog.ShowDialog();
-        if (dialog is true) {
-            FilePath = _openFileDialog.GetFilePath();
-            if (!File.Exists(FilePath)) {
-                ErrorMessage = "File path does not exist";
-                return;
+    private void OpenFileExplorer() {
+        try {
+            bool? dialog = _openFileDialog.ShowDialog();
+            if (dialog is true) {
+                FilePath = _openFileDialog.GetFilePath();
+                if (!File.Exists(FilePath)) {
+                    ErrorMessage = "File path does not exist!";
+                    return;
+                }
             }
+            ErrorMessage = "";
         }
-        ErrorMessage = "";
-
+        catch (Exception) {
+            _messageBoxService.Show("Failed to open File Dialog!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            FilePath = "";
+        }
     }
 
     private bool ValidateImport() {
         if (FilePath == "") {
-            ErrorMessage = "Please select a file using the search button";
+            ErrorMessage = "Please select a file using the search button!";
             return false;
         }
 
@@ -87,28 +89,34 @@ public class ImportTourWindowVM : ViewModelBase {
         }
 
         ErrorMessage = "";
-        //TODO: Exception handling
         //TODO: Logging
-        string jsonfile = File.ReadAllText(FilePath);
+        
         List<Tour> newTours;
         try {
-            newTours =  JsonConvert.DeserializeObject<List<Tour>>(jsonfile) ?? throw new Exception();
+            string jsonfile = File.ReadAllText(FilePath);
+            newTours =  JsonConvert.DeserializeObject<List<Tour>>(jsonfile) ?? throw new Exception("There was an error while Se");
         }
         catch (Exception) {
-            ErrorMessage = "Herp! Herp me!";
+            _messageBoxService.Show("Failed to extract Tours from specified file!", "Error", MessageBoxButton.OK,
+                MessageBoxImage.Error);
+            FilePath = "";
             return;
         }
+        ErrorMessage = "";
 
-        /*if ( == false) {
-            ErrorMessage = "Tour already exists";
+        try {
+            foreach (var tour in newTours) {
+                _businessLogicTours.AddTour(tour);
+            }
+        }
+        catch (BusinessLayerException e) {
+            _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            FilePath = "";
             return;
-        }*/
-        foreach (var tour in newTours) {
-            _businessLogicTours.AddTour(tour);
         }
         
-        ErrorMessage = "";
-        _messageBoxService.Show("Import file successfully", "ImportFile", MessageBoxButton.OK,
+        
+        _messageBoxService.Show("Import file successfully!", "ImportFile", MessageBoxButton.OK,
             MessageBoxImage.Information);
         _windowStore.Close();
     }
