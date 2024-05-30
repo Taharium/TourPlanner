@@ -8,7 +8,7 @@ public class LoggingWrapper : ILoggingWrapper {
 
     public static LoggingWrapper CreateLogger(string configPath, string caller) {
         if (!File.Exists(configPath)) {
-            throw new ArgumentException("Does not exist.", nameof(configPath));
+            throw new ArgumentException($"Does not exist. {configPath}");
         }
 
         log4net.Config.XmlConfigurator.Configure(new FileInfo(configPath));

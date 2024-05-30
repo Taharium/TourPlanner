@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tour_Planner.Configurations;
+using Tour_Planner.Logging;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.OpenFileDialogServices;
 using Tour_Planner.Services.OpenFolderDialogServices;
@@ -137,6 +138,7 @@ public static class HostBuilderExtension {
             
             services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(hostContext.Configuration));
             services.AddSingleton<IConfigOpenRouteService, AppConfiguration>(s => new AppConfiguration(hostContext.Configuration));
+            services.AddTransient<ILoggingWrapper, LoggingWrapper>();
         });
         return hostBuilder;
     }
