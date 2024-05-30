@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Tour_Planner.ViewModels.MainWindowVM">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAAAAAAAAgEAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>ViewModels\MainWindowVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tour_Planner.ViewModels.TourListVM">
+    <Position X="3.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>hAIARAsACBAAAOAAAIAAAAAAAAAAAAQDgIAQAAAFAAA=</HashCode>
+      <FileName>ViewModels\TourListVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tour_Planner.ViewModels.TourLogsVM">
+    <Position X="6.5" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAABMBGAAAAAYIAIAAIABAQAAAAAEEAEihAAABAAA=</HashCode>
+      <FileName>ViewModels\TourLogsVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
