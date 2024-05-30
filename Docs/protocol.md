@@ -11,4 +11,36 @@
 
 - Wiremock for Add tour operation 
 <br/>
-    <img title="Add Tour" alt="Wireframe of Add Tour Function" src="Wiremock_Add-Tour.drawio.png" width="500">
+    <img title="Add Tour" alt="Wireframe of Add Tour Function" src="Wiremock_Add-Tour.drawio.png" width="500" height="600">
+
+
+- Description of app architecture
+    ```
+    We decided to layer this project in to three layers. The Presentation Layer is responsible for handling everything that happens immediately with the user. It should give feedback to the user so that he known at any time in which state he is currently on. Furhermore, this layer calls on layer below to the businesslayer for various tasks. Here, we have our connection to the OpenRouteService API and the computing of our Popularity and Child friendliness (Computed Attributes). Furthermore, for the CRUD operations that the user wants to fulfill for the Tours and TourLogs, the Businesslogic calls Services that are still in the Businesslayer. Every operations has its own service. Before we call a UnitofWork in the DAL layer, we convert our Model from the Frontend to a DTO that is saved in the Database. We do that because we have code in our Tour and TourLog Models that are just for the frontend. As said before we now call a UnitofWork and that gives us access to the repository. And in there, we now can execute the CRUD operation, that was requested from the user, on the database. 
+    ```
+
+    - Class Diagram BL
+<br/>
+        <img title="Class diagram BL" src="ClassDiagramBL.png" width="700" height="300">
+<br/>
+    - Class Diagram PL
+<br/>
+        <img title="Class diagram PL" src="ClassDiagramPL.png" width="700" height="300">
+    - Class Diagram DAL
+<br/>
+        <img title="Class diagram DAL" src="ClassDiagramDAL.png" width="700" height="300">
+    - Class Diagram DTOandModels
+<br/>
+        <img title="Class Diagram DTOandModels" src="ClassDiagramDTOandModels.png" width="700" height="300">
+
+
+<br/>
+
+- Description of Use Cases
+    ```
+    ```
+
+
+
+- Link to GIT
+    - https://github.com/if22b151/Tour_Planner
