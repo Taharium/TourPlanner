@@ -50,7 +50,7 @@ public class PdfReportGenerationServiceTest {
     }
 
     [Test]
-    public void GenerateToursSummaryReport_ValidTours_CreatesPdf()
+    public void GenerateToursSummaryReport_ValidTourList_CreatesPdf()
     {
         // Arrange
         var tours = new List<Tour>
@@ -143,7 +143,7 @@ public class PdfReportGenerationServiceTest {
                 TourLogsList = new ObservableCollection<TourLogs>()
             }
         };
-        var invalidPath = "Z:\\InvalidPath\\ToursSummaryReport.pdf";  // Assuming Z: is not a valid drive
+        var invalidPath = "Z:\\InvalidPath\\ToursSummaryReport.pdf";
 
         // Act & Assert
         var ex = Assert.Throws<UiLayerException>(() => _service.GenerateToursSummaryReport(tours, invalidPath));

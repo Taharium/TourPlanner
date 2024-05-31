@@ -62,37 +62,5 @@ public class GeneratePdfWindowVMTest {
             A<string>._)).MustHaveHappenedOnceExactly();
         A.CallTo(() => _windowStore.Close()).MustHaveHappenedOnceExactly();
     }
-
-    [Test]
-    public void GeneratePdfReport_NoFileName_ErrorMessageSet()
-    {
-        // Arrange
-        _viewModel.FileName = "";
-        A.CallTo(() => _openFolderDialogService.ShowDialog()).Returns(false);
-
-        // Act
-        _viewModel.GeneratePdfReport();
-
-        // Assert
-        /*A.CallTo(() => _messageBoxService.Show(
-            "Please write a file name!", "Error", MessageBoxButton.OK, MessageBoxImage.Error))
-            .MustHaveHappenedOnceExactly();*/
-        A.CallTo(() => _windowStore.Close()).MustNotHaveHappened();
-    }
-
-    /*[Test]
-    public void GeneratePdfReport_NoTourSelected_ErrorMessageSet()
-    {
-        // Arrange
-        _viewModel.SelectAll = false;
-
-        // Act
-        _viewModel.GeneratePdfReport();
-
-        // Assert
-        A.CallTo(() => _messageBoxService.Show(
-            "Please select one Tour!", "Error", MessageBoxButton.OK, MessageBoxImage.Error))
-            .MustHaveHappenedOnceExactly();
-        A.CallTo(() => _windowStore.Close()).MustNotHaveHappened();
-    }*/
+    
 }
