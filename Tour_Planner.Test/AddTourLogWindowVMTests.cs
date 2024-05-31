@@ -22,7 +22,7 @@ namespace Tour_Planner.Test {
         private IWindowStore _windowStore = A.Fake<IWindowStore>();
         
         [Test]
-        public void AddTourLog_InValidData_Success() {
+        public void AddTourLog_InValidData_Error() {
             // Arrange
             var viewModel = new AddTourLogWindowVM(_windowStore, _tourStore, _businessLogicTourLogs, _messageBoxService);
             var tourLog = new TourLogs {

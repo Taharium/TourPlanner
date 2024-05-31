@@ -24,7 +24,7 @@ public class EditTourWindowVMTests {
     public void FinishEditFunction_InvalidTour_Error() {
         // Arrange
         EditTourWindowVM viewModel = new EditTourWindowVM(_tourStore, new WindowStore(), _businessLogicTours, new MessageBoxService(), _openRouteService);
-
+        viewModel.Tour = new Tour();
         // Act
         viewModel.FinishEditFunction();
 

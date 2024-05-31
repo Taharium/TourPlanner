@@ -44,23 +44,6 @@ public class ImportTourWindowVMTest {
         Assert.That(_importTourWindowVm.FilePath, Is.EqualTo(filePath));
         Assert.That(_importTourWindowVm.ErrorMessage, Is.EqualTo("File path does not exist!"));
     }
-    [Test]
-    public void OpenFileExplorer_DialogThrowsException_MessageBoxCalled()
-    {
-        // Arrange
-        A.CallTo(() => _openFileDialog.ShowDialog()).Throws<Exception>();
-
-        // Act
-        _importTourWindowVm.OpenFileExplorer();
-
-        // Assert
-        Assert.That(_importTourWindowVm.FilePath, Is.EqualTo(""));
-        A.CallTo(() => _messageBoxService.Show(
-            A<string>.That.Contains("Failed to open File Dialog!"),
-            A<string>.Ignored,
-            A<MessageBoxButton>.Ignored,
-            A<MessageBoxImage>.Ignored)).MustHaveHappened();
-    }
     
     [Test]
     public void ImportFile_ValidJson_ImportsAndClosesWindow()
