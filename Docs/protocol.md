@@ -21,26 +21,53 @@
 
     - Class Diagram BL
 <br/>
-        <img title="Class diagram BL" src="ClassDiagramBL.png" width="700" height="300">
+        <img title="Class diagram BL" src="ClassDiagramBL.png">
 <br/>
     - Class Diagram PL
 <br/>
-        <img title="Class diagram PL" src="ClassDiagramPL.png" width="700" height="300">
+        <img title="Class diagram PL" src="ClassDiagramPL.png">
     - Class Diagram DAL
 <br/>
-        <img title="Class diagram DAL" src="ClassDiagramDAL.png" width="700" height="300">
+        <img title="Class diagram DAL" src="ClassDiagramDAL.png">
     - Class Diagram DTOandModels
 <br/>
-        <img title="Class Diagram DTOandModels" src="ClassDiagramDTOandModels.png" width="700" height="300">
+        <img title="Class Diagram DTOandModels" src="ClassDiagramDTOandModels.png">
 
 
 <br/>
 
 - Description of Use Cases
     ```
+    If we break it down, the user can activley do most of the CRUD operations. He can Add, Edit and Delete a tour as well as Add, Edit and Delete a TourLog. But in the background they are not all just happening if the user wants to do them. For example, at any operations with the Tourlogs(ADD, EDIT, DELETE) the Edit Tour case has to be done too because it effects the content of the tour itself.   
     ```
 
+    - Use Case Diagram(not all use cases depicted)
+<br/>
+        <img title="Use Case Diagram" src="UseCaseDiagram.png">
 
+    - SequenceDiagram(GetTours)
+<br/>
+        <img title="Sequence Diagram GetTours" src="GetToursSequenceDiagram.png">
+
+- Library Decicions / Lessons learned
+    ```
+    We are using the libraries that we talked about in the course. The only one we use that we didnt talk about is for the generic host. We use this because we had a lot of problems with Dependency Injection in general and because of that we talked about it with other groups and most of them have used the generic host. Before that, we had the IoC Container but in order to get the best help from colleagues, we thought it would be the best idea to make it that way. 
+    What we have learned is that, DI can help you with a lot of things but can also make your program unusable. For example, we had a lot of trouble injecting our database into our project. Because the AddDbContext function makes it a scoped service, it cant be hold by a singelton and that ruined our hole application. Then we made a factory for the DBContext but now we had the problem that the Respository and our UnitofWork didnt use the same Context and no operations could be fulfilled. At the end we used the DBContextfactory from the Hostbuilder service and a factory for the unitofwork. The only "problem" is that the UnitofWork Factory is directly dependent on the UnitofWork class.
+    ```
+
+- Implemented Design Patterns
+    ```
+    As mentioned before, we implemented the factory pattern. One time for UnitofWork and a second time for our Logging. Moreover, we implemented the MVVM pattern for our frontend. 
+    ```
+
+- Unit Tests decisions
+    ```
+    ```
+
+- Tracked time
+    ```
+    In total, we came up to about 65 hours each.  
+    ```
 
 - Link to GIT
     - https://github.com/if22b151/Tour_Planner
