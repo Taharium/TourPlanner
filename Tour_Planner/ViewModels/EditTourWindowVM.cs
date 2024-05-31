@@ -18,6 +18,7 @@ namespace Tour_Planner.ViewModels {
         private string _errorMessage;
         private Tour _tempTour;
         private Tour _tour;
+        private Tour _tourBackUp;
         private string _selectedPlaceStart = "";
         private string _selectedPlaceEnd = "";
         private const int Threshold = 3;
@@ -127,6 +128,7 @@ namespace Tour_Planner.ViewModels {
             _messageBoxService = messageBoxService;
             _tour = tourStore.CurrentTour ?? new Tour();
             _tempTour = new Tour(_tour);
+            _tourBackUp = new Tour(_tour);
             SelectedPlaceEnd = _tempTour.EndLocation;
             SelectedPlaceStart = _tempTour.StartLocation;
             _errorMessage = "";
@@ -185,6 +187,15 @@ namespace Tour_Planner.ViewModels {
                    !string.IsNullOrWhiteSpace(_tempTour.StartLocation) && !string.IsNullOrWhiteSpace(_tempTour.EndLocation);
         }
 
+        private void BackUp() {
+            _tour.Name = _tourBackUp.Name;
+            _tour.Description = _tourBackUp.Description;
+            _tour.StartLocation = _tourBackUp.StartLocation;
+            _tour.EndLocation = _tourBackUp.EndLocation;
+            _tour.Distance = _tourBackUp.Distance;
+            _tour.TransportType = _tourBackUp.TransportType;
+        }
+        
         private void UpdateTour() {
             _tour.Name = _tempTour.Name;
             _tour.Description = _tempTour.Description;
@@ -206,6 +217,7 @@ namespace Tour_Planner.ViewModels {
                     _windowStore.Close();
                 }
                 catch (BusinessLayerException e) {
+                    BackUp();
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     _windowStore.Close();
                 }

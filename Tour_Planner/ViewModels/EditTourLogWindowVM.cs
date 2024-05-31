@@ -16,6 +16,7 @@ namespace Tour_Planner.ViewModels {
     public class EditTourLogWindowVM : ViewModelBase {
         private TourLogs _tempTourLog;
         private TourLogs _tourLog;
+        private TourLogs _tourLogBackUp;
         private Rating _selectedRating;
         private Difficulty _selectedDifficulty;
         private readonly IWindowStore _windowStore;
@@ -99,10 +100,20 @@ namespace Tour_Planner.ViewModels {
             _messageBoxService = messageBoxService;
             _tourLog = tourLogStore.CurrentTour ?? new TourLogs();
             _tempTourLog = new TourLogs(_tourLog);
+            _tourLogBackUp = new TourLogs(_tourLog);
             _errorMessage = "";
             FinishEditTourLogCommand = new AsyncRelayCommand((_) => EditTourLogsFunction());
         }
 
+        private void BackUp() {
+            _tourLog.DateTime = _tourLogBackUp.DateTime;
+            _tourLog.TotalTime = _tourLogBackUp.TotalTime;
+            _tourLog.Distance = _tourLogBackUp.Distance;
+            _tourLog.Rating = _tourLogBackUp.Rating;
+            _tourLog.Comment = _tourLogBackUp.Comment;
+            _tourLog.Difficulty = _tourLogBackUp.Difficulty;
+        }
+        
         private void UpdateTourLog() {
             _tourLog.DateTime = _tempTourLog.DateTime;
             _tourLog.TotalTime = _tempTourLog.TotalTime;
@@ -126,6 +137,7 @@ namespace Tour_Planner.ViewModels {
                     _windowStore.Close();
                 }
                 catch (BusinessLayerException e) {
+                    BackUp();
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     _windowStore.Close();
                 }
