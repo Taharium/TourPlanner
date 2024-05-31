@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using iText.IO.Image;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Draw;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.Wpf;
 using Models;
 using Tour_Planner.UIException;
 
@@ -16,6 +19,7 @@ namespace Tour_Planner.Services.PdfReportGenerationServices;
 public class PdfReportGenerationService : IPdfReportGenerationService {
     //TODO: add Image
     //TODO: Logging
+    public delegate WebView2 GetWebView(ref WebView2 webView2);
 
     public void GenerateOneTourReport(Tour tour, string path) {
         try {
@@ -29,7 +33,7 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             document.Add(new Paragraph("End Location: " + tour.EndLocation).SetFontSize(12));
             document.Add(new Paragraph("Distance: " + tour.Distance + " km").SetFontSize(12));
             document.Add(new Paragraph("Transport Type: " + tour.TransportType).SetFontSize(12));
-
+            
             /*if (!string.IsNullOrEmpty(tour.RouteInformationImage))
             {
                 ImageData imageData = ImageDataFactory.Create(tour.RouteInformationImage);
@@ -118,4 +122,13 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             throw new UiLayerException("Failed to create the PDF-Report for the specified path!");
         }
     }
+    public async Task CaptureWebView2(WebView2 webView2, string imagePath) {
+        
+        await webView2.EnsureCoreWebView2Async();
+        
+        var fileStream = new FileStream(imagePath, FileMode.Create, FileAccess.Write);
+
+        await webView2.CoreWebView2.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Png, fileStream);
+    }
+
 }

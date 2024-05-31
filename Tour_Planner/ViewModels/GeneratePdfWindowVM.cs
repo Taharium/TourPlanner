@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using BusinessLayer;
-using Microsoft.Win32;
 using Models;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.OpenFolderDialogServices;
@@ -23,7 +22,8 @@ public class GeneratePdfWindowVM : ViewModelBase{
 
     private ObservableCollection<Tour> _tourList;
     private Tour? _selectedTour;
-    
+
+    private string _imagePath = "Assets/Resource/map.png";
     private string _fileName = "";
     private string _filePath = "";
     private string _errorMessage = "";
@@ -169,6 +169,7 @@ public class GeneratePdfWindowVM : ViewModelBase{
                 FilePath = $"{_openFolderDialogService.GetFolderPath()}\\{FileName}.pdf";
             
                 if (SelectedTour is { IsSelected: true }) {
+                    //_pdfReportGenerationService.CaptureWebView2(_imagePath);
                     _pdfReportGenerationService.GenerateOneTourReport(SelectedTour, FilePath);
                 }
                 else if (SelectAll) {

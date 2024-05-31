@@ -142,16 +142,10 @@ public static class HostBuilderExtension {
     }
 
     public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder) {
-        hostBuilder.ConfigureServices((hostContext, services) =>
-        {
-            services.AddDbContextFactory<TourPlannerDbContext>(options =>
-            {
+        hostBuilder.ConfigureServices((hostContext, services) => {
+            services.AddDbContextFactory<TourPlannerDbContext>(options => {
                 options.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase"));
             });
-            /*var optionsBuilder = new DbContextOptionsBuilder<TourPlannerDbContext>();
-            optionsBuilder.UseNpgsql(hostContext.Configuration.GetConnectionString("DataBase"));
-
-            services.AddSingleton(optionsBuilder.Options);*/
         });
         return hostBuilder;
     }

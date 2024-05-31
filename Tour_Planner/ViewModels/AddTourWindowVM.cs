@@ -144,11 +144,17 @@ namespace Tour_Planner.ViewModels {
             FinishAddCommand = new AsyncRelayCommand((_) => AddFunction());
         }
 
-        private async Task SearchPlaceStart(object? searchplace)
+        public async Task SearchPlaceStart(object? searchplace)
         {
             var searchplacestr = searchplace as string ?? "";
-            
-            var places = await _openRouteService.GetPlaces(searchplacestr);
+            List<string> places;
+            try {
+                places = await _openRouteService.GetPlaces(searchplacestr);
+            }
+            catch (BusinessLayerException e) {
+                _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             
             SearchResultsStart.Clear();
             foreach (var place in places)
@@ -159,11 +165,18 @@ namespace Tour_Planner.ViewModels {
             IsStartSearchTriggered = true;
         } 
         
-        private async Task SearchPlaceEnd(object? searchplace)
+        public async Task SearchPlaceEnd(object? searchplace)
         {
             var searchplacestr = searchplace as string ?? "";
             
-            var places = await _openRouteService.GetPlaces(searchplacestr);
+            List<string> places;
+            try {
+                places = await _openRouteService.GetPlaces(searchplacestr);
+            }
+            catch (BusinessLayerException e) {
+                _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             
             SearchResultsEnd.Clear();
             foreach (var place in places)
@@ -180,10 +193,10 @@ namespace Tour_Planner.ViewModels {
         }
 
         public async Task AddFunction() {
+            _tour.StartLocation = _selectedPlaceStart;
+            _tour.EndLocation = _selectedPlaceEnd;
             if (IsTourValid()) {
                 try {
-                    _tour.StartLocation = _selectedPlaceStart;
-                    _tour.EndLocation = _selectedPlaceEnd;
                     ErrorMessage = "";
                     await _businessLogicTours.AddTour(_tour);
                     _messageBoxService.Show("Tour added successfully!", "AddTour", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -193,7 +206,6 @@ namespace Tour_Planner.ViewModels {
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     _windowStore.Close();
                 }
-                
             }
             else {
                 ErrorMessage = "Please fill in all fields!";

@@ -94,7 +94,7 @@ public class ImportTourWindowVM : ViewModelBase {
         List<Tour> newTours;
         try {
             string jsonfile = File.ReadAllText(FilePath);
-            newTours =  JsonConvert.DeserializeObject<List<Tour>>(jsonfile) ?? throw new Exception("There was an error while Se");
+            newTours =  JsonConvert.DeserializeObject<List<Tour>>(jsonfile) ?? throw new Exception("");
         }
         catch (Exception) {
             _messageBoxService.Show("Failed to extract Tours from specified file!", "Error", MessageBoxButton.OK,

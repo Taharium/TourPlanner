@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using FakeItEasy;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Models.Enums;
@@ -10,9 +11,9 @@ using Tour_Planner.Stores.WindowStores;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Test {
-
     public class EditTourLogWindowVMTests {
-        
+        private IBusinessLogicTourLogs _businessLogicTourLogs = A.Fake<BusinessLogicImp>();
+        private ITourStore _tourStore = A.Fake<TourStore>();
         [TestCase("2024-03-20T00:00:00", "2", "", Rating.Good, Difficulty.Medium, false)]
         [TestCase("2024-03-20T00:00:00", "2", "100", Rating.Excellent, Difficulty.Medium, true)]
         public void IsTourLogValid_VariousScenarios_ReturnsExpectedResult(string dateTime, string totalTime, string distance, Rating rating, Difficulty difficulty, bool expected) {
@@ -26,10 +27,8 @@ namespace Tour_Planner.Test {
                 Difficulty = difficulty
             });
             
-            IConfiguration configuration = new ConfigurationManager();
-            IConfigOpenRouteService configOpenRouteService = new AppConfiguration(configuration);
-            IOpenRouteService openRouteService = new BusinessLogicOpenRouteService(configOpenRouteService);
-            var viewModel = new EditTourLogWindowVM(new WindowStore(), new TourStore(), tourLog, new BusinessLogicImp(openRouteService), new MessageBoxService());
+            
+            var viewModel = new EditTourLogWindowVM(new WindowStore(), _tourStore, tourLog, _businessLogicTourLogs, new MessageBoxService());
 
             // Act
             var result = viewModel.IsTourLogValid();

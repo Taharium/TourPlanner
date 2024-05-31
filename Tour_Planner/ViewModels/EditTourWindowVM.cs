@@ -139,7 +139,14 @@ namespace Tour_Planner.ViewModels {
         {
             var searchplacestr = searchplace as string ?? "";
             
-            var places = await _openRouteService.GetPlaces(searchplacestr);
+            List<string> places;
+            try {
+                places = await _openRouteService.GetPlaces(searchplacestr);
+            }
+            catch (BusinessLayerException e) {
+                _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             
             SearchResultsStart.Clear();
             foreach (var place in places)
@@ -154,7 +161,14 @@ namespace Tour_Planner.ViewModels {
         {
             var searchplacestr = searchplace as string ?? "";
             
-            var places = await _openRouteService.GetPlaces(searchplacestr);
+            List<string> places;
+            try {
+                places = await _openRouteService.GetPlaces(searchplacestr);
+            }
+            catch (BusinessLayerException e) {
+                _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             
             SearchResultsEnd.Clear();
             foreach (var place in places)
@@ -199,7 +213,6 @@ namespace Tour_Planner.ViewModels {
             else {
                 ErrorMessage = "Please fill in all fields!";
             }
-
         }
     }
 }

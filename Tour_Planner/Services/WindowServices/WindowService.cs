@@ -18,11 +18,6 @@ public class WindowService<TViewModel, TWindow> : IWindowService<TViewModel, TWi
         _createWindow = window;
         _windowStore = windowStore;
     }
-    
-    /*public void Show() {
-        var window = Init();
-        window.Show();
-    }*/
 
     public void ShowDialog() {
         var viewModel = _createViewModel();

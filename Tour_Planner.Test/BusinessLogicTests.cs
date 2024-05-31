@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using BusinessLayer;
+using FakeItEasy;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Models.Enums;
@@ -10,15 +11,11 @@ namespace Tour_Planner.Test;
 public class BusinessLogicTests
 {
     private Tour tour = new Tour();
-    private BusinessLogicImp businessLogictours;
+    private BusinessLogicImp _businessLogicTours = A.Fake<BusinessLogicImp>();
     
     [SetUp]
     public void Setup()
     {
-        IConfiguration configuration = new ConfigurationManager();
-        IConfigOpenRouteService configOpenRouteService = new AppConfiguration(configuration);
-        IOpenRouteService openRouteService = new BusinessLogicOpenRouteService(configOpenRouteService);
-        businessLogictours = new BusinessLogicImp(openRouteService);
         
         TourLogs log1 = new TourLogs
         {
@@ -59,9 +56,8 @@ public class BusinessLogicTests
     [Test]
     public void ComputedPopularity()
     {
-        
         // Act
-        var popularity = businessLogictours.ComputePopularity(tour);
+        var popularity = _businessLogicTours.ComputePopularity(tour);
         
         // Assert
         Assert.That(popularity, Is.EqualTo(Popularity.Unpopular));
@@ -71,9 +67,8 @@ public class BusinessLogicTests
     [Test]
     public void ComputedChildFriendliness()
     {
-        
         // Act
-        var childFriendliness = businessLogictours.ComputeChildFriendliness(tour);
+        var childFriendliness = _businessLogicTours.ComputeChildFriendliness(tour);
         
         // Assert
         Assert.That(childFriendliness, Is.EqualTo(Child_Friendliness.ChildFriendly));

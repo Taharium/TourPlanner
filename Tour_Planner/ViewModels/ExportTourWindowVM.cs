@@ -84,8 +84,8 @@ public class ExportTourWindowVM : ViewModelBase {
     public RelayCommand UnSelectAllCommand { get; }
     public RelayCommand WindowClosingCommand { get; }
 
-    public ExportTourWindowVM(IWindowStore windowStore, IBusinessLogicTours businessLogicTours,
-        ISaveFileDialogService saveFileDialogService, IMessageBoxService messageBoxService, ITourStore tourstore) {
+    public ExportTourWindowVM(IWindowStore windowStore, ISaveFileDialogService saveFileDialogService, 
+        IMessageBoxService messageBoxService, ITourStore tourstore) {
         _windowStore = windowStore;
         _tourList = new(tourstore.Tours);
         _saveFileDialog = saveFileDialogService;
@@ -138,7 +138,7 @@ public class ExportTourWindowVM : ViewModelBase {
         return TourList.Any(t => t.IsSelected);
     }
 
-    private void OpenFileExplorer() {
+    public void OpenFileExplorer() {
         if (!ValidateExport()) {
             return;
         }

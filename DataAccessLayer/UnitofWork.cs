@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.TourLogRepository;
+﻿using DataAccessLayer.DALException;
+using DataAccessLayer.TourLogRepository;
 using DataAccessLayer.TourRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,8 +24,14 @@ public class UnitofWork : IUnitofWork, IDisposable
     
     public async Task<int> Commit()
     {
-        var result = await _context.SaveChangesAsync();
-        return result;
+        try {
+            var result = await _context.SaveChangesAsync();
+            return result;
+        }
+        catch (Exception) {
+            throw new DataLayerException("Operation could not be saved in the Database! Please check your connection!");
+        }
+        
     }
 
 

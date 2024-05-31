@@ -115,7 +115,7 @@ namespace Tour_Planner.ViewModels {
             _addTourWindow.ShowDialog();
         }
 
-        private void AddTour(Tour? tour) {
+        public void AddTour(Tour? tour) {
             SelectedTour = tour;
             TourListCollectionView.Refresh();
         }
