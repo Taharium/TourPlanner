@@ -1,46 +1,81 @@
-<center><big>Protocol</big></center>
+# <center>Protocol</center>
 
-- Screenshot of User Interface 
-    <img title="User Interface" alt="Screenshot of User Interface" src="UI_image.png">
+### Screenshot of User Interface
 
-- Description of UI
-    ```
-    On top of the Interface we have a search bar where the user can search for tours that are similar or for a specific tour. Beneath that on the left side, we have the tour list. Here, the user can add, modify or delete a tour. For adding, the user should klick the "add tour" button. For the other operations, there are buttons foreach tour in the list. A new window pops up if the user decides to either add a tour or modify an existent tour. On the right side of the page, there are three tabs. In the general tab, there is the tour information (Date, Start Location, End Location, ...). In the route tab, there will be a map of the tour. Beneath those tabs, there are the tour logs for a specific tour. Here you can also add, modify or delete a tour log. In the same way, new windows will pop up for adding or modifying a tour. 
-    ```
-    
+<img title="User Interface" alt="Screenshot of User Interface" src="UI_image.png">
 
-- Wiremock for Add tour operation 
+## Description of UI
+
+On top of the Interface we have a search bar where the user can search for tours that are similar or for a specific
+tour. Beneath that on the left side, we have the tour list. Here, the user can add, modify or delete a tour. For adding,
+the user should klick the "add tour" button. For the other operations, there are buttons foreach tour in the list. A new
+window pops up if the user decides to either add a tour or modify an existent tour. On the right side of the page, there
+are three tabs. In the general tab, there is the tour information (Date, Start Location, End Location, ...). In the
+route tab, there will be a map of the tour. Beneath those tabs, there are the tour logs for a specific tour. Here you
+can also add, modify or delete a tour log. In the same way, new windows will pop up for adding or modifying a tour.
+
+### Wiremock for Add tour operation
+
 <br/>
     <img title="Add Tour" alt="Wireframe of Add Tour Function" src="Wiremock_Add-Tour.drawio.png" width="500" height="600">
 
+## Description of app architecture
 
-- Description of app architecture
-    ```
-    We decided to layer this project in to three layers. The Presentation Layer is responsible for handling everything that happens immediately with the user. It should give feedback to the user so that he known at any time in which state he is currently on. Furhermore, this layer calls on layer below to the businesslayer for various tasks. Here, we have our connection to the OpenRouteService API and the computing of our Popularity and Child friendliness (Computed Attributes). Furthermore, for the CRUD operations that the user wants to fulfill for the Tours and TourLogs, the Businesslogic calls Services that are still in the Businesslayer. Every operations has its own service. Before we call a UnitofWork in the DAL layer, we convert our Model from the Frontend to a DTO that is saved in the Database. We do that because we have code in our Tour and TourLog Models that are just for the frontend. As said before we now call a UnitofWork and that gives us access to the repository. And in there, we now can execute the CRUD operation, that was requested from the user, on the database. 
-    ```
+We decided to layer this project in to three layers. The Presentation Layer is responsible for handling everything that
+happens immediately with the user. It should give feedback to the user so that he known at any time in which state he is
+currently on. Furhermore, this layer calls on layer below to the businesslayer for various tasks. Here, we have our
+connection to the OpenRouteService API and the computing of our Popularity and Child friendliness (Computed Attributes).
+Furthermore, for the CRUD operations that the user wants to fulfill for the Tours and TourLogs, the Businesslogic calls
+Services that are still in the Businesslayer. Every operations has its own service. Before we call a UnitofWork in the
+DAL layer, we convert our Model from the Frontend to a DTO that is saved in the Database. We do that because we have
+code in our Tour and TourLog Models that are just for the frontend. As said before we now call a UnitofWork and that
+gives us access to the repository. And in there, we now can execute the CRUD operation, that was requested from the
+user, on the database.
 
-    - Class Diagram BL
-<br/>
-        <img title="Class diagram BL" src="ClassDiagramBL.png" width="700" height="300">
-<br/>
-    - Class Diagram PL
-<br/>
-        <img title="Class diagram PL" src="ClassDiagramPL.png" width="700" height="300">
-    - Class Diagram DAL
-<br/>
-        <img title="Class diagram DAL" src="ClassDiagramDAL.png" width="700" height="300">
-    - Class Diagram DTOandModels
-<br/>
-        <img title="Class Diagram DTOandModels" src="ClassDiagramDTOandModels.png" width="700" height="300">
+### Class Diagram BL
 
-
+<img title="Class diagram BL" src="ClassDiagramBL.png" width="700" height="300">
 <br/>
 
-- Description of Use Cases
-    ```
-    ```
+### Class Diagram PL
+
+<img title="Class diagram PL" src="ClassDiagramPL.png" width="700" height="300">
+
+### Class Diagram DAL
+
+<img title="Class diagram DAL" src="ClassDiagramDAL.png" width="700" height="300">
+
+### Class Diagram DTO and Models
+
+<img title="Class Diagram DTOandModels" src="ClassDiagramDTOandModels.png" width="700" height="300">
 
 
+<br/>
 
-- Link to GIT
-    - https://github.com/if22b151/Tour_Planner
+## Description of Use Cases
+
+## Unit Testing decision
+
+The way we approached the unit tests might not be ideal, but it worked for us. We did the following: every time we have
+a function that does not work the way is it was intended we did a unit test. As most our problems were inside Viewmodels,
+we have made many unit tests to solve these problems. There was however a problem in our service that we wanted to test,
+which was the PdfReportGenerationService. Furthermore, we decided to use the FakeItEasy Framework to aid us making these
+unit tests. Because it was our first time using this Framework or our first time using a mocking framework in general, we
+had a lot of difficulties mocking dependencies such the services in the BusinessLayer (openRouteService, AddTourService...),
+the Factories in the DataAccessLayer and the Repositories. Another Problem was that the way we solved our problem for the
+Dbcontext was very complicated. We had to use a UnitOfWorkFactory as well as DbcontextFactory. That made the mocking much
+more difficult than we expected, which why we completely gave up testing the DataAccessLayer. That is another reason we
+decided to mostly focus on Viewmodels and their most important functions and how they handle exception, whether they can
+detect wrong input or not. Most of the test needed some kind of mocking, some more advanced than the other.
+
+In conclusion, we decided to mostly test Viewmodels because the Businesslayer and DataAccessLayer were too hard to mock.
+We tested whether the data needed for the most important functions in the viewmodel were valid, and if yes, we tested its
+core functionality, for example if the Tour or more are selected and the path to a folder is valid and the filename is 
+not empty too, the function GeneratePdfReport should work perfectly fine. So regarding testing Viewmodels we made sure to
+have the most important functions tested.
+
+<br>
+
+### Link to GIT
+
+    https://github.com/if22b151/Tour_Planner

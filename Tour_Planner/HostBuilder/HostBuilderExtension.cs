@@ -63,6 +63,7 @@ public static class HostBuilderExtension {
             services.AddSingleton<IBusinessLogicTours, BusinessLogicImp>();
             services.AddSingleton<IBusinessLogicTourLogs, BusinessLogicImp>();
             services.AddSingleton<IOpenRouteService, BusinessLogicOpenRouteService>();
+            services.AddSingleton<IRestaurantPlacesService, BusinessLogicRestaurantPlacesService>();
             services.AddSingleton<IGetToursService, GetToursService>();
             services.AddSingleton<IAddTourService, AddTourService>();
             services.AddSingleton<IEditTourService, EditTourService>();
@@ -138,6 +139,7 @@ public static class HostBuilderExtension {
             
             services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(hostContext.Configuration));
             services.AddSingleton<IConfigOpenRouteService, AppConfiguration>(s => new AppConfiguration(hostContext.Configuration));
+            services.AddSingleton<IConfigRestaurantPlacesService, AppConfiguration>(s => new AppConfiguration(hostContext.Configuration));
             services.AddTransient<ILoggingWrapper, LoggingWrapper>();
         });
         return hostBuilder;

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Tour_Planner.Configurations;
 
-public class AppConfiguration : IConfigDatabase, IConfigOpenRouteService {
+public class AppConfiguration : IConfigDatabase, IConfigOpenRouteService, IConfigRestaurantPlacesService {
 
     private IConfiguration _configuration;
     
@@ -15,4 +15,5 @@ public class AppConfiguration : IConfigDatabase, IConfigOpenRouteService {
     public string ConnectionStringDb => _configuration["ConnectionStrings:DataBase"]!;
 
     public string ApiKey => _configuration["ConnectionStrings:API-Key"]!;
+    public string ResApiKey => _configuration["ConnectionStrings:Res-API-Key"]!;
 }

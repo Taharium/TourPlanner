@@ -15,6 +15,7 @@ namespace BusinessLayer;
 
 public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
     private readonly IOpenRouteService _openRouteService;
+    private readonly IRestaurantPlacesService _restaurantPlacesService;
 
     private readonly IAddTourService _addTourService;
     private readonly IDeleteTourService _deleteTourService;
@@ -36,8 +37,9 @@ public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
     public BusinessLogicImp(IOpenRouteService openRouteService, IAddTourService addTourService,
         IGetToursService getToursService, IDeleteTourService deleteTourService, IEditTourService editTourService,
         IAddTourLogService addTourLogService, IDeleteTourLogService deleteTourLogService,
-        IEditTourLogService editTourLogService) {
+        IEditTourLogService editTourLogService, IRestaurantPlacesService restaurantPlacesService) {
         _openRouteService = openRouteService;
+        _restaurantPlacesService = restaurantPlacesService;
         _getToursService = getToursService;
         _addTourService = addTourService;
         _editTourService = editTourService;
@@ -105,6 +107,8 @@ public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
             tour.Directions = directionsstr;
             tour.Distance = _openRouteService.GetDistance(jsonNodedirections);
             tour.EstimatedTime = _openRouteService.GetEstimatedTime(jsonNodedirections);
+            var coordinates = await _openRouteService.GetGeoCoordinates(tour.EndLocation);
+            //await _restaurantPlacesService.GetRestaurantRecommendations(coordinates);
             await _addTourService.AddTour(tour);
             AddTourEvent?.Invoke(tour);
 
@@ -134,6 +138,8 @@ public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
             tour.Directions = directionsstr;
             tour.Distance = _openRouteService.GetDistance(jsonNodedirections);
             tour.EstimatedTime = _openRouteService.GetEstimatedTime(jsonNodedirections);
+            var coordinates = await _openRouteService.GetGeoCoordinates(tour.EndLocation);
+            //await _restaurantPlacesService.GetRestaurantRecommendations(coordinates);
             await _editTourService.EditTour(tour);
             OnTourUpdateEvent?.Invoke(tour);
         }
