@@ -23,7 +23,6 @@ public class GeneratePdfWindowVM : ViewModelBase{
     private ObservableCollection<Tour> _tourList;
     private Tour? _selectedTour;
 
-    private string _imagePath = "Assets/Resource/map.png";
     private string _fileName = "";
     private string _filePath = "";
     private string _errorMessage = "";
@@ -157,7 +156,7 @@ public class GeneratePdfWindowVM : ViewModelBase{
         return true;
     }
     
-    private void GeneratePdfReport() {
+    public void GeneratePdfReport() {
         if (!ValidateGenerate()) {
             return;
         }

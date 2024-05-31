@@ -19,7 +19,7 @@ namespace Tour_Planner.Services.PdfReportGenerationServices;
 public class PdfReportGenerationService : IPdfReportGenerationService {
     //TODO: add Image
     //TODO: Logging
-    public delegate WebView2 GetWebView(ref WebView2 webView2);
+    //public delegate WebView2 GetWebView(ref WebView2 webView2);
 
     public void GenerateOneTourReport(Tour tour, string path) {
         try {
