@@ -36,7 +36,7 @@ namespace Tour_Planner.ViewModels {
             _tourStore.OnTourAddedEvent += AddTour;
             TourListCollectionView = new(TourList);
             AddTourCommand = new RelayCommand((_) => OpenAddTour());
-            DeleteTourCommand = new RelayCommand((_) => OnDeleteTour(), (_) => CanExecuteAddEditDelTour());
+            DeleteTourCommand = new AsyncRelayCommand((_) => OnDeleteTour(), (_) => CanExecuteAddEditDelTour());
             EditTourCommand = new RelayCommand((_) => OpenEditTour(), (_) => CanExecuteAddEditDelTour());
         }
 
@@ -53,7 +53,7 @@ namespace Tour_Planner.ViewModels {
                 if (_selectedTour != value) {
                     _selectedTour = value;
                     OnPropertyChanged(nameof(SelectedTour));
-                    DeleteTourCommand.RaiseCanExecuteChanged();
+                    DeleteTourCommand.OnExecuteChanged();
                     EditTourCommand.RaiseCanExecuteChanged();
                     _tourStore.SetCurrentTour(SelectedTour);
                 }
@@ -63,7 +63,7 @@ namespace Tour_Planner.ViewModels {
         public ListCollectionView TourListCollectionView { get; private set; }
         
         public RelayCommand AddTourCommand { get; }
-        public RelayCommand DeleteTourCommand { get; }
+        public AsyncRelayCommand DeleteTourCommand { get; }
         public RelayCommand EditTourCommand { get; }
 
 
@@ -99,11 +99,11 @@ namespace Tour_Planner.ViewModels {
             _editTourWindow.ShowDialog();
         }
 
-        private void OnDeleteTour() {
+        private async Task OnDeleteTour() {
             MessageBoxResult result = _messageBoxService.Show("Are you sure you want to delete this tour?", "Delete Tour", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
             if (SelectedTour != null && result == MessageBoxResult.Yes) {
                 try {
-                    _businessLogicTours.DeleteTour(SelectedTour);
+                   await _businessLogicTours.DeleteTour(SelectedTour);
                 }
                 catch (BusinessLayerException e) {
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);

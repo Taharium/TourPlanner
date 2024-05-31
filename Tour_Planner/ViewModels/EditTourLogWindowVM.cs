@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
@@ -33,7 +34,7 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        public RelayCommand FinishEditTourLogCommand { get; }
+        public AsyncRelayCommand FinishEditTourLogCommand { get; }
 
         public string DateTimeProp {
             get => _tempTourLog.DateTime.ToString();
@@ -99,7 +100,7 @@ namespace Tour_Planner.ViewModels {
             _tourLog = tourLogStore.CurrentTour ?? new TourLogs();
             _tempTourLog = new TourLogs(_tourLog);
             _errorMessage = "";
-            FinishEditTourLogCommand = new RelayCommand((_) => EditTourLogsFunction());
+            FinishEditTourLogCommand = new AsyncRelayCommand((_) => EditTourLogsFunction());
         }
 
         private void UpdateTourLog() {
@@ -111,7 +112,7 @@ namespace Tour_Planner.ViewModels {
             _tourLog.Difficulty = _tempTourLog.Difficulty;
         }
 
-        private void EditTourLogsFunction() {
+        private async Task EditTourLogsFunction() {
             if (!IsTourLogValid()) {
                 return;
             }
@@ -119,7 +120,7 @@ namespace Tour_Planner.ViewModels {
             UpdateTourLog();
             if (_tour != null) {
                 try {
-                    _businessLogicTourLogs.UpdateTourLog(_tour, _tourLog);
+                    await _businessLogicTourLogs.UpdateTourLog(_tour, _tourLog);
                     _messageBoxService.Show("Tour Log edited successfully!", "EditTourLog", MessageBoxButton.OK,
                         MessageBoxImage.Information);
                     _windowStore.Close();

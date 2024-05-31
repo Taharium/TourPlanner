@@ -3,6 +3,7 @@ using Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using BusinessLayer.BLException;
@@ -40,7 +41,7 @@ namespace Tour_Planner.ViewModels {
             TourLogsCollectionView.MoveCurrentTo(null);
 
             AddTourLogCommand = new RelayCommand((_) => OpenAddTourLog(), (_) => CanExecuteAddTourLog());
-            DeleteTourLogCommand = new RelayCommand((_) => OnDeleteTourLog(), (_) => CanExecuteDeleteEditTourLog());
+            DeleteTourLogCommand = new AsyncRelayCommand((_) => OnDeleteTourLog(), (_) => CanExecuteDeleteEditTourLog());
             EditTourLogCommand = new RelayCommand((_) => OpenEditTourLog(), (_) => CanExecuteDeleteEditTourLog());
         }
 
@@ -53,7 +54,7 @@ namespace Tour_Planner.ViewModels {
                     OnPropertyChanged(nameof(SelectedTourLog));
                     _tourLogStore.SetCurrentTour(SelectedTourLog);
                     EditTourLogCommand.RaiseCanExecuteChanged();
-                    DeleteTourLogCommand.RaiseCanExecuteChanged();
+                    DeleteTourLogCommand.OnExecuteChanged();
                 }
             }
         }
@@ -75,7 +76,7 @@ namespace Tour_Planner.ViewModels {
         }
 
         public RelayCommand AddTourLogCommand { get; }
-        public RelayCommand DeleteTourLogCommand { get; }
+        public AsyncRelayCommand DeleteTourLogCommand { get; }
         public RelayCommand EditTourLogCommand { get; }
 
         public ListCollectionView TourLogsCollectionView { get; private set; }
@@ -114,11 +115,11 @@ namespace Tour_Planner.ViewModels {
             return SelectedTour != null;
         }
 
-        private void OnDeleteTourLog() {
+        private async Task OnDeleteTourLog() {
             MessageBoxResult result = _messageBoxService.Show("Are you sure you want to delete this tour log?", "Delete Tour Log", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.None);
             if (SelectedTourLog != null && result == MessageBoxResult.Yes && SelectedTour != null) {
                 try {
-                    _businessLogicTourLogs.DeleteTourLog(SelectedTour, SelectedTourLog);
+                    await _businessLogicTourLogs.DeleteTourLog(SelectedTour, SelectedTourLog);
                 }
                 catch (BusinessLayerException e) {
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);

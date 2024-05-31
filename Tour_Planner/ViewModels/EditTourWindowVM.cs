@@ -115,7 +115,7 @@ namespace Tour_Planner.ViewModels {
             }
         }
         
-        public RelayCommand FinishEditCommand { get; }
+        public AsyncRelayCommand FinishEditCommand { get; }
         
         public AsyncRelayCommand SearchPlaceStartCommand { get; }
         public AsyncRelayCommand SearchPlaceEndCommand { get; }
@@ -133,7 +133,7 @@ namespace Tour_Planner.ViewModels {
             _windowStore = windowStore;
             SearchPlaceStartCommand = new AsyncRelayCommand(searchplace => SearchStartLocationEdit(searchplace));
             SearchPlaceEndCommand = new AsyncRelayCommand(searchplace => SearchEndLocationEdit(searchplace));
-            FinishEditCommand = new RelayCommand((_) => FinishEditFunction());
+            FinishEditCommand = new AsyncRelayCommand((_) => FinishEditFunction());
         }
         private async Task SearchStartLocationEdit(object? searchplace)
         {
@@ -194,15 +194,15 @@ namespace Tour_Planner.ViewModels {
             _tour.TransportType = _tempTour.TransportType;
         }
 
-        public void FinishEditFunction() {
+        public async Task FinishEditFunction() {
 
             if (IsTourValid()) {
                 try {
                     ErrorMessage = "";
                     UpdateTour();
+                    await _businessLogicTours.UpdateTour(_tour);
                     _messageBoxService.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OK,
                         MessageBoxImage.Information);
-                    _businessLogicTours.UpdateTour(_tour);
                     _windowStore.Close();
                 }
                 catch (BusinessLayerException e) {
