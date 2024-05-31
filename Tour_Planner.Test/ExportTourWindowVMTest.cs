@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using BusinessLayer;
+using BusinessLayer.BLException;
 using FakeItEasy;
 using Models;
 using Models.Enums;
+using Newtonsoft.Json;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.SaveFileDialogServices;
 using Tour_Planner.Stores.TourStores;

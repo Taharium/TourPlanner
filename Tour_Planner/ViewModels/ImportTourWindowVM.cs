@@ -56,7 +56,7 @@ public class ImportTourWindowVM : ViewModelBase {
         ImportCommand = new RelayCommand((_) => ImportFile());
     }
 
-    private void OpenFileExplorer() {
+    public void OpenFileExplorer() {
         try {
             bool? dialog = _openFileDialog.ShowDialog();
             if (dialog is true) {
@@ -83,12 +83,10 @@ public class ImportTourWindowVM : ViewModelBase {
         return true;
     }
 
-    private void ImportFile() {
+    public void ImportFile() {
         if (!ValidateImport()) {
             return;
-        }
-
-        ErrorMessage = "";
+        } 
         //TODO: Logging
         
         List<Tour> newTours;

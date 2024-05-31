@@ -169,7 +169,6 @@ public class GeneratePdfWindowVM : ViewModelBase{
                 FilePath = $"{_openFolderDialogService.GetFolderPath()}\\{FileName}.pdf";
             
                 if (SelectedTour is { IsSelected: true }) {
-                    //_pdfReportGenerationService.CaptureWebView2(_imagePath);
                     _pdfReportGenerationService.GenerateOneTourReport(SelectedTour, FilePath);
                 }
                 else if (SelectAll) {

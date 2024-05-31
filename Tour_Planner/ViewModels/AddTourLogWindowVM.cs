@@ -19,7 +19,7 @@ namespace Tour_Planner.ViewModels {
         private readonly IWindowStore _windowStore;
         private readonly IMessageBoxService _messageBoxService;
         private readonly IBusinessLogicTourLogs _businessLogicTourLogs;
-        private readonly Tour? _tour;
+        public Tour? Tour;
 
         public TourLogs TourLogs {
             get => _tourLog;
@@ -89,7 +89,7 @@ namespace Tour_Planner.ViewModels {
 
         public AddTourLogWindowVM(IWindowStore windowStore, ITourStore tourStore, 
             IBusinessLogicTourLogs businessLogicTourLogs, IMessageBoxService messageBoxService) {
-            _tour = tourStore.CurrentTour;
+            Tour = tourStore.CurrentTour;
             _windowStore = windowStore;
             _businessLogicTourLogs = businessLogicTourLogs;
             _messageBoxService = messageBoxService;
@@ -104,9 +104,9 @@ namespace Tour_Planner.ViewModels {
             }
 
             ErrorMessage = "";
-            if (_tour != null) {
+            if (Tour != null) {
                 try {
-                    _businessLogicTourLogs.AddTourLog(_tour, _tourLog);
+                    _businessLogicTourLogs.AddTourLog(Tour, _tourLog);
                     _messageBoxService.Show("Tour Log added successfully!", "AddTourLog", MessageBoxButton.OK,
                         MessageBoxImage.Information);
                     _windowStore.Close();
