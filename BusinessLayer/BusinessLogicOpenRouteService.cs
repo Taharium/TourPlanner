@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using System.Text.Json.Nodes;
 using BusinessLayer.BLException;
@@ -113,6 +114,7 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
         try {
             var startcoordinates = await GetGeoCoordinates(startLocation);
             var endcoordinates = await GetGeoCoordinates(endLocation);
+            Debug.WriteLine($"{startLocation}: {startcoordinates[0]}, {startcoordinates[1]}");
         
             string transport = transportType switch
             {
@@ -122,7 +124,12 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
                 TransportType.Wheelchair => "wheelchair",
                 _ => "driving-car"
             };
-        
+            /*for (int i = 0; i < startcoordinates.Count; i++) {
+                if (startcoordinates[i].Length >= 8) {
+                    startcoordinates[i] = startcoordinates[i].Substring(0, 7);
+                }
+            }*/
+                
             var responseDirections = await _httpClient
                 .GetAsync($"/v2/directions/{transport}?api_key={_apiKey}&start={startcoordinates[0]},{startcoordinates[1]}&end={endcoordinates[0]},{endcoordinates[1]}");
             responseDirections.EnsureSuccessStatusCode();

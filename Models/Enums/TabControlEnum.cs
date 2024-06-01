@@ -2,6 +2,7 @@
     public enum TabControlEnum {
         General,
         Route,
-        Misc
+        DestinationWeather,
+        Joke
     }
 }

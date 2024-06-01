@@ -8,7 +8,6 @@ namespace Models {
     public class Tour : INotifyPropertyChanged {
         //private ObservableCollection<TourLogs> _tourLogsList = new ObservableCollection<TourLogs>();
         public ObservableCollection<TourLogs> TourLogsList { get; set; } = new ObservableCollection<TourLogs>();
-        private ObservableCollection<Restaurant> Restaurants { get; set; } = new ObservableCollection<Restaurant>();
         private int _id;
         private string _name = "";
         private string _description = "";
@@ -168,7 +167,6 @@ namespace Models {
             Distance = tour.Distance;
             EstimatedTime = tour.EstimatedTime;
             TourLogsList = tour.TourLogsList;
-            Restaurants = tour.Restaurants;
             IsSelected = tour.IsSelected;
         }
         

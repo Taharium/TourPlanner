@@ -46,14 +46,26 @@
 
   <ItemGroup>
     <Resource Include="Assets\Icon\Tour_Planner_Icon.ico" />
-    <Resource Include="Assets\Images\default_Tour.png" />
-    <Resource Include="Assets\Images\delete_Icon.png" />
-    <Resource Include="Assets\Images\edit_Icon.png" />
     <Resource Include="Assets\Images\search_image.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Assets\Images\Tour.png" />
+    <Resource Include="Assets\Weather_icons\01d.png" />
+    <Resource Include="Assets\Weather_icons\01n.png" />
+    <Resource Include="Assets\Weather_icons\02d.png" />
+    <Resource Include="Assets\Weather_icons\02n.png" />
+    <Resource Include="Assets\Weather_icons\03d.png" />
+    <Resource Include="Assets\Weather_icons\03n.png" />
+    <Resource Include="Assets\Weather_icons\04d.png" />
+    <Resource Include="Assets\Weather_icons\04n.png" />
+    <Resource Include="Assets\Weather_icons\09d.png" />
+    <Resource Include="Assets\Weather_icons\09n.png" />
+    <Resource Include="Assets\Weather_icons\10d.png" />
+    <Resource Include="Assets\Weather_icons\10n.png" />
+    <Resource Include="Assets\Weather_icons\11d.png" />
+    <Resource Include="Assets\Weather_icons\11n.png" />
+    <Resource Include="Assets\Weather_icons\13d.png" />
+    <Resource Include="Assets\Weather_icons\13n.png" />
+    <Resource Include="Assets\Weather_icons\50d.png" />
+    <Resource Include="Assets\Weather_icons\50n.png" />
+    <Resource Include="Assets\Weather_icons\unknown.png" />
   </ItemGroup>
 
   <ItemGroup>

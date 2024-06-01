@@ -46,22 +46,9 @@
                      SelectedItem="{Binding SelectedTour, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <ListBoxItem Style="{StaticResource BorderForListBox}" Padding="1" IsHitTestVisible="False">
-                                <TextBlock Height="25" VerticalAlignment="Center" Grid.Column="0" Text="{Binding Name}" />
-                            </ListBoxItem>
-                            <!--<Button Background="White" Grid.Column="1" Height="Auto" Width="Auto" Command="{Binding DataContext.EditTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}">
-                                <Image Source="..\Assets\Images\edit_Icon.png" MaxHeight="25" Width="Auto" />
-                            </Button>
-                            <Button Background="White" Grid.Column="2" Command="{Binding DataContext.DeleteTourCommand, ElementName=TourListBox}" CommandParameter="{Binding}" >
-                                <Image Source="..\Assets\Images\delete_Icon.png" MaxHeight="25" Width="Auto" />
-                            </Button>-->
-                        </Grid>
+                        <ListBoxItem Style="{StaticResource BorderForListBox}" Padding="1" IsHitTestVisible="False">
+                            <TextBlock Height="25" VerticalAlignment="Center" Text="{Binding Name}" />
+                        </ListBoxItem>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

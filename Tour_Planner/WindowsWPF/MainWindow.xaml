@@ -39,16 +39,14 @@
             <GridSplitter Grid.RowSpan="2" Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
                     <RowDefinition Height="5"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <views:TabControlView x:Name="TabControl" />
                 </Grid>
-                <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0 1">
-                    <GridSplitter Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                </Border>
+                <GridSplitter Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0 1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                 <Grid Grid.Row="2">
                     <views:TourLogsView x:Name="TourLogs"/>
                 </Grid>
