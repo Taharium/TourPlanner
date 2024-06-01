@@ -138,7 +138,6 @@ public static class HostBuilderExtension {
             
             services.AddSingleton<IConfigDatabase, AppConfiguration>(s => new AppConfiguration(hostContext.Configuration));
             services.AddSingleton<IConfigOpenRouteService, AppConfiguration>(s => new AppConfiguration(hostContext.Configuration));
-            services.AddTransient<ILoggingWrapper, LoggingWrapper>();
         });
         return hostBuilder;
     }
