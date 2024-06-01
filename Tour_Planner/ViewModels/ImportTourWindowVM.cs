@@ -37,7 +37,7 @@ public class ImportTourWindowVM : ViewModelBase {
         set {
             if (_filePath != value) {
                 _filePath = value;
-                ImportCommand.RaiseCanExecuteChanged();
+                ImportCommand.OnCanExecuteChanged();
                 OnPropertyChanged(nameof(FilePath));
             }
         }

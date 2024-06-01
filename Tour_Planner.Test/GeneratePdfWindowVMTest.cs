@@ -46,7 +46,7 @@ public class GeneratePdfWindowVMTest {
     }
 
     [Test]
-    public void GeneratePdfReport_ValidSelection_AllToursReportGenerated()
+    public async Task GeneratePdfReport_ValidSelection_AllToursReportGenerated()
     {
         // Arrange
         _viewModel.SelectAll = true;
@@ -54,7 +54,7 @@ public class GeneratePdfWindowVMTest {
         A.CallTo(() => _openFolderDialogService.ShowDialog()).Returns(true);
 
         // Act
-        _viewModel.GeneratePdfReport();
+        await _viewModel.GeneratePdfReport();
 
         // Assert
         A.CallTo(() => _pdfReportGenerationService.GenerateToursSummaryReport(

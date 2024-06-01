@@ -12,6 +12,7 @@ using iText.Layout.Properties;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using Models;
+using PuppeteerSharp;
 using Tour_Planner.UIException;
 
 namespace Tour_Planner.Services.PdfReportGenerationServices;
@@ -19,9 +20,9 @@ namespace Tour_Planner.Services.PdfReportGenerationServices;
 public class PdfReportGenerationService : IPdfReportGenerationService {
     //TODO: add Image
     //TODO: Logging
-    //public delegate WebView2 GetWebView(ref WebView2 webView2);
+    private const string ImagePath = "Assets/Resource/map.png";
 
-    public void GenerateOneTourReport(Tour tour, string path) {
+    public async Task GenerateOneTourReport(Tour tour, string path) {
         try {
             var writer = new PdfWriter(path);
             var pdf = new PdfDocument(writer);
@@ -34,12 +35,10 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             document.Add(new Paragraph("Distance: " + tour.Distance + " km").SetFontSize(12));
             document.Add(new Paragraph("Transport Type: " + tour.TransportType).SetFontSize(12));
             
-            /*if (!string.IsNullOrEmpty(tour.RouteInformationImage))
-            {
-                ImageData imageData = ImageDataFactory.Create(tour.RouteInformationImage);
-                Image image = new Image(imageData).SetAutoScale(true);
-                document.Add(image);
-            }*/
+            await GenerateImageAsync();
+            ImageData imageData = ImageDataFactory.Create(ImagePath);
+            Image image = new Image(imageData).SetAutoScale(false);
+            document.Add(image);
 
             document.Add(new LineSeparator(new SolidLine(1)));
 
@@ -122,13 +121,20 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             throw new UiLayerException("Failed to create the PDF-Report for the specified path!");
         }
     }
-    public async Task CaptureWebView2(WebView2 webView2, string imagePath) {
-        
-        await webView2.EnsureCoreWebView2Async();
-        
-        var fileStream = new FileStream(imagePath, FileMode.Create, FileAccess.Write);
 
-        await webView2.CoreWebView2.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Png, fileStream);
+    private async Task GenerateImageAsync() {
+        await new BrowserFetcher().DownloadAsync();
+        LaunchOptions launchOptions = new LaunchOptions() {
+            Headless = true
+        };
+
+        await using var browser = await Puppeteer.LaunchAsync(launchOptions);
+        await using var page = await browser.NewPageAsync();
+
+        await page.GoToAsync($"{Path.GetFullPath("Assets/Resource/leaflet.html")}");
+
+        await Task.Delay(500);
+
+        await page.ScreenshotAsync(ImagePath);
     }
-
 }

@@ -12,7 +12,7 @@ public class TourLogStore : ITourLogStore {
         OnSelectedTourChangedEvent?.Invoke(CurrentTour);
     }
 
-    public void SetCurrentTour(TourLogs? tour) {
+    public void SetCurrentTourLog(TourLogs? tour) {
         CurrentTour = tour;
         OnSelectedTourChange();
     }

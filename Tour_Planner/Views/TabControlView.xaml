@@ -14,7 +14,8 @@
 
 
     <Grid>
-        <TabControl SelectedIndex="{Binding SelectedTab}">
+        <wv2:WebView2 Name="webView2" Source="about:blank" Visibility="Collapsed"/>
+        <TabControl SelectedIndex="{Binding SelectedTab}" SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="General">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -52,22 +53,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Route">
-                <!--<Image x:Name="RouteImage">
-                    <Image.Style>
-                        <Style TargetType="Image">
-                            <Setter Property="Source" Value="{Binding SelectedTour.RouteInformationImage}" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedTour.RouteInformationImage}" Value="">
-                                    <Setter Property="Source" Value="../Assets/Images/default_Tour.png" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding SelectedTour.RouteInformationImage}" Value="{x:Null}">
-                                    <Setter Property="Source" Value="../Assets/Images/default_Tour.png" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Image.Style>
-                </Image>-->
-                <wv2:WebView2 Name="webView" Source="about:blank"/>
+                <Grid Name="RouteTabPlaceholder"/>
             </TabItem>
             <TabItem Header="Misc">
                 

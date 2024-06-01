@@ -54,7 +54,7 @@ namespace Tour_Planner.ViewModels {
                     _selectedTour = value;
                     OnPropertyChanged(nameof(SelectedTour));
                     DeleteTourCommand.OnExecuteChanged();
-                    EditTourCommand.RaiseCanExecuteChanged();
+                    EditTourCommand.OnCanExecuteChanged();
                     _tourStore.SetCurrentTour(SelectedTour);
                 }
             }

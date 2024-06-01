@@ -21,7 +21,7 @@ public class TourLogsRepository : ITourLogsRepository
         }
         catch (Exception) {
              throw new DataLayerException($"Failed to add TourLog to Tour with Name: {tourLogDTO.Tour.Name}" +
-                                                 $" and ID: {tourLogDTO.Tour.Id}");
+                                                 $" and ID: {tourLogDTO.Tour.Id}!");
         }
     }
 
@@ -32,7 +32,7 @@ public class TourLogsRepository : ITourLogsRepository
         }
         catch (Exception) {
             throw new DataLayerException($"Failed to remove TourLog with ID {tourLogDTO.Id} from Tour with " +
-                                         $"Name: {tourLogDTO.Tour.Name} and ID: {tourLogDTO.Tour.Id}");
+                                         $"Name: {tourLogDTO.Tour.Name} and ID: {tourLogDTO.Tour.Id}!");
         }
     }
 
@@ -42,7 +42,7 @@ public class TourLogsRepository : ITourLogsRepository
         }
         catch (Exception) {
             throw new DataLayerException($"Failed to update TourLog with ID: {tourLogDTO.Id} from Tour with " +
-                                         $"Name: {tourLogDTO.Tour.Name} and ID: {tourLogDTO.Tour.Id}");
+                                         $"Name: {tourLogDTO.Tour.Name} and ID: {tourLogDTO.Tour.Id}!");
         }
     }
 }

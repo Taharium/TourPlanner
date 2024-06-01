@@ -19,7 +19,7 @@ public class ToursRepository : IToursRepository
             return _dbContext.Tours.Find(id) ?? throw new DataLayerException("");
         }
         catch (Exception) {
-            throw new DataLayerException($"Failed to find Tour with Tour Name {name} and ID: {id}");
+            throw new DataLayerException($"Failed to find Tour with Tour Name {name} and ID: {id}!");
         }
     }
 
@@ -28,7 +28,7 @@ public class ToursRepository : IToursRepository
             return _dbContext.Tours.Include(tour => tour.TourLogsList).ToList();
         }
         catch (Exception) {
-            throw new DataLayerException("Failed to retrieve list of Tours");
+            throw new DataLayerException("Failed to retrieve list of Tours! Please connect to database!");
         }
     }
 
@@ -38,7 +38,7 @@ public class ToursRepository : IToursRepository
             _dbContext.Tours.Add(tour);
         }
         catch (Exception) {
-            throw new DataLayerException($"Failed to Add Tour with Tour Name: {tour.Name}");
+            throw new DataLayerException($"Failed to Add Tour with Tour Name: {tour.Name}!");
         }
         
     }
@@ -49,7 +49,7 @@ public class ToursRepository : IToursRepository
             _dbContext.Tours.Remove(tour);
         }
         catch (Exception) {
-            throw new DataLayerException($"Failed to delete Tour with Tour Name: {tour.Name} and ID: {tour.Id}");
+            throw new DataLayerException($"Failed to delete Tour with Tour Name: {tour.Name} and ID: {tour.Id}!");
         }
     }
 
@@ -58,7 +58,7 @@ public class ToursRepository : IToursRepository
             _dbContext.Entry(tour).State = EntityState.Modified;
         }
         catch (Exception) {
-            throw new DataLayerException($"Failed to update Tour with Tour Name: {tour.Name} and ID: {tour.Id}");
+            throw new DataLayerException($"Failed to update Tour with Tour Name: {tour.Name} and ID: {tour.Id}!");
         }
     }
     

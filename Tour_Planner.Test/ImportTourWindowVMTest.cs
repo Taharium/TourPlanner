@@ -43,6 +43,7 @@ public class ImportTourWindowVMTest {
         // Assert
         Assert.That(_importTourWindowVm.FilePath, Is.EqualTo(filePath));
         Assert.That(_importTourWindowVm.ErrorMessage, Is.EqualTo("File path does not exist!"));
+        File.Delete(filePath);
     }
     
     [Test]
@@ -62,6 +63,7 @@ public class ImportTourWindowVMTest {
         A.CallTo(() => _messageBoxService.Show("Import file successfully!", "ImportFile", MessageBoxButton.OK, MessageBoxImage.Information)).MustHaveHappened();
         A.CallTo(() => _windowStore.Close()).MustHaveHappened();
         Assert.That(_importTourWindowVm.ErrorMessage, Is.EqualTo(""));
+        File.Delete(filePath);
     }
     
     [Test]
@@ -82,5 +84,6 @@ public class ImportTourWindowVMTest {
         A.CallTo(() => _messageBoxService.Show("Business Layer Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappened();
         A.CallTo(() => _windowStore.Close()).MustNotHaveHappened();
         Assert.That(_importTourWindowVm.FilePath, Is.EqualTo(""));
+        File.Delete(filePath);
     }
 }

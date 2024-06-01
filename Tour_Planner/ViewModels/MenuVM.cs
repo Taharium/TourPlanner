@@ -23,7 +23,7 @@ public class MenuVM : ViewModelBase {
             if (_tour != value) {
                 _tour = value;
                 OnPropertyChanged(nameof(SelectedTour));
-                ExportTourCommand.RaiseCanExecuteChanged();
+                ExportTourCommand.OnCanExecuteChanged();
             }
         }
     }

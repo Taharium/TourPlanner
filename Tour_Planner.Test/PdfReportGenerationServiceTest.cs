@@ -16,7 +16,7 @@ public class PdfReportGenerationServiceTest {
     }
 
     [Test]
-    public void GenerateOneTourReport_ValidTour_CreatesPdf()
+    public async Task GenerateOneTourReport_ValidTour_CreatesPdf()
     {
         // Arrange
         var tour = new Tour
@@ -42,7 +42,7 @@ public class PdfReportGenerationServiceTest {
         var path = "SampleTourReport.pdf";
 
         // Act
-        _service.GenerateOneTourReport(tour, path);
+        await _service.GenerateOneTourReport(tour, path);
 
         // Assert
         Assert.IsTrue(File.Exists(path));
@@ -122,7 +122,7 @@ public class PdfReportGenerationServiceTest {
         var invalidPath = "Z:\\InvalidPath\\SampleTourReport.pdf";  // Assuming Z: is not a valid drive
 
         // Act & Assert
-        var ex = Assert.Throws<UiLayerException>(() => _service.GenerateOneTourReport(tour, invalidPath));
+        var ex = Assert.ThrowsAsync<UiLayerException>(() => _service.GenerateOneTourReport(tour, invalidPath));
         Assert.That(ex.ErrorMessage, Is.EqualTo("Failed to create the PDF-Report for the specified path!"));
     }
 

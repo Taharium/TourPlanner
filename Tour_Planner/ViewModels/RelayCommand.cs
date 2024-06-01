@@ -26,7 +26,7 @@ namespace Tour_Planner.ViewModels {
             _execute(parameter);
         }
 
-        public void RaiseCanExecuteChanged() {
+        public void OnCanExecuteChanged() {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }

@@ -19,7 +19,7 @@ namespace Tour_Planner.Test {
         public void IsTourLogValid_VariousScenarios_ReturnsExpectedResult(string dateTime, string totalTime, string distance, Rating rating, Difficulty difficulty, bool expected) {
             // Arrange
             TourLogStore tourLog = new TourLogStore();
-            tourLog.SetCurrentTour(new TourLogs() {
+            tourLog.SetCurrentTourLog(new TourLogs() {
                 DateTime = DateTime.Parse(dateTime),
                 TotalTime = totalTime,
                 Distance = distance,

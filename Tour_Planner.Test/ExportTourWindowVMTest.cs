@@ -86,7 +86,7 @@ public class ExportTourWindowVMTest {
             A<MessageBoxImage>.Ignored,
             A<MessageBoxResult>.Ignored,
             A<MessageBoxOptions>.Ignored)).MustHaveHappened();
-
+        File.Delete(_exportTourWindowVm.FileName);
     }
     
     [Test]
@@ -106,5 +106,6 @@ public class ExportTourWindowVMTest {
 
         // Assert
         Assert.That(_exportTourWindowVm.ErrorMessage, Is.EqualTo("Please select at least one Tour!"));
+        File.Delete(_exportTourWindowVm.FileName);
     }
 }

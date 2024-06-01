@@ -52,8 +52,8 @@ namespace Tour_Planner.ViewModels {
                 if (_selectedTourLog != value) {
                     _selectedTourLog = value;
                     OnPropertyChanged(nameof(SelectedTourLog));
-                    _tourLogStore.SetCurrentTour(SelectedTourLog);
-                    EditTourLogCommand.RaiseCanExecuteChanged();
+                    _tourLogStore.SetCurrentTourLog(SelectedTourLog);
+                    EditTourLogCommand.OnCanExecuteChanged();
                     DeleteTourLogCommand.OnExecuteChanged();
                 }
             }
@@ -69,7 +69,7 @@ namespace Tour_Planner.ViewModels {
                         _tourLogsObList = new(_selectedTour.TourLogsList);
                         TourLogsCollectionView.Refresh();
                     }
-                    AddTourLogCommand.RaiseCanExecuteChanged();
+                    AddTourLogCommand.OnCanExecuteChanged();
                     OnPropertyChanged(nameof(SelectedTour));
                 }
             }

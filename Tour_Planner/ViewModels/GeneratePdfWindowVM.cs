@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using Models;
@@ -19,6 +20,7 @@ public class GeneratePdfWindowVM : ViewModelBase{
     private readonly IMessageBoxService _messageBoxService;
     private readonly IPdfReportGenerationService _pdfReportGenerationService;
     private readonly IOpenFolderDialogService _openFolderDialogService;
+    private readonly ITourStore _tourStore;
 
     private ObservableCollection<Tour> _tourList;
     private Tour? _selectedTour;
@@ -87,6 +89,7 @@ public class GeneratePdfWindowVM : ViewModelBase{
                 _selectedTour = value;
                 if (_selectedTour != null) {
                     _selectedTour.IsSelected = true;
+                    _tourStore.SetCurrentTour(SelectedTour);
                 }
 
                 if (SelectAll && _selectedTour != null) {
@@ -99,7 +102,7 @@ public class GeneratePdfWindowVM : ViewModelBase{
         }
     }
 
-    public RelayCommand GeneratePdfReportCommand { get; }
+    public AsyncRelayCommand GeneratePdfReportCommand { get; }
     public RelayCommand UnSelectCommand { get; }
     public RelayCommand WindowClosingCommand { get; }
     
@@ -111,10 +114,11 @@ public class GeneratePdfWindowVM : ViewModelBase{
         _openFolderDialogService = openFolderDialogService;
         _pdfReportGenerationService = pdfReportGenerationService;
         
+        _tourStore = tourStore;
         _tourList = new(tourStore.Tours);
         SelectedTour = tourStore.CurrentTour;
 
-        GeneratePdfReportCommand = new RelayCommand((_) => GeneratePdfReport());
+        GeneratePdfReportCommand = new AsyncRelayCommand((_) => GeneratePdfReport());
         UnSelectCommand = new RelayCommand((_) => UnSelectTour());
         WindowClosingCommand = new RelayCommand((_) => CloseWindow());
     }
@@ -156,7 +160,7 @@ public class GeneratePdfWindowVM : ViewModelBase{
         return true;
     }
     
-    public void GeneratePdfReport() {
+    public async Task GeneratePdfReport() {
         if (!ValidateGenerate()) {
             return;
         }
@@ -166,9 +170,9 @@ public class GeneratePdfWindowVM : ViewModelBase{
             bool? dialog = _openFolderDialogService.ShowDialog();
             if (dialog is true) {
                 FilePath = $"{_openFolderDialogService.GetFolderPath()}\\{FileName}.pdf";
-            
+                
                 if (SelectedTour is { IsSelected: true }) {
-                    _pdfReportGenerationService.GenerateOneTourReport(SelectedTour, FilePath);
+                    await _pdfReportGenerationService.GenerateOneTourReport(SelectedTour, FilePath);
                 }
                 else if (SelectAll) {
                     _pdfReportGenerationService.GenerateToursSummaryReport(TourList.ToList(),FilePath);
