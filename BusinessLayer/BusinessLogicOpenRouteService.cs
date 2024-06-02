@@ -13,7 +13,6 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
     private readonly HttpClient _httpClient;
     private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
-    //TODO: add logging
     public BusinessLogicOpenRouteService(IConfigOpenRouteService configOpenRouteService)
     {
         try {

@@ -150,7 +150,6 @@ namespace Tour_Planner.ViewModels {
 
         private void GenerateRoute(Tour? tour) {
             string direction = tour?.Directions ?? "about:blank";
-            //TODO: Logging
             try {
                 string directionsFile =
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/Resource/directions.js");

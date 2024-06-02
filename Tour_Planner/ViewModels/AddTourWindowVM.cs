@@ -214,7 +214,7 @@ namespace Tour_Planner.ViewModels {
                 }
             }
             else {
-                Logger.Warn("");
+                Logger.Warn("User did not fill in all fiels!");
                 ErrorMessage = "Please fill in all fields!";
             }
         }

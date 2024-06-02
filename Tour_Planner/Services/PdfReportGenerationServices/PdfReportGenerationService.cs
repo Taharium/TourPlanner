@@ -17,7 +17,7 @@ using Tour_Planner.UIException;
 namespace Tour_Planner.Services.PdfReportGenerationServices;
 
 public class PdfReportGenerationService : IPdfReportGenerationService {
-    //TODO: Logging
+
     private const string ImagePath = "Assets/Resource/map.png";
     private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
     public async Task GenerateOneTourReport(Tour tour, string path) {

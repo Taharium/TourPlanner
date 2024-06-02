@@ -149,6 +149,11 @@ public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
         try {
             await _addTourLogService.AddTourLog(tour, tourLog);
             await _editTourService.EditTour(tour);
+            if (tourLog.DateTime.Kind == DateTimeKind.Utc) {
+                TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
+                DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(tourLog.DateTime, localTimeZone);
+                tourLog.DateTime = localDateTime;
+            }
             AddTourLogEvent?.Invoke(tourLog);
             tour.Popularity = ComputePopularity(tour);
             tour.ChildFriendliness = ComputeChildFriendliness(tour);
@@ -175,6 +180,11 @@ public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
     public async Task UpdateTourLog(Tour tour, TourLogs tourLog) {
         try {
             await _editTourLogService.EditTourLog(tourLog);
+            if (tourLog.DateTime.Kind == DateTimeKind.Utc) {
+                TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
+                DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(tourLog.DateTime, localTimeZone);
+                tourLog.DateTime = localDateTime;
+            }
             OnTourLogUpdateEvent?.Invoke(tourLog);
             tour.ChildFriendliness = ComputeChildFriendliness(tour);
             tour.Popularity = ComputePopularity(tour);

@@ -122,11 +122,13 @@ public class ExportTourWindowVM : ViewModelBase {
 
     private bool ValidateExport() {
         if (!SelectAll && !IsAnyTourSelected()) {
+            Logger.Warn("User did not select at least one Tour");
             ErrorMessage = "Please select at least one Tour!";
             return false;
         }
 
         if (FileName == "") {
+            Logger.Warn("User did not write a file name");
             ErrorMessage = "Please write a file name!";
             return false;
         }
@@ -144,9 +146,7 @@ public class ExportTourWindowVM : ViewModelBase {
         }
 
         ErrorMessage = "";
-
-        //TODO: Logging
-
+        
         List<Tour> tourList;
         tourList = SelectAll ? TourList.ToList() : TourList.Where(t => t.IsSelected).ToList();
         try {

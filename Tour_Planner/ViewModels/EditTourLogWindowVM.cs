@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
+using DataAccessLayer.Logging;
 using Models;
 using Models.Enums;
 using Tour_Planner.Services.MessageBoxServices;
@@ -23,7 +25,7 @@ namespace Tour_Planner.ViewModels {
         private readonly IMessageBoxService _messageBoxService;
         private readonly IBusinessLogicTourLogs _businessLogicTourLogs;
         private readonly Tour? _tour;
-
+        private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
         public TourLogs TourLogs {
             get => _tempTourLog;
@@ -163,6 +165,7 @@ namespace Tour_Planner.ViewModels {
                 _tempTourLog.Distance = parsedDistance.ToString();
             }
             else {
+                Logger.Warn("User did not enter a valid number for Distance");
                 ErrorMessage = "Please enter a valid number for Distance!";
                 return false;
             }
@@ -176,15 +179,17 @@ namespace Tour_Planner.ViewModels {
                 _tempTourLog.TotalTime = parsedTime.ToString();
             }
             else {
+                Logger.Warn("User did not enter a valid number for Time");
                 ErrorMessage = "Please enter a valid number for Time!";
                 return false;
             }
 
-            TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
-        
-            DateTime utcDateTime = TimeZoneInfo.ConvertTimeToUtc(_tempTourLog.DateTime, localTimeZone);
-            _tempTourLog.DateTime = utcDateTime;
-            
+            if (_tempTourLog.DateTime.Kind != DateTimeKind.Utc) {
+                TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
+                DateTime utcDateTime = TimeZoneInfo.ConvertTimeToUtc(_tempTourLog.DateTime, localTimeZone);
+                _tempTourLog.DateTime = utcDateTime;
+            }
+
             return true;
 
         }

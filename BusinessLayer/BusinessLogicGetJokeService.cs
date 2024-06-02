@@ -7,7 +7,6 @@ namespace BusinessLayer;
 
 public class BusinessLogicGetJokeService : IGetJokeService {
 
-    //TODO: add Logging
     private readonly HttpClient _httpClient;
     private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 

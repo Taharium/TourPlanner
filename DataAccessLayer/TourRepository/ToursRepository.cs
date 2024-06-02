@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.TourRepository;
 
-//TODO: add Logging
 public class ToursRepository : IToursRepository
 {
     private readonly TourPlannerDbContext _dbContext;

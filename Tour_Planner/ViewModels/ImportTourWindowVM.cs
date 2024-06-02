@@ -79,6 +79,7 @@ public class ImportTourWindowVM : ViewModelBase {
 
     private bool ValidateImport() {
         if (FilePath == "") {
+            Logger.Warn("User did not select a file using the search button");
             ErrorMessage = "Please select a file using the search button!";
             return false;
         }
@@ -90,7 +91,6 @@ public class ImportTourWindowVM : ViewModelBase {
         if (!ValidateImport()) {
             return;
         } 
-        //TODO: Logging
         
         List<Tour> newTours;
         try {

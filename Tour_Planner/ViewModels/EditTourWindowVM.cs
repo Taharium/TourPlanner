@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
+using DataAccessLayer.Logging;
 using Models;
 using Models.Enums;
 using Tour_Planner.Services.MessageBoxServices;
@@ -29,7 +30,7 @@ namespace Tour_Planner.ViewModels {
         private readonly IMessageBoxService _messageBoxService;
         private readonly IOpenRouteService _openRouteService;
 
-        //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+        private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
         private bool _isStartSearchTriggered;
         public bool IsStartSearchTriggered
@@ -229,6 +230,7 @@ namespace Tour_Planner.ViewModels {
                 }
             }
             else {
+                Logger.Warn("User did not fill in all fiels!");
                 ErrorMessage = "Please fill in all fields!";
             }
         }

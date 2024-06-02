@@ -12,7 +12,6 @@ public class BusinessLogicOpenWeatherService : IOpenWeatherService {
     private  string _lat = "";
     private string _lon = "";
     
-    //TODO: add Logging
     private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
 
