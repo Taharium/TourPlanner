@@ -111,10 +111,27 @@ to
 have the most important functions tested.
 
 ## Mandatory Unique Feature
+### Waether API
 
+After seeing one our classmates present their project to us (Alfred Hromas), we decided to implement the same feature. We
+Alfred whether we could do the same, and he said yes. That was our sign to start integrating the openweathermap API into
+our project. To do that we each had to get an API-Key, which fortunately, was free. After setting everything up, we had 
+to decide how we wanted to use the API. The data certainly doesn't belong to the database, so we immediately discarded
+the idea, because it is only a daily forecast. Furthermore, it only made sense to retrieve the weather of the destination,
+rather than the start, because the start is most likely the place a user is living. And that is why we went ahead and
+made another TabItem and called it "Destination Weather". The user has to select a Tour for it to work. Once the Tour is 
+selected, the user can click on the Button and 4 weather forecasts will be displayed. We made it with color, so that the
+user feels invited to use it. Once a different Tour is selected, the weather disappears.
 
 ## Bonus Feature
+### Joke API
 
+After looking for different APIs for our mandatory unique feature, we came across one API that does not need a key and is
+free as well. we immediately wanted that in our project, because we thought it was funny. The API is about jokes. There
+were many, but we limited it with only programming jokes. For this we added another TabItem. Once the button is clicked
+a random programming joke is retrieved and displayed a bit like a Json with setup and punchline. As this has nothing to
+with the Database and the openroute it works fine, even if both are down. This is to entertain the user, if there is
+something wrong and the user has to wait.
 
 ## Tracked time
 
