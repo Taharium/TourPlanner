@@ -1,13 +1,9 @@
 ﻿using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
-using BusinessLayer.Services.AddTourServices;
 using FakeItEasy;
-using Microsoft.Extensions.Configuration;
 using Models;
 using Models.Enums;
-using Newtonsoft.Json;
-using Tour_Planner.Configurations;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;

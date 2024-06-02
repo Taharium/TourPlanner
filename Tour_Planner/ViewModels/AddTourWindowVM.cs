@@ -1,14 +1,14 @@
-﻿using BusinessLayer;
-using Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using BusinessLayer;
 using BusinessLayer.BLException;
+using DataAccessLayer.Logging;
+using Models;
 using Models.Enums;
-using Tour_Planner.Logging;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.WindowStores;
 

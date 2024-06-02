@@ -1,10 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using BusinessLayer;
 using FakeItEasy;
-using Microsoft.Extensions.Configuration;
 using Models;
 using Models.Enums;
-using Tour_Planner.Configurations;
 
 namespace Tour_Planner.Test;
 

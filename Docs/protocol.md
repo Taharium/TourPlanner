@@ -50,50 +50,72 @@ user, on the database.
 
 ## Description of Use Cases
 
-
 ## Description of Use Cases
-If we break it down, the user can activley do most of the CRUD operations. He can Add, Edit and Delete a tour as well as Add, Edit and Delete a TourLog. But in the background they are not all just happening if the user wants to do them. For example, at any operations with the Tourlogs(ADD, EDIT, DELETE) the Edit Tour case has to be done too because it effects the content of the tour itself.   
 
+If we break it down, the user can activley do most of the CRUD operations. He can Add, Edit and Delete a tour as well as
+Add, Edit and Delete a TourLog. But in the background they are not all just happening if the user wants to do them. For
+example, at any operations with the Tourlogs(ADD, EDIT, DELETE) the Edit Tour case has to be done too because it effects
+the content of the tour itself.
 
 ### Use Case Diagram(not all use cases depicted)
+
 <img title="Use Case Diagram" src="UseCaseDiagram.png">
 
 ### SequenceDiagram(GetTours)
+
 <img title="Sequence Diagram GetTours" src="GetToursSequenceDiagram.png">
 
 ### Library Decicions / Lessons learned
 
-We are using the libraries that we talked about in the course. The only one we use that we didnt talk about is for the generic host. We use this because we had a lot of problems with Dependency Injection in general and because of that we talked about it with other groups and most of them have used the generic host. Before that, we had the IoC Container but in order to get the best help from colleagues, we thought it would be the best idea to make it that way. 
-What we have learned is that, DI can help you with a lot of things but can also make your program unusable. For example, we had a lot of trouble injecting our database into our project. Because the AddDbContext function makes it a scoped service, it cant be hold by a singelton and that ruined our hole application. Then we made a factory for the DBContext but now we had the problem that the Respository and our UnitofWork didnt use the same Context and no operations could be fulfilled. At the end we used the DBContextfactory from the Hostbuilder service and a factory for the unitofwork. The only "problem" is that the UnitofWork Factory is directly dependent on the UnitofWork class.
-
+We are using the libraries that we talked about in the course. The only one we use that we didnt talk about is for the
+generic host. We use this because we had a lot of problems with Dependency Injection in general and because of that we
+talked about it with other groups and most of them have used the generic host. Before that, we had the IoC Container but
+in order to get the best help from colleagues, we thought it would be the best idea to make it that way.
+What we have learned is that, DI can help you with a lot of things but can also make your program unusable. For example,
+we had a lot of trouble injecting our database into our project. Because the AddDbContext function makes it a scoped
+service, it cant be hold by a singelton and that ruined our hole application. Then we made a factory for the DBContext
+but now we had the problem that the Respository and our UnitofWork didnt use the same Context and no operations could be
+fulfilled. At the end we used the DBContextfactory from the Hostbuilder service and a factory for the unitofwork. The
+only "problem" is that the UnitofWork Factory is directly dependent on the UnitofWork class.
 
 ## Implemented Design Patterns
-As mentioned before, we implemented the factory pattern. One time for UnitofWork and a second time for our Logging. Moreover, we implemented the MVVM pattern for our frontend. 
 
+As mentioned before, we implemented the factory pattern. One time for UnitofWork and a second time for our Logging.
+Moreover, we implemented the MVVM pattern for our frontend.
 
 ## Unit Testing decision
 
 The way we approached the unit tests might not be ideal, but it worked for us. We did the following: every time we have
-a function that does not work the way is it was intended we did a unit test. As most our problems were inside Viewmodels,
+a function that does not work the way is it was intended we did a unit test. As most our problems were inside
+Viewmodels,
 we have made many unit tests to solve these problems. There was however a problem in our service that we wanted to test,
 which was the PdfReportGenerationService. Furthermore, we decided to use the FakeItEasy Framework to aid us making these
-unit tests. Because it was our first time using this Framework or our first time using a mocking framework in general, we
-had a lot of difficulties mocking dependencies such the services in the BusinessLayer (openRouteService, AddTourService...),
-the Factories in the DataAccessLayer and the Repositories. Another Problem was that the way we solved our problem for the
-Dbcontext was very complicated. We had to use a UnitOfWorkFactory as well as DbcontextFactory. That made the mocking much
-more difficult than we expected, which why we completely gave up testing the DataAccessLayer. That is another reason we
+unit tests. Because it was our first time using this Framework or our first time using a mocking framework in general,
+we
+had a lot of difficulties mocking dependencies such the services in the BusinessLayer (openRouteService,
+AddTourService...),
+the Factories in the DataAccessLayer and the Repositories. Another Problem was that the way we solved our problem for
+the
+Dbcontext was very complicated. We had to use a UnitOfWorkFactory as well as IDbContextFactory<TourPlannerDbContext>.
+The IDbContextFactory<> is from the Microsoft.EntityFrameworkCore namespace and can be used if we use
+AddDbContextFactory instead of simply AddDbContext, and the latter did not work for us, so we had to use the former.
+That made the mocking much more difficult than we expected, which why we completely gave up testing the DataAccessLayer.
+That is another reason we
 decided to mostly focus on Viewmodels and their most important functions and how they handle exception, whether they can
 detect wrong input or not. Most of the test needed some kind of mocking, some more advanced than the other.
 
 In conclusion, we decided to mostly test Viewmodels because the Businesslayer and DataAccessLayer were too hard to mock.
-We tested whether the data needed for the most important functions in the viewmodel were valid, and if yes, we tested its
+We tested whether the data needed for the most important functions in the viewmodel were valid, and if yes, we tested
+its
 core functionality, for example if the Tour or more are selected and the path to a folder is valid and the filename is
-not empty too, the function GeneratePdfReport should work perfectly fine. So regarding testing Viewmodels we made sure to
+not empty too, the function GeneratePdfReport should work perfectly fine. So regarding testing Viewmodels we made sure
+to
 have the most important functions tested.
 
 ## Tracked time
-In total, we came up to about 65 hours each.  
 
+In total, we came up to about 65 hours each.
 
 ### Link to GIT
+
     https://github.com/if22b151/Tour_Planner

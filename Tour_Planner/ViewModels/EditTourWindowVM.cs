@@ -1,5 +1,4 @@
-﻿using Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,10 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
-using log4net.Core;
-using Microsoft.Extensions.Logging;
+using DataAccessLayer.Logging;
+using Models;
 using Models.Enums;
-using Tour_Planner.Logging;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;
@@ -32,7 +30,7 @@ namespace Tour_Planner.ViewModels {
         private readonly IMessageBoxService _messageBoxService;
         private readonly IOpenRouteService _openRouteService;
 
-        private static readonly ILoggingWrapper _loger = LoggingFactory.GetLogger();
+        private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
         private bool _isStartSearchTriggered;
         public bool IsStartSearchTriggered
@@ -219,7 +217,7 @@ namespace Tour_Planner.ViewModels {
                     await _businessLogicTours.UpdateTour(_tour);
                     _messageBoxService.Show("Tour edited successfully!", "EditTour", MessageBoxButton.OK,
                         MessageBoxImage.Information);
-                    _loger.Debug("Tour edited successfully!");
+                    Logger.Debug("Tour edited successfully!");
                     _windowStore.Close();
                 }
                 catch (BusinessLayerException e) {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Tour_Planner.Logging;
+﻿namespace DataAccessLayer.Logging;
 
 public class LoggingWrapper : ILoggingWrapper {
     private readonly log4net.ILog _logger;

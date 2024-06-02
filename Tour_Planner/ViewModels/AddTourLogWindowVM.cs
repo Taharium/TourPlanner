@@ -1,10 +1,10 @@
-﻿using Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
+using Models;
 using Models.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;

@@ -1,7 +1,5 @@
 ﻿using DataAccessLayer.DTOs;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Models;
 
 namespace DataAccessLayer;
 

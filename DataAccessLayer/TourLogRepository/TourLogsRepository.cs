@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.DALException;
 using DataAccessLayer.DTOs;
+using DataAccessLayer.Logging;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.TourLogRepository;
@@ -8,7 +9,7 @@ namespace DataAccessLayer.TourLogRepository;
 public class TourLogsRepository : ITourLogsRepository
 {
     private readonly TourPlannerDbContext _context;
-
+    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
     public TourLogsRepository(TourPlannerDbContext dbContext)
     {
         _context = dbContext;
@@ -20,6 +21,8 @@ public class TourLogsRepository : ITourLogsRepository
             _context.TourLogs.Add(tourLogDTO);
         }
         catch (Exception) {
+            Logger.Fatal($"Failed to add TourLog to Tour with Name: {tourLogDTO.Tour.Name}" +
+                                                 $" and ID: {tourLogDTO.Tour.Id}!");
              throw new DataLayerException($"Failed to add TourLog to Tour with Name: {tourLogDTO.Tour.Name}" +
                                                  $" and ID: {tourLogDTO.Tour.Id}!");
         }
@@ -31,6 +34,8 @@ public class TourLogsRepository : ITourLogsRepository
             _context.TourLogs.Remove(tourLogDTO);
         }
         catch (Exception) {
+            Logger.Fatal($"Failed to remove TourLog with ID {tourLogDTO.Id} from Tour with " +
+                                         $"Name: {tourLogDTO.Tour.Name} and ID: {tourLogDTO.Tour.Id}!");
             throw new DataLayerException($"Failed to remove TourLog with ID {tourLogDTO.Id} from Tour with " +
                                          $"Name: {tourLogDTO.Tour.Name} and ID: {tourLogDTO.Tour.Id}!");
         }
@@ -41,6 +46,8 @@ public class TourLogsRepository : ITourLogsRepository
             _context.Entry(tourLogDTO).State = EntityState.Modified;
         }
         catch (Exception) {
+            Logger.Fatal($"Failed to update TourLog with ID: {tourLogDTO.Id} from Tour with " +
+                                         $"Name: {tourLogDTO.Tour.Name} and ID: {tourLogDTO.Tour.Id}!");
             throw new DataLayerException($"Failed to update TourLog with ID: {tourLogDTO.Id} from Tour with " +
                                          $"Name: {tourLogDTO.Tour.Name} and ID: {tourLogDTO.Tour.Id}!");
         }

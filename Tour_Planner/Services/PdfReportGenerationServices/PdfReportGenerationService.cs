@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccessLayer.Logging;
 using iText.IO.Image;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Draw;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-using Microsoft.Web.WebView2.Core;
-using Microsoft.Web.WebView2.Wpf;
 using Models;
 using PuppeteerSharp;
 using Tour_Planner.UIException;
@@ -18,10 +17,9 @@ using Tour_Planner.UIException;
 namespace Tour_Planner.Services.PdfReportGenerationServices;
 
 public class PdfReportGenerationService : IPdfReportGenerationService {
-    //TODO: add Image
     //TODO: Logging
     private const string ImagePath = "Assets/Resource/map.png";
-
+    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
     public async Task GenerateOneTourReport(Tour tour, string path) {
         try {
             var writer = new PdfWriter(path);
@@ -61,7 +59,8 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             if (File.Exists(path)) {
                 File.Delete(path);
             }
-            throw new UiLayerException("Failed to create the PDF-Report for the specified path!");
+            Logger.Error($"Failed to create the PDF-Report for the specified path: {path}, and Tour with Name: {tour.Name} and ID: {tour.Id}!");
+            throw new UiLayerException($"Failed to create the PDF-Report for the specified path and Tour with Name: {tour.Name} and ID: {tour.Id}!");
         }
     }
 
@@ -118,23 +117,30 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             if (File.Exists(path)) {
                 File.Delete(path);
             }
-            throw new UiLayerException("Failed to create the PDF-Report for the specified path!");
+            Logger.Error($"Failed to create the PDF-Report for the specified path {path} and the List of Tours!");
+            throw new UiLayerException("Failed to create the PDF-Report for the specified path and the List of Tours!");
         }
     }
 
     private async Task GenerateImageAsync() {
-        await new BrowserFetcher().DownloadAsync();
-        LaunchOptions launchOptions = new LaunchOptions() {
-            Headless = true
-        };
+        try {
+            await new BrowserFetcher().DownloadAsync();
+            LaunchOptions launchOptions = new LaunchOptions() {
+                Headless = true
+            };
 
-        await using var browser = await Puppeteer.LaunchAsync(launchOptions);
-        await using var page = await browser.NewPageAsync();
+            await using var browser = await Puppeteer.LaunchAsync(launchOptions);
+            await using var page = await browser.NewPageAsync();
 
-        await page.GoToAsync($"{Path.GetFullPath("Assets/Resource/leaflet.html")}");
+            await page.GoToAsync($"{Path.GetFullPath("Assets/Resource/leaflet.html")}");
 
-        await Task.Delay(500);
+            await Task.Delay(500);
 
-        await page.ScreenshotAsync(ImagePath);
+            await page.ScreenshotAsync(ImagePath);
+        }
+        catch (Exception) {
+            Logger.Error("Could not make Screenshot of the map!");
+            throw new UiLayerException("Could not make Screenshot of the map! Please Select another Tour and try again!");
+        }
     }
 }

@@ -2,12 +2,9 @@
 using BusinessLayer;
 using BusinessLayer.BLException;
 using FakeItEasy;
-using Microsoft.Extensions.Configuration;
 using Models;
 using Models.Enums;
-using Tour_Planner.Configurations;
 using Tour_Planner.Services.MessageBoxServices;
-using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;
 using Tour_Planner.ViewModels;
 

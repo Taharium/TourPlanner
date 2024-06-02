@@ -1,6 +1,4 @@
-﻿using DataAccessLayer.DTOs;
-
-namespace DataAccessLayer.DALException;
+﻿namespace DataAccessLayer.DALException;
 
 public class DataLayerException : Exception {
     public string ErrorMessage { get; set; }

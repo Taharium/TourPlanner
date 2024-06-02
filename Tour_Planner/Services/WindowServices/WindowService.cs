@@ -3,7 +3,6 @@ using System.Windows;
 using Tour_Planner.Stores.WindowStores;
 using Tour_Planner.ViewModels;
 
-
 namespace Tour_Planner.Services.WindowServices;
 
 public class WindowService<TViewModel, TWindow> : IWindowService<TViewModel, TWindow>

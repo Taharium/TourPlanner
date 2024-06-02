@@ -1,9 +1,7 @@
 ﻿using BusinessLayer;
 using FakeItEasy;
-using Microsoft.Extensions.Configuration;
 using Models;
 using Models.Enums;
-using Tour_Planner.Configurations;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourLogStores;
 using Tour_Planner.Stores.TourStores;

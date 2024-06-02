@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using BusinessLayer;
 using BusinessLayer.BLException;
+using DataAccessLayer.Logging;
 using Models;
 using Models.Enums;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;
 
 namespace Tour_Planner.ViewModels {
-
     public class TabControlVM : ViewModelBase {
         private int _selectedTab;
         private Tour? _tour;
@@ -23,6 +21,7 @@ namespace Tour_Planner.ViewModels {
         private readonly IOpenWeatherService _openWeatherService;
         private readonly IGetJokeService _getJokeService;
         private ObservableCollection<Weather> _weatherList = new ObservableCollection<Weather>();
+        private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
         public event Action? UpdatedRoute;
         private string _buttonText = "Select a Tour first";
@@ -36,7 +35,7 @@ namespace Tour_Planner.ViewModels {
                 }
             }
         }
-        
+
         public string ButtonText {
             get => _buttonText;
             set {
@@ -56,7 +55,7 @@ namespace Tour_Planner.ViewModels {
                 }
             }
         }
-        
+
         public Tour? SelectedTour {
             get => _tour;
             set {
@@ -67,7 +66,7 @@ namespace Tour_Planner.ViewModels {
                 }
             }
         }
-        
+
         private void UpdateButtonText() {
             if (SelectedTour != null) {
                 ButtonText = $"Get Weather for {SelectedTour.EndLocation}: ";
@@ -86,11 +85,12 @@ namespace Tour_Planner.ViewModels {
                 }
             }
         }
-        
+
         public AsyncRelayCommand GetEndWeatherCommand { get; }
         public AsyncRelayCommand GetJokeCommand { get; }
 
-        public TabControlVM(ITourStore tourStore, IMessageBoxService messageBoxService, IOpenWeatherService openWeatherService,
+        public TabControlVM(ITourStore tourStore, IMessageBoxService messageBoxService,
+            IOpenWeatherService openWeatherService,
             IOpenRouteService openRouteService, IGetJokeService getJokeService) {
             _getJokeService = getJokeService;
             _openRouteService = openRouteService;
@@ -117,8 +117,8 @@ namespace Tour_Planner.ViewModels {
 
         private async Task GetEndWeatherFunction() {
             WeatherList.Clear();
-            if(SelectedTour == null) return;
-            
+            if (SelectedTour == null) return;
+
             try {
                 var coordinates = await _openRouteService.GetGeoCoordinates(SelectedTour.EndLocation);
                 var weathers = await _openWeatherService.GetWeather(coordinates);
@@ -131,19 +131,18 @@ namespace Tour_Planner.ViewModels {
             }
         }
 
-        private void ClearTour(Tour? tour)
-        {
-            if (tour != null && tour == _tour)
-            {
+        private void ClearTour(Tour? tour) {
+            if (tour != null && tour == _tour) {
                 SelectedTour = null;
             }
         }
 
         private void SetTour(Tour? tour) {
             if (tour != null) {
-                if (SelectedTab != (int)TabControlEnum.Joke) { 
-                    SelectedTab = (int)TabControlEnum.General;  
+                if (SelectedTab != (int)TabControlEnum.Joke) {
+                    SelectedTab = (int)TabControlEnum.General;
                 }
+
                 SelectedTour = tour;
                 WeatherList.Clear();
             }
@@ -153,13 +152,17 @@ namespace Tour_Planner.ViewModels {
             string direction = tour?.Directions ?? "about:blank";
             //TODO: Logging
             try {
-                string directionsFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/Resource/directions.js");
+                string directionsFile =
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/Resource/directions.js");
                 string directions = $"let directions = {direction};";
                 File.WriteAllText(directionsFile, directions);
                 UpdatedRoute?.Invoke();
             }
             catch (Exception) {
-                _messageBoxService.Show("Failed to write into direction.js!", "Error", MessageBoxButton.OK,
+                Logger.Fatal("Failed to write into direction.js! Please ensure that you did not delete the Assets/Resource folder!");
+                _messageBoxService.Show(
+                    "Failed to write into direction.js! Please ensure that you did not delete the Assets/Resource folder!",
+                    "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }

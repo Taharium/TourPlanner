@@ -1,12 +1,10 @@
-﻿using BusinessLayer;
-using Models;
-using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using BusinessLayer;
 using BusinessLayer.BLException;
+using Models;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.WindowServices;
 using Tour_Planner.Stores.TourLogStores;

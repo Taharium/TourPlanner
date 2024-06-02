@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
+using DataAccessLayer.Logging;
 using Models;
 using Newtonsoft.Json;
 using Tour_Planner.Services.MessageBoxServices;
@@ -20,6 +21,7 @@ public class ImportTourWindowVM : ViewModelBase {
     private readonly IMessageBoxService _messageBoxService;
     private IOpenFileDialogService _openFileDialog;
     private readonly IWindowStore _windowStore;
+    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
 
     public string ErrorMessage {
@@ -95,12 +97,12 @@ public class ImportTourWindowVM : ViewModelBase {
             newTours =  JsonConvert.DeserializeObject<List<Tour>>(jsonfile) ?? throw new Exception("");
         }
         catch (Exception) {
-            _messageBoxService.Show("Failed to extract Tours from specified file!", "Error", MessageBoxButton.OK,
+            Logger.Error($"Failed to import Tours from specified file {FilePath}! Please make sure that it is a valid Tour in JSON format!");
+            _messageBoxService.Show("Failed to import Tours from specified file! Please make sure that it is a valid Tour in JSON format!", "Error", MessageBoxButton.OK,
                 MessageBoxImage.Error);
             FilePath = "";
             return;
         }
-        ErrorMessage = "";
 
         try {
             foreach (var tour in newTours) {
@@ -112,6 +114,7 @@ public class ImportTourWindowVM : ViewModelBase {
             FilePath = "";
             return;
         }
+        ErrorMessage = "";
         
         
         _messageBoxService.Show("Import file successfully!", "ImportFile", MessageBoxButton.OK,

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Web.WebView2.Wpf;
 using Models;
 
 namespace Tour_Planner.Services.PdfReportGenerationServices;

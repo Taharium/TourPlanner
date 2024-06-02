@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.BLException;
-using BusinessLayer.Extensions;
+using DataAccessLayer.Logging;
 using Models;
 using Newtonsoft.Json.Linq;
 
@@ -9,6 +9,8 @@ public class BusinessLogicGetJokeService : IGetJokeService {
 
     //TODO: add Logging
     private readonly HttpClient _httpClient;
+    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+
     public BusinessLogicGetJokeService() {
         try {
             _httpClient = new HttpClient() {
@@ -16,6 +18,7 @@ public class BusinessLogicGetJokeService : IGetJokeService {
             };
         }
         catch (Exception) {
+            Logger.Error("Could not set base address for the Joke API: https://official-joke-api.appspot.com!");
             throw new BusinessLayerException("Could not set base address for the Joke API: https://official-joke-api.appspot.com!");
         }
         
@@ -36,6 +39,7 @@ public class BusinessLogicGetJokeService : IGetJokeService {
             return newJoke;
         }
         catch (Exception) {
+            Logger.Error("Could not get a Joke from https://official-joke-api.appspot.com/jokes/programming/random!");
             throw new BusinessLayerException("Could not get a Joke from https://official-joke-api.appspot.com/jokes/programming/random!");
         }
     }

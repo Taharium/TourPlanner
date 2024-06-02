@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
-using System.Text;
 using System.Text.Json.Nodes;
 using BusinessLayer.BLException;
+using DataAccessLayer.Logging;
 using TransportType = Models.Enums.TransportType;
 
 namespace BusinessLayer;
@@ -11,7 +11,9 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
 {
     private readonly string _apiKey;
     private readonly HttpClient _httpClient;
+    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
+    //TODO: add logging
     public BusinessLogicOpenRouteService(IConfigOpenRouteService configOpenRouteService)
     {
         try {
@@ -21,6 +23,7 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
             };
         }
         catch (Exception) {
+            Logger.Fatal("Could not set base address for OpenRouteService: https://api.openrouteservice.org!");
             throw new BusinessLayerException("Could not set base address for OpenRouteService: https://api.openrouteservice.org!");
         }
         
@@ -48,6 +51,7 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
             return [latitudeStr, longitudeStr];
         }
         catch (Exception) {
+            Logger.Fatal($"Could not get Geo-coordinates using the location {location}!");
             throw new BusinessLayerException("Could not get Geo-coordinates! Please try again using different Locations!");
         }
     }
@@ -64,6 +68,7 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
             return distance.ToString(numberFormat);
         }
         catch (Exception) {
+            Logger.Fatal($"Could not get the Distance using the JsonNode: {jsonNodeDirections}!");
             throw new BusinessLayerException("Could not get the Distance! Please try again using different Locations!");
         }
     }
@@ -77,6 +82,7 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
             return estimatedtimestr;
         }
         catch (Exception) {
+            Logger.Fatal($"Could not get the estimated time using the JasonNode: {jsonNodeDirections}!");
             throw new BusinessLayerException("Could not get the estimated time! Please try again using different Locations!");
         }
         
@@ -105,6 +111,7 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
             return places;
         }
         catch (Exception) {
+            Logger.Fatal($"Could not get the start- and/or end-location using the location {location}!");
             throw new BusinessLayerException("Could not get the start- and/or end-location! Please try again using different Locations!");
         }
     }
@@ -139,6 +146,7 @@ public class BusinessLogicOpenRouteService : IOpenRouteService
             return jsonNodeDirections ?? throw new BusinessLayerException("");
         }
         catch (Exception) {
+            Logger.Fatal($"Could not generate the Route from {startLocation} to {endLocation}! Either Route is too long, or impossible to cross using the chosen transport type {transportType.ToString()}!");
             throw new BusinessLayerException("Could not generate the Route! Either Route is too long, or impossible to cross using the chosen transport type! Please try again using different Locations!");
         }
         

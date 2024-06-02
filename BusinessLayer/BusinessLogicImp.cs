@@ -1,4 +1,3 @@
-using System.Collections;
 using BusinessLayer.BLException;
 using BusinessLayer.Services.AddTourLogServices;
 using BusinessLayer.Services.AddTourServices;
