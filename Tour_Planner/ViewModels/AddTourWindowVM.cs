@@ -27,7 +27,7 @@ namespace Tour_Planner.ViewModels {
         private readonly IMessageBoxService _messageBoxService;
         private readonly IBusinessLogicTours _businessLogicTours;
         private readonly IOpenRouteService _openRouteService;
-        //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+        private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
         private bool _isStartSearchTriggered;
         public bool IsStartSearchTriggered
@@ -202,7 +202,7 @@ namespace Tour_Planner.ViewModels {
                     ErrorMessage = "";
                     await _businessLogicTours.AddTour(_tour);
                     _messageBoxService.Show("Tour added successfully!", "AddTour", MessageBoxButton.OK, MessageBoxImage.Information);
-                    //Logger.Debug("Tour added successfully!");
+                    Logger.Debug("Tour added successfully!");
                     _windowStore.Close();
                 }
                 catch (BusinessLayerException e) {
