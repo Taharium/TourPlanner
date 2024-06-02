@@ -9,7 +9,6 @@ It should look like this
   "ConnectionStrings": {
     "DataBase": "Include Error Detail=True;Host=localhost;Database=Tour_Planner;Username=postgres;Password=postgres",
     "API-Key": "APIKEY",
-    "Res-API-Key": "APIKEY",
     "Weather-API-Key": "APIKEY"
   }
 }
