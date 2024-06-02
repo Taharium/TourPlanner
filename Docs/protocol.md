@@ -111,7 +111,7 @@ to
 have the most important functions tested.
 
 ## Mandatory Unique Feature
-### Waether API
+### Weather API
 
 After seeing one our classmates present their project to us (Alfred Hromas), we decided to implement the same feature. We
 Alfred whether we could do the same, and he said yes. That was our sign to start integrating the openweathermap API into
