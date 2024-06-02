@@ -28,9 +28,6 @@
             <DockPanel Grid.Row="0">
                 <Label DockPanel.Dock="Top" Content="Date and Time:" Grid.Row="0" Style="{StaticResource TextSize}"/>
                 <xctk:DateTimePicker Format="Custom" FormatString="dd.MM.yyyy HH:mm:ss" Text="{Binding DateTimeProp, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Left" x:Name="Time" HorizontalAlignment="Stretch"  Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />
-                <!--<Label DockPanel.Dock="Top" Content="Date:" Grid.Row="0" Style="{StaticResource TextSize}"/>
-                <DatePicker x:Name="Date" SelectedDate="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}" />-->
-                <!--<TextBox x:Name="Date" Text="{Binding TourLogs.DateTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Style="{StaticResource TextBoxFontInWindow}"/> -->
             </DockPanel>
             <DockPanel Grid.Row="1">
                 <Label DockPanel.Dock="Top" Content="Comment:" Style="{StaticResource TextSize}"/>
@@ -41,7 +38,7 @@
                 <ComboBox Margin="5 0" Padding="7" x:Name="Difficulty" ItemsSource="{Binding DifficultyOptions}" SelectedItem="{Binding TourLogs.Difficulty, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
             <DockPanel Grid.Row="3">
-                <Label DockPanel.Dock="Top" Content="Total Distance (in m):" Style="{StaticResource TextSize}"/>
+                <Label DockPanel.Dock="Top" Content="Total Distance (in km):" Style="{StaticResource TextSize}"/>
                 <TextBox x:Name="Distance" Text="{Binding TourLogs.Distance, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxFontInWindow}"/>
             </DockPanel>
             <DockPanel Grid.Row="4">

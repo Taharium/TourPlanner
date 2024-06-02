@@ -80,9 +80,9 @@ public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
 
     public Popularity ComputePopularity(Tour tour) {
         return tour.TourLogsList.Count switch {
-            <= 4 => Popularity.Unpopular,
-            <= 8 => Popularity.Known,
-            <= 12 => Popularity.Popoular,
+            <= 2 => Popularity.Unpopular,
+            <= 4 => Popularity.Known,
+            <= 8 => Popularity.Popoular,
             _ => Popularity.VeryPopular
         };
     }
@@ -149,9 +149,9 @@ public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
         try {
             await _addTourLogService.AddTourLog(tour, tourLog);
             await _editTourService.EditTour(tour);
+            AddTourLogEvent?.Invoke(tourLog);
             tour.Popularity = ComputePopularity(tour);
             tour.ChildFriendliness = ComputeChildFriendliness(tour);
-            AddTourLogEvent?.Invoke(tourLog);
             OnTourUpdateEvent?.Invoke(tour);
         }
         catch (DataLayerException e) {
@@ -162,9 +162,9 @@ public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
     public async Task DeleteTourLog(Tour tour, TourLogs tourLog) {
         try {
             await _deleteTourLogService.DeleteTourLog(tourLog);
+            OnTourLogDeleteEvent?.Invoke(tourLog);
             tour.ChildFriendliness = ComputeChildFriendliness(tour);
             tour.Popularity = ComputePopularity(tour);
-            OnTourLogDeleteEvent?.Invoke(tourLog);
             OnTourUpdateEvent?.Invoke(tour);
         }
         catch (DataLayerException e) {
@@ -175,9 +175,9 @@ public class BusinessLogicImp : IBusinessLogicTours, IBusinessLogicTourLogs {
     public async Task UpdateTourLog(Tour tour, TourLogs tourLog) {
         try {
             await _editTourLogService.EditTourLog(tourLog);
+            OnTourLogUpdateEvent?.Invoke(tourLog);
             tour.ChildFriendliness = ComputeChildFriendliness(tour);
             tour.Popularity = ComputePopularity(tour);
-            OnTourLogUpdateEvent?.Invoke(tourLog);
             OnTourUpdateEvent?.Invoke(tour);
         }
         catch (DataLayerException e) {

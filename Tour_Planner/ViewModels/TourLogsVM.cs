@@ -99,7 +99,7 @@ namespace Tour_Planner.ViewModels {
             if (_selectedTour != null)
             {
                 int index = _selectedTour.TourLogsList.IndexOf(tourLogs);
-                _tourLogsObList[index] = tourLogs;
+                _selectedTour.TourLogsList[index] = tourLogs;
             }
 
             SelectedTourLog = tourLogs;

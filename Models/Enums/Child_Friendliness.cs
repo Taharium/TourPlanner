@@ -2,8 +2,8 @@
 
 public enum Child_Friendliness
 {
-    NotSuitable = 0,
-    CautionAdvised,
+    HighlyChildFriendly,
     ChildFriendly,
-    HighlyChildFriendly
+    CautionAdvised,
+    NotSuitable
 }

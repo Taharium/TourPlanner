@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
@@ -30,7 +31,7 @@ namespace Tour_Planner.ViewModels {
                 }
             }
         }
-        public RelayCommand FinishAddTourLogCommand { get; }
+        public AsyncRelayCommand FinishAddTourLogCommand { get; }
 
         private string _errorMessage;
         public string ErrorMessage {
@@ -95,10 +96,10 @@ namespace Tour_Planner.ViewModels {
             _messageBoxService = messageBoxService;
             _tourLog = new TourLogs();
             _errorMessage = "";
-            FinishAddTourLogCommand = new RelayCommand((_) => AddTourLogFunction());
+            FinishAddTourLogCommand = new AsyncRelayCommand((_) => AddTourLogFunction());
         }
 
-        public void AddTourLogFunction() {
+        public async Task AddTourLogFunction() {
             if (!IsTourLogValid()) {
                 return;
             }
@@ -106,7 +107,7 @@ namespace Tour_Planner.ViewModels {
             ErrorMessage = "";
             if (Tour != null) {
                 try {
-                    _businessLogicTourLogs.AddTourLog(Tour, _tourLog);
+                    await _businessLogicTourLogs.AddTourLog(Tour, _tourLog);
                     _messageBoxService.Show("Tour Log added successfully!", "AddTourLog", MessageBoxButton.OK,
                         MessageBoxImage.Information);
                     _windowStore.Close();

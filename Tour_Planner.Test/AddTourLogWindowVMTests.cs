@@ -18,7 +18,7 @@ namespace Tour_Planner.Test {
         private IWindowStore _windowStore = A.Fake<IWindowStore>();
         
         [Test]
-        public void AddTourLog_InValidData_Error() {
+        public async Task AddTourLog_InValidData_Error() {
             // Arrange
             var viewModel = new AddTourLogWindowVM(_windowStore, _tourStore, _businessLogicTourLogs, _messageBoxService);
             var tourLog = new TourLogs {
@@ -32,14 +32,14 @@ namespace Tour_Planner.Test {
 
             // Act
             viewModel.TourLogs = tourLog;
-            viewModel.AddTourLogFunction();
+            await viewModel.AddTourLogFunction();
 
             // Assert
             Assert.That(viewModel.ErrorMessage, Is.EqualTo("Please enter a valid number for Distance!"));
         }
         
         [Test]
-        public void AddTourLogFunction_BusinessLayerException_MessageBoxAndWindowNotClosed()
+        public async Task AddTourLogFunction_BusinessLayerException_MessageBoxAndWindowNotClosed()
         {
             // Arrange
             var viewModel = new AddTourLogWindowVM(_windowStore, _tourStore, _businessLogicTourLogs, _messageBoxService);
@@ -71,7 +71,7 @@ namespace Tour_Planner.Test {
             A.CallTo(() => _businessLogicTourLogs.AddTourLog(A<Tour>._,A<TourLogs>._)).Throws(new BusinessLayerException("Business Layer Error"));
 
             // Act
-            viewModel.AddTourLogFunction();
+            await viewModel.AddTourLogFunction();
 
             // Assert
             A.CallTo(() => _messageBoxService.Show("Business Layer Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappened();

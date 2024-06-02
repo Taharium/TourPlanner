@@ -110,6 +110,12 @@ not empty too, the function GeneratePdfReport should work perfectly fine. So reg
 to
 have the most important functions tested.
 
+## Mandatory Unique Feature
+
+
+## Bonus Feature
+
+
 ## Tracked time
 
 In total, we came up to about 65 hours each.
