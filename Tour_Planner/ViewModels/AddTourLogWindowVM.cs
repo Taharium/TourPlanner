@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -81,6 +82,7 @@ namespace Tour_Planner.ViewModels {
             set {
                 if (_tourLog.DateTime.ToString() != value) {
                     if (DateTime.TryParse(value, out DateTime parsedDate)) {
+                        
                         _tourLog.DateTime = parsedDate;
                     }
                     OnPropertyChanged(nameof(DateTimeProp));
@@ -156,7 +158,10 @@ namespace Tour_Planner.ViewModels {
                 ErrorMessage = "Please enter a valid number for Time!";
                 return false;
             }
-
+            TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
+        
+            DateTime utcDateTime = TimeZoneInfo.ConvertTimeToUtc(_tourLog.DateTime, localTimeZone);
+            _tourLog.DateTime = utcDateTime;
             return true;
         }
     }

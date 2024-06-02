@@ -8,7 +8,7 @@ public class TourLogsDTO
     public int Id { get; set; }
     //public int TourId { get; set; }
     public TourDTO Tour { get; set; } = null!;
-    public DateTime DateTime = DateTime.Now;
+    public DateTime DateTime { get; set; }
     [Column(TypeName = "varchar(100)")]
     public string TotalTime { get; set; } = null!;
     [Column(TypeName = "varchar(100)")]

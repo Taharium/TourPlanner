@@ -180,6 +180,11 @@ namespace Tour_Planner.ViewModels {
                 return false;
             }
 
+            TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
+        
+            DateTime utcDateTime = TimeZoneInfo.ConvertTimeToUtc(_tempTourLog.DateTime, localTimeZone);
+            _tempTourLog.DateTime = utcDateTime;
+            
             return true;
 
         }
