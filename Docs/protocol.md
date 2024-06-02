@@ -30,7 +30,8 @@ Services that are still in the Businesslayer. Every operations has its own servi
 DAL layer, we convert our Model from the Frontend to a DTO that is saved in the Database. We do that because we have
 code in our Tour and TourLog Models that are just for the frontend. As said before we now call a UnitofWork and that
 gives us access to the repository. And in there, we now can execute the CRUD operation, that was requested from the
-user, on the database.
+user, on the database. We have however decided, that if there is a problem with the connection to the database and no
+data can be read or added, to shut down the application.
 
 ### Class Diagram BL
 
