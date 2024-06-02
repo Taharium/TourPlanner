@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 using Models.Enums;
-using Newtonsoft.Json;
 
 namespace Models {
     public class Tour : INotifyPropertyChanged {
@@ -21,8 +21,8 @@ namespace Models {
         private string _estimatedTime = "";
         private bool _isSelected;
         private string _directions = "";
-
-
+        
+        [JsonIgnore]
         public int Id {
             get => _id;
             set {

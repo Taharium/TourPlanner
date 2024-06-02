@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 using Models.Enums;
 
 namespace Models {
@@ -14,6 +15,7 @@ namespace Models {
         private string _comment = "";
         private Rating _rating = Rating.Excellent;
 
+        [JsonIgnore]
         public int Id {
             get => _id;
             set {

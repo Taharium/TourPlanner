@@ -31,8 +31,8 @@ public class UnitofWork : IUnitofWork, IDisposable
             return result;
         }
         catch (Exception) {
-            Logger.Fatal("Operation could not be saved in the Database! Please check your connection!");
-            throw new DataLayerException("Database: Operation could not be saved in the Database! Please check your connection!");
+            Logger.Error("Operation could not be saved in the Database! Please check your connection!");
+            throw new DataLayerException("Operation could not be saved in the Database! Please check your connection!");
         }
         
     }
