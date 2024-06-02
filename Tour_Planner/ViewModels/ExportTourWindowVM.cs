@@ -5,9 +5,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using DataAccessLayer.Logging;
 using Models;
 using Tour_Planner.Extensions;
+using Tour_Planner.Logging;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.SaveFileDialogServices;
 using Tour_Planner.Stores.TourStores;
@@ -21,7 +21,7 @@ public class ExportTourWindowVM : ViewModelBase {
     private readonly IMessageBoxService _messageBoxService;
     private readonly IWindowStore _windowStore;
     private ObservableCollection<Tour> _tourList;
-    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+    //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
     public ObservableCollection<Tour> TourList {
         get => _tourList;
@@ -165,7 +165,7 @@ public class ExportTourWindowVM : ViewModelBase {
             }
         }
         catch (Exception) {
-            Logger.Error($"Failed to Export Tour(s) to specified path: {FilePath}!");
+            //Logger.Error($"Failed to Export Tour(s) to specified path: {FilePath}!");
             _messageBoxService.Show("Failed to Export Tour(s) to specified path! Please try again using another path!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             FilePath = "";
             FileName = "";

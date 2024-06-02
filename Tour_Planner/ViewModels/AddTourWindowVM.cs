@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
-using DataAccessLayer.Logging;
 using Models;
 using Models.Enums;
+using Tour_Planner.Logging;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.WindowStores;
 
@@ -27,7 +27,7 @@ namespace Tour_Planner.ViewModels {
         private readonly IMessageBoxService _messageBoxService;
         private readonly IBusinessLogicTours _businessLogicTours;
         private readonly IOpenRouteService _openRouteService;
-        private static readonly ILoggingWrapper _loger = LoggingFactory.GetLogger();
+        //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
         private bool _isStartSearchTriggered;
         public bool IsStartSearchTriggered
@@ -202,12 +202,12 @@ namespace Tour_Planner.ViewModels {
                     ErrorMessage = "";
                     await _businessLogicTours.AddTour(_tour);
                     _messageBoxService.Show("Tour added successfully!", "AddTour", MessageBoxButton.OK, MessageBoxImage.Information);
-                    _loger.Debug("Tour added successfully!");
+                    //Logger.Debug("Tour added successfully!");
                     _windowStore.Close();
                 }
                 catch (BusinessLayerException e) {
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    _loger.Error(e.ErrorMessage);
+                    //Logger.Error(e.ErrorMessage);
                     _windowStore.Close();
                 }
             }

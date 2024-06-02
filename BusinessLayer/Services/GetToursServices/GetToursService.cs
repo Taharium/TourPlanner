@@ -1,5 +1,4 @@
-﻿using BusinessLayer.Services.GetToursService;
-using DataAccessLayer;
+﻿using DataAccessLayer;
 using Models;
 
 namespace BusinessLayer.Services.GetToursServices;

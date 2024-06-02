@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace BusinessLayer.Services.GetToursService;
+namespace BusinessLayer.Services.GetToursServices;
 
 public interface IGetToursService
 {

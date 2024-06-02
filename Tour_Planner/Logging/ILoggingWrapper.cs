@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.Logging;
+﻿namespace Tour_Planner.Logging;
 
 public interface ILoggingWrapper {
     void Debug(string message);

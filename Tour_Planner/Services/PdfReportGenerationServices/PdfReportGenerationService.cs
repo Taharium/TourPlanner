@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using DataAccessLayer.Logging;
 using iText.IO.Image;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Draw;
@@ -12,6 +11,7 @@ using iText.Layout.Element;
 using iText.Layout.Properties;
 using Models;
 using PuppeteerSharp;
+using Tour_Planner.Logging;
 using Tour_Planner.UIException;
 
 namespace Tour_Planner.Services.PdfReportGenerationServices;
@@ -19,7 +19,7 @@ namespace Tour_Planner.Services.PdfReportGenerationServices;
 public class PdfReportGenerationService : IPdfReportGenerationService {
     //TODO: Logging
     private const string ImagePath = "Assets/Resource/map.png";
-    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+    //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
     public async Task GenerateOneTourReport(Tour tour, string path) {
         try {
             var writer = new PdfWriter(path);
@@ -59,7 +59,7 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             if (File.Exists(path)) {
                 File.Delete(path);
             }
-            Logger.Error($"Failed to create the PDF-Report for the specified path: {path}, and Tour with Name: {tour.Name} and ID: {tour.Id}!");
+            //Logger.Error($"Failed to create the PDF-Report for the specified path: {path}, and Tour with Name: {tour.Name} and ID: {tour.Id}!");
             throw new UiLayerException($"Failed to create the PDF-Report for the specified path and Tour with Name: {tour.Name} and ID: {tour.Id}!");
         }
     }
@@ -117,7 +117,7 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             if (File.Exists(path)) {
                 File.Delete(path);
             }
-            Logger.Error($"Failed to create the PDF-Report for the specified path {path} and the List of Tours!");
+            //Logger.Error($"Failed to create the PDF-Report for the specified path {path} and the List of Tours!");
             throw new UiLayerException("Failed to create the PDF-Report for the specified path and the List of Tours!");
         }
     }
@@ -139,7 +139,7 @@ public class PdfReportGenerationService : IPdfReportGenerationService {
             await page.ScreenshotAsync(ImagePath);
         }
         catch (Exception) {
-            Logger.Error("Could not make Screenshot of the map!");
+            //Logger.Error("Could not make Screenshot of the map!");
             throw new UiLayerException("Could not make Screenshot of the map! Please Select another Tour and try again!");
         }
     }

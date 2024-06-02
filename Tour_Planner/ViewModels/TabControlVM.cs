@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
-using DataAccessLayer.Logging;
 using Models;
 using Models.Enums;
+using Tour_Planner.Logging;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;
 
@@ -21,7 +21,7 @@ namespace Tour_Planner.ViewModels {
         private readonly IOpenWeatherService _openWeatherService;
         private readonly IGetJokeService _getJokeService;
         private ObservableCollection<Weather> _weatherList = new ObservableCollection<Weather>();
-        private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+        //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
         public event Action? UpdatedRoute;
         private string _buttonText = "Select a Tour first";
@@ -159,7 +159,7 @@ namespace Tour_Planner.ViewModels {
                 UpdatedRoute?.Invoke();
             }
             catch (Exception) {
-                Logger.Fatal("Failed to write into direction.js! Please ensure that you did not delete the Assets/Resource folder!");
+                //Logger.Fatal("Failed to write into direction.js! Please ensure that you did not delete the Assets/Resource folder!");
                 _messageBoxService.Show(
                     "Failed to write into direction.js! Please ensure that you did not delete the Assets/Resource folder!",
                     "Error", MessageBoxButton.OK,

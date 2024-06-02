@@ -1,6 +1,5 @@
 ﻿using DataAccessLayer.DALException;
 using DataAccessLayer.DTOs;
-using DataAccessLayer.Logging;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.TourRepository;
@@ -9,7 +8,7 @@ namespace DataAccessLayer.TourRepository;
 public class ToursRepository : IToursRepository
 {
     private readonly TourPlannerDbContext _dbContext;
-    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+    //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
     public ToursRepository(TourPlannerDbContext dbContext)
     {
@@ -21,7 +20,7 @@ public class ToursRepository : IToursRepository
             return _dbContext.Tours.Find(id) ?? throw new DataLayerException("");
         }
         catch (Exception) {
-            Logger.Fatal($"Failed to find Tour with Tour Name {name} and ID: {id}!");
+            //Logger.Fatal($"Failed to find Tour with Tour Name {name} and ID: {id}!");
             throw new DataLayerException($"Failed to find Tour with Tour Name {name} and ID: {id}!");
         }
     }
@@ -31,7 +30,7 @@ public class ToursRepository : IToursRepository
             return _dbContext.Tours.Include(tour => tour.TourLogsList).ToList();
         }
         catch (Exception) {
-            Logger.Fatal("Failed to retrieve list of Tours! Please connect to database!");
+            //Logger.Fatal("Failed to retrieve list of Tours! Please connect to database!");
             throw new DataLayerException("Failed to retrieve list of Tours! Please connect to database!");
         }
     }
@@ -42,7 +41,7 @@ public class ToursRepository : IToursRepository
             _dbContext.Tours.Add(tour);
         }
         catch (Exception) {
-            Logger.Fatal($"Failed to Add Tour with Tour Name: {tour.Name}!");
+            //Logger.Fatal($"Failed to Add Tour with Tour Name: {tour.Name}!");
             throw new DataLayerException($"Failed to Add Tour with Tour Name: {tour.Name}!");
         }
         
@@ -54,7 +53,7 @@ public class ToursRepository : IToursRepository
             _dbContext.Tours.Remove(tour);
         }
         catch (Exception) {
-            Logger.Fatal($"Failed to delete Tour with Tour Name: {tour.Name} and ID: {tour.Id}!");
+            //Logger.Fatal($"Failed to delete Tour with Tour Name: {tour.Name} and ID: {tour.Id}!");
             throw new DataLayerException($"Failed to delete Tour with Tour Name: {tour.Name} and ID: {tour.Id}!");
         }
     }
@@ -64,7 +63,7 @@ public class ToursRepository : IToursRepository
             _dbContext.Entry(tour).State = EntityState.Modified;
         }
         catch (Exception) {
-            Logger.Fatal($"Failed to update Tour with Tour Name: {tour.Name} and ID: {tour.Id}!");
+            //Logger.Fatal($"Failed to update Tour with Tour Name: {tour.Name} and ID: {tour.Id}!");
             throw new DataLayerException($"Failed to update Tour with Tour Name: {tour.Name} and ID: {tour.Id}!");
         }
     }

@@ -1,5 +1,4 @@
 ﻿using DataAccessLayer.DALException;
-using DataAccessLayer.Logging;
 using DataAccessLayer.TourLogRepository;
 using DataAccessLayer.TourRepository;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +15,7 @@ public class UnitofWork : IUnitofWork, IDisposable
     
     private bool _disposed = false;
     
-    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+    //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
     
     public UnitofWork(IDbContextFactory<TourPlannerDbContext> contextFactory) {
@@ -34,7 +33,7 @@ public class UnitofWork : IUnitofWork, IDisposable
             return result;
         }
         catch (Exception) {
-            Logger.Error("Operation could not be saved in the Database! Please check your connection!");
+            //Logger.Error("Operation could not be saved in the Database! Please check your connection!");
             throw new DataLayerException("Operation could not be saved in the Database! Please check your connection!");
         }
         

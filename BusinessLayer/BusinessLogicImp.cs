@@ -5,7 +5,7 @@ using BusinessLayer.Services.DeleteTourLogServices;
 using BusinessLayer.Services.DeleteTourServices;
 using BusinessLayer.Services.EditTourLogServices;
 using BusinessLayer.Services.EditTourServices;
-using BusinessLayer.Services.GetToursService;
+using BusinessLayer.Services.GetToursServices;
 using DataAccessLayer.DALException;
 using Models;
 using Models.Enums;
