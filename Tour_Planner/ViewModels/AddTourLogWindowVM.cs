@@ -114,6 +114,9 @@ namespace Tour_Planner.ViewModels {
                 catch (BusinessLayerException e) {
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     _windowStore.Close();
+                    if (e.ErrorMessage.StartsWith("Database")) {
+                        Environment.Exit(1); 
+                    }
                 }
                 
             }
@@ -122,6 +125,7 @@ namespace Tour_Planner.ViewModels {
         private bool IsTourLogValid() {
 
             if (_tourLog.DateTime > DateTime.Now) {
+                
                 ErrorMessage = "Please enter a valid Date and Time in the past!";
                 return false;
             }

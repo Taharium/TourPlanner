@@ -90,7 +90,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Foreground="White" Grid.Row="0" Margin="5 10 0 5" HorizontalAlignment="Left" Text="Want some Programming Joke :)"/>
+                    <TextBlock Foreground="White" Grid.Row="0" Margin="5 10 0 5" HorizontalAlignment="Left" Text="Want a programming Joke? :)"/>
                     <Button Grid.Row="1" Width="100" HorizontalAlignment="Left" Margin="5 10 0 5" Command="{Binding GetJokeCommand}" Content="Get a Joke" Style="{StaticResource RoundCorner}"/>
                     <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
                         <TextBlock Text="Setup:" TextWrapping="Wrap" Foreground="#75bfff" FontSize="12" Margin="10 0"/>

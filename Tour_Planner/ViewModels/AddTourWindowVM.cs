@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
+using DataAccessLayer.Logging;
 using Models;
 using Models.Enums;
-using Tour_Planner.Logging;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.WindowStores;
 
@@ -207,11 +207,14 @@ namespace Tour_Planner.ViewModels {
                 }
                 catch (BusinessLayerException e) {
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    //Logger.Error(e.ErrorMessage);
                     _windowStore.Close();
+                    if (e.ErrorMessage.StartsWith("Database")) {
+                        Environment.Exit(1); 
+                    }
                 }
             }
             else {
+                Logger.Warn("");
                 ErrorMessage = "Please fill in all fields!";
             }
         }

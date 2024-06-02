@@ -8,7 +8,7 @@ namespace Tour_Planner.Test;
 
 public class BusinessLogicTests
 {
-    private Tour tour = new Tour();
+    private Tour _tour = new Tour();
     private BusinessLogicImp _businessLogicTours = A.Fake<BusinessLogicImp>();
     
     [SetUp]
@@ -37,7 +37,7 @@ public class BusinessLogicTests
 
         ObservableCollection<TourLogs> TourLogsList = new ObservableCollection<TourLogs> { log1, log2 };
 
-        tour = new Tour
+        _tour = new Tour
         {
             Name = "Mountain Tour",
             Description = "A challenging mountain tour.",
@@ -55,7 +55,7 @@ public class BusinessLogicTests
     public void ComputedPopularity()
     {
         // Act
-        var popularity = _businessLogicTours.ComputePopularity(tour);
+        var popularity = _businessLogicTours.ComputePopularity(_tour);
         
         // Assert
         Assert.That(popularity, Is.EqualTo(Popularity.Unpopular));
@@ -66,7 +66,7 @@ public class BusinessLogicTests
     public void ComputedChildFriendliness()
     {
         // Act
-        var childFriendliness = _businessLogicTours.ComputeChildFriendliness(tour);
+        var childFriendliness = _businessLogicTours.ComputeChildFriendliness(_tour);
         
         // Assert
         Assert.That(childFriendliness, Is.EqualTo(Child_Friendliness.ChildFriendly));

@@ -105,6 +105,9 @@ namespace Tour_Planner.ViewModels {
                 }
                 catch (BusinessLayerException e) {
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (e.ErrorMessage.StartsWith("Database")) {
+                        Environment.Exit(1); 
+                    }
                 }
             }
         }

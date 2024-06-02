@@ -12,8 +12,8 @@ namespace Tour_Planner.Test {
     public class EditTourLogWindowVMTests {
         private IBusinessLogicTourLogs _businessLogicTourLogs = A.Fake<BusinessLogicImp>();
         private ITourStore _tourStore = A.Fake<TourStore>();
-        [TestCase("2024-03-20T00:00:00", "2", "", Rating.Good, Difficulty.Medium, false)]
-        [TestCase("2024-03-20T00:00:00", "2", "100", Rating.Excellent, Difficulty.Medium, true)]
+        [TestCase("2024-03-20T00:00:00", "2", "", (int)Rating.Good, (int)Difficulty.Medium, false)]
+        [TestCase("2024-03-20T00:00:00", "2", "100", (int)Rating.Excellent, (int)Difficulty.Medium, true)]
         public void IsTourLogValid_VariousScenarios_ReturnsExpectedResult(string dateTime, string totalTime, string distance, Rating rating, Difficulty difficulty, bool expected) {
             // Arrange
             TourLogStore tourLog = new TourLogStore();

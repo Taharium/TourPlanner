@@ -140,6 +140,9 @@ namespace Tour_Planner.ViewModels {
                     BackUp();
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     _windowStore.Close();
+                    if (e.ErrorMessage.StartsWith("Database")) {
+                        Environment.Exit(1); 
+                    }
                 }
             }
         }

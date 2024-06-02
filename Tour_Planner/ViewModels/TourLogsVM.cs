@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -121,6 +122,9 @@ namespace Tour_Planner.ViewModels {
                 }
                 catch (BusinessLayerException e) {
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (e.ErrorMessage.StartsWith("Database")) {
+                        Environment.Exit(1); 
+                    }
                 }
             }
         }

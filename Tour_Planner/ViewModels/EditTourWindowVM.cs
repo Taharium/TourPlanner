@@ -8,7 +8,6 @@ using BusinessLayer;
 using BusinessLayer.BLException;
 using Models;
 using Models.Enums;
-using Tour_Planner.Logging;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Stores.TourStores;
 using Tour_Planner.Stores.WindowStores;
@@ -224,6 +223,9 @@ namespace Tour_Planner.ViewModels {
                     BackUp();
                     _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     _windowStore.Close();
+                    if (e.ErrorMessage.StartsWith("Database")) {
+                        Environment.Exit(1); 
+                    }
                 }
             }
             else {

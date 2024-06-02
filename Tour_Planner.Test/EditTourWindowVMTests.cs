@@ -19,19 +19,19 @@ public class EditTourWindowVMTests {
     private IOpenRouteService _openRouteService = A.Fake<IOpenRouteService>();
     private ITourStore _tourStore = A.Fake<ITourStore>();
     [Test]
-    public void FinishEditFunction_InvalidTour_Error() {
+    public async Task FinishEditFunction_InvalidTour_Error() {
         // Arrange
         EditTourWindowVM viewModel = new EditTourWindowVM(_tourStore, new WindowStore(), _businessLogicTours, new MessageBoxService(), _openRouteService);
         viewModel.Tour = new Tour();
         // Act
-        viewModel.FinishEditFunction();
+        await viewModel.FinishEditFunction();
 
         // Assert
         Assert.That(viewModel.ErrorMessage, Is.EqualTo("Please fill in all fields!"));
     }
     
     [Test]
-    public void EditTourFunction_BusinessLayerException_MessageBoxAndWindowNotClosed()
+    public async Task EditTourFunction_BusinessLayerException_MessageBoxAndWindowNotClosed()
     {
         // Arrange
         var viewModel = new EditTourWindowVM(_tourStore,_windowStore, _businessLogicTours, _messageBoxService, _openRouteService);
@@ -56,7 +56,7 @@ public class EditTourWindowVMTests {
         // Act
         viewModel.SelectedPlaceStart = "H";
         viewModel.SelectedPlaceEnd = "H";
-        viewModel.FinishEditFunction();
+        await viewModel.FinishEditFunction();
 
         // Assert
         A.CallTo(() => _messageBoxService.Show("Business Layer Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappened();

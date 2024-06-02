@@ -50,8 +50,6 @@ user, on the database.
 
 ## Description of Use Cases
 
-## Description of Use Cases
-
 If we break it down, the user can activley do most of the CRUD operations. He can Add, Edit and Delete a tour as well as
 Add, Edit and Delete a TourLog. But in the background they are not all just happening if the user wants to do them. For
 example, at any operations with the Tourlogs(ADD, EDIT, DELETE) the Edit Tour case has to be done too because it effects

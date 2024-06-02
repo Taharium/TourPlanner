@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 
-namespace Tour_Planner.Logging;
+namespace DataAccessLayer.Logging;
 
 public static class LoggingFactory {
     public static ILoggingWrapper GetLogger()

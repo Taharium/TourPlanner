@@ -123,7 +123,7 @@ public class PdfReportGenerationServiceTest {
 
         // Act & Assert
         var ex = Assert.ThrowsAsync<UiLayerException>(() => _service.GenerateOneTourReport(tour, invalidPath));
-        Assert.That(ex.ErrorMessage, Is.EqualTo("Failed to create the PDF-Report for the specified path!"));
+        Assert.That(ex.ErrorMessage, Is.EqualTo($"Failed to create the PDF-Report for the specified path: {invalidPath}, and Tour with Name: {tour.Name} and ID: {tour.Id}!"));
     }
 
     [Test]
@@ -147,6 +147,6 @@ public class PdfReportGenerationServiceTest {
 
         // Act & Assert
         var ex = Assert.Throws<UiLayerException>(() => _service.GenerateToursSummaryReport(tours, invalidPath));
-        Assert.That(ex.ErrorMessage, Is.EqualTo("Failed to create the PDF-Report for the specified path!"));
+        Assert.That(ex.ErrorMessage, Is.EqualTo($"Failed to create the PDF-Report for the specified path {invalidPath} and the List of Tours!"));
     }
 }

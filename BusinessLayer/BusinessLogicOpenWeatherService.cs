@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.BLException;
 using BusinessLayer.Extensions;
+using DataAccessLayer.Logging;
 using Models;
 using Newtonsoft.Json.Linq;
 
@@ -12,7 +13,7 @@ public class BusinessLogicOpenWeatherService : IOpenWeatherService {
     private string _lon = "";
     
     //TODO: add Logging
-    //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
 
     public BusinessLogicOpenWeatherService(IConfigOpenWeatherService openWeatherService) {
@@ -23,7 +24,7 @@ public class BusinessLogicOpenWeatherService : IOpenWeatherService {
             };
         }
         catch (Exception) {
-            //Logger.Error("Could not set base address for OpenWeatherService: https://api.openweathermap.org!");
+            Logger.Error("Could not set base address for OpenWeatherService: https://api.openweathermap.org!");
             throw new BusinessLayerException("Could not set base address for OpenWeatherService: https://api.openweathermap.org!");
         }
         _weatherApiKey = openWeatherService.WeatherApiKey;
@@ -53,7 +54,7 @@ public class BusinessLogicOpenWeatherService : IOpenWeatherService {
             return weathers;
         }
         catch (Exception) {
-            //Logger.Error($"Could not get the Weather for the specified location using the Geocoordinates: lat: {_lat}, lon: {_lon}!");
+            Logger.Error($"Could not get the Weather for the specified location using the Geocoordinates: lat: {_lat}, lon: {_lon}!");
             throw new BusinessLayerException($"Could not get the Weather for the specified location using the Geocoordinates: lat: {_lat}, lon: {_lon}!");
         }
         

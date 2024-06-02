@@ -4,9 +4,9 @@ using System.IO;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
+using DataAccessLayer.Logging;
 using Models;
 using Newtonsoft.Json;
-using Tour_Planner.Logging;
 using Tour_Planner.Services.MessageBoxServices;
 using Tour_Planner.Services.OpenFileDialogServices;
 using Tour_Planner.Stores.WindowStores;
@@ -21,7 +21,7 @@ public class ImportTourWindowVM : ViewModelBase {
     private readonly IMessageBoxService _messageBoxService;
     private IOpenFileDialogService _openFileDialog;
     private readonly IWindowStore _windowStore;
-    //private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
+    private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
 
     public string ErrorMessage {
@@ -71,6 +71,7 @@ public class ImportTourWindowVM : ViewModelBase {
             ErrorMessage = "";
         }
         catch (Exception) {
+            Logger.Error("Failed to open File Dialog!");
             _messageBoxService.Show("Failed to open File Dialog!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             FilePath = "";
         }
@@ -97,8 +98,8 @@ public class ImportTourWindowVM : ViewModelBase {
             newTours =  JsonConvert.DeserializeObject<List<Tour>>(jsonfile) ?? throw new Exception("");
         }
         catch (Exception) {
-            //Logger.Error($"Failed to import Tours from specified file {FilePath}! Please make sure that it is a valid Tour in JSON format!");
-            _messageBoxService.Show("Failed to import Tours from specified file! Please make sure that it is a valid Tour in JSON format!", "Error", MessageBoxButton.OK,
+            Logger.Error($"Failed to import Tours from specified file {FilePath}! Please make sure that it is a valid Tour in JSON format!");
+            _messageBoxService.Show($"Failed to import Tours from specified file {FilePath}! Please make sure that it is a valid Tour in JSON format!", "Error", MessageBoxButton.OK,
                 MessageBoxImage.Error);
             FilePath = "";
             return;
@@ -112,6 +113,9 @@ public class ImportTourWindowVM : ViewModelBase {
         catch (BusinessLayerException e) {
             _messageBoxService.Show(e.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             FilePath = "";
+            if (e.ErrorMessage.StartsWith("Database")) {
+                Environment.Exit(1); 
+            }
             return;
         }
         ErrorMessage = "";

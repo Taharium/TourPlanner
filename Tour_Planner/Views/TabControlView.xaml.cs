@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using DataAccessLayer.Logging;
 using Tour_Planner.ViewModels;
 
 namespace Tour_Planner.Views {
@@ -9,6 +10,7 @@ namespace Tour_Planner.Views {
     /// </summary>
     public partial class TabControlView : UserControl {
         private readonly string _filepath = "";
+        private static readonly ILoggingWrapper Logger = LoggingFactory.GetLogger();
 
         private bool _isInitialized = false;
 
@@ -19,6 +21,7 @@ namespace Tour_Planner.Views {
                     "Assets/Resource/leaflet.html");
             }
             catch (Exception) {
+                Logger.Error("Failed to get path to leaflet.html");
                 MessageBox.Show("Failed to get path to leaflet.html", "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return;
