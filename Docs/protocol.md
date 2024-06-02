@@ -114,7 +114,7 @@ have the most important functions tested.
 ## Mandatory Unique Feature
 ### Weather API
 
-After seeing one our classmates present their project to us (Alfred Hromas), we decided to implement the same feature. We
+After seeing one our classmates present their project to us (Alfred Hromas), we decided to implement the same feature. We asked
 Alfred whether we could do the same, and he said yes. That was our sign to start integrating the openweathermap API into
 our project. To do that we each had to get an API-Key, which fortunately, was free. After setting everything up, we had 
 to decide how we wanted to use the API. The data certainly doesn't belong to the database, so we immediately discarded
