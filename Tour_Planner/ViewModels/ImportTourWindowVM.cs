@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using BusinessLayer;
 using BusinessLayer.BLException;
@@ -87,14 +88,14 @@ public class ImportTourWindowVM : ViewModelBase {
         return true;
     }
 
-    public void ImportFile() {
+    public async Task ImportFile() {
         if (!ValidateImport()) {
             return;
         } 
         
         List<Tour> newTours;
         try {
-            string jsonfile = File.ReadAllText(FilePath);
+            string jsonfile = await File.ReadAllTextAsync(FilePath);
             newTours =  JsonConvert.DeserializeObject<List<Tour>>(jsonfile) ?? throw new Exception("");
         }
         catch (Exception) {
@@ -107,7 +108,7 @@ public class ImportTourWindowVM : ViewModelBase {
 
         try {
             foreach (var tour in newTours) {
-                _businessLogicTours.AddTour(tour);
+               await _businessLogicTours.AddTour(tour);
             }
         }
         catch (BusinessLayerException e) {

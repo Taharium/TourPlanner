@@ -63,11 +63,12 @@ public abstract class TourServiceBase
 
     private List<TourLogs> ConvertToTourLogsModel(ICollection<TourLogsDTO> tourLogsDTO) {
         List<TourLogs> tourLogsList = [];
+        TimeZoneInfo localTimeZoneInfo = TimeZoneInfo.Local;
         
         foreach (var tourLogDTO in tourLogsDTO) {
             tourLogsList.Add(new TourLogs() {
                 Id = tourLogDTO.Id,
-                DateTime = tourLogDTO.DateTime,
+                DateTime = TimeZoneInfo.ConvertTimeFromUtc(tourLogDTO.DateTime, localTimeZoneInfo),
                 TotalTime = tourLogDTO.TotalTime,
                 Distance = tourLogDTO.Distance,
                 Comment = tourLogDTO.Comment,

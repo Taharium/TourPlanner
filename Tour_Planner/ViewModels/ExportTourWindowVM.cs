@@ -146,9 +146,12 @@ public class ExportTourWindowVM : ViewModelBase {
         }
 
         ErrorMessage = "";
+        TimeZoneInfo localTimeZoneInfo = TimeZoneInfo.Local;
         
-        List<Tour> tourList;
-        tourList = SelectAll ? TourList.ToList() : TourList.Where(t => t.IsSelected).ToList();
+        List<Tour> tourList = SelectAll ? TourList.ToList() : TourList.Where(t => t.IsSelected).ToList();
+        foreach (var tourLog in tourList.SelectMany(tour => tour.TourLogsList)) {
+            tourLog.DateTime = TimeZoneInfo.ConvertTimeToUtc(tourLog.DateTime, localTimeZoneInfo);
+        }
         try {
             bool? dialog = _saveFileDialog.ShowDialog(FileName);
             if (dialog is true) {
@@ -170,6 +173,5 @@ public class ExportTourWindowVM : ViewModelBase {
             FilePath = "";
             FileName = "";
         }
-        
     }
 }
