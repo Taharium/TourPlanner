@@ -13,3 +13,8 @@ It should look like this
   }
 }
 ```
+
+## For migration
+```
+dotnet ef database update --verbose --project . --startup-project ..\Tour_Planner\
+```
